@@ -6,13 +6,8 @@
   <Frame name="GlomodFrame" hidden="true">
    <Scripts>
     <OnLoad>
-        self:RegisterEvent("PLAYER_REGEN_ENABLED");
-        self:RegisterEvent("PLAYER_REGEN_ENABLED") ;       
+        HideAll();
     </OnLoad>
-    <OnEvent>
-        message('fight');
-        print("Hello World! Hello " .. event);
-    </OnEvent>
    </Scripts>
   </Frame>
 </Ui>

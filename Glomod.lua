@@ -3,17 +3,82 @@ MainMenuBarArtFrame.LeftEndCap:Hide()
 MainMenuBarArtFrame.RightEndCap:Hide()
 -- groupe
 
-ZoneAbilityFrame.SpellButton.Style:SetAlpha(0)
-ZoneAbilityFrame.SpellButton.Style:Hide()
 
 function GlomodOnload() 
   message("wazaaaa!");  
 end
 
-local frame = CreateFrame("FRAME", "GlomodFrame");
-frame:RegisterEvent("PLAYER_REGEN_DISABLED");
-frame:RegisterEvent("PLAYER_REGEN_ENABLED");
-local function GlomodEventHandler(self, event, ...)
- print("Hello World! Hello " .. event);
+function CheckHide()
+    if inCombat == false then
+      C_Timer.After(3, function() HideAll() end)
+    end
 end
-frame:SetScript("OnEvent", GlomodEventHandler);
+
+function HideAll()
+  if inCombat then return; end
+  if targeting then return; end
+  if PlayerFrame:IsMouseOver() then return; end
+  if TargetFrame:IsMouseOver() then return; end
+  if MainMenuBar:IsMouseOver() then return; end
+  if MicroButtonAndBagsBar:IsMouseOver() then return; end
+  fade=fade-0.1;
+  --print("FADING"..fade)
+  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
+  if fade >= 0 then C_Timer.After(.1, function() HideAll() end) end
+end
+
+function ShowAll()
+  fade=1;
+  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
+end
+
+-- Init
+inCombat = false;
+fade=1;
+targeting=false;
+HideAll();
+-- la frame pour y attacher la gestion d'events
+local GloFrame = CreateFrame("FRAME", "GlomodFrame");
+GloFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
+GloFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
+GloFrame:RegisterEvent("PLAYER_TARGET_CHANGED");
+local function GlomodEventHandler(self, event, ...)
+  --print("EVENT TRIGGERED : " .. event);
+  -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
+  if event == 'PLAYER_REGEN_DISABLED' then 
+    inCombat = true;
+    ShowAll();
+  elseif event == 'PLAYER_REGEN_ENABLED' then
+    inCombat = false;
+    CheckHide();
+  elseif event == 'PLAYER_TARGET_CHANGED' then
+    if UnitExists("target") then
+      ShowAll(); targeting=true;
+    else
+      CheckHide(); targeting=false;
+    end
+  end
+end
+GloFrame:SetScript("OnEvent", GlomodEventHandler);
+-- ajout des events souris sur certaines frames
+PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse();
+PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
+PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
+TargetFrame:SetScript('OnEnter', function() ShowAll() end)
+TargetFrame:SetScript('OnLeave', function() CheckHide() end)
+MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
+MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
+MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
+MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
+
+
+-- GERER LE MOUSE OVER
+--frame:EnableMouse()
+--frame:SetScript('OnEnter', function() highlightStuff end)
+--frame:SetScript('OnLeave', function() unHighightStuff end)
+
+-- MASQUER UN ELEMENTE
+--PlayerFrame:SetAlpha(0);
+-- autres syntaxes ; à noter qu'une frame cachée ne peut être survolée à la souris !
+--HideUIPanel(PlayerFrame);
+--PlayerFrame:Hide();
