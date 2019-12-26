@@ -6,7 +6,7 @@
   <Frame name="GlomodFrame" hidden="true">
    <Scripts>
     <OnLoad>
-        HideAll();
+        GlomodOnload()
     </OnLoad>
    </Scripts>
   </Frame>

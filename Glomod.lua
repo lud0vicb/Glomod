@@ -5,7 +5,10 @@ MainMenuBarArtFrame.RightEndCap:Hide()
 
 
 function GlomodOnload() 
-  message("wazaaaa!");  
+  inCombat = false;
+  fade=1;
+  targeting=false;
+  HideAll();
 end
 
 function CheckHide()
@@ -34,11 +37,11 @@ function ShowAll()
   FadeAll();
 end
 
--- Init
-inCombat = false;
-fade=1;
-targeting=false;
-HideAll();
+-- Init ; essai de le faire dans le script de la frame du xml
+--inCombat = false;
+--fade=1;
+--targeting=false;
+--HideAll();
 -- la frame pour y attacher la gestion d'events
 local GloFrame = CreateFrame("FRAME", "GlomodFrame");
 GloFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
@@ -63,7 +66,7 @@ local function GlomodEventHandler(self, event, ...)
 end
 GloFrame:SetScript("OnEvent", GlomodEventHandler);
 -- ajout des events souris sur certaines frames
-PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse();
+--PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
 PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
 PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
 TargetFrame:SetScript('OnEnter', function() ShowAll() end)
@@ -74,7 +77,6 @@ MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
 MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
 CompactRaidFrameContainer:SetScript('OnEnter', function() ShowAll() end)
 CompactRaidFrameContainer:SetScript('OnLeave', function() CheckHide() end)
-
 
 -- GERER LE MOUSE OVER
 --frame:EnableMouse()
