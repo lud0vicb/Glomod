@@ -15,21 +15,23 @@ function CheckHide()
 end
 
 function HideAll()
-  if inCombat then return; end
-  if targeting then return; end
-  if PlayerFrame:IsMouseOver() then return; end
-  if TargetFrame:IsMouseOver() then return; end
-  if MainMenuBar:IsMouseOver() then return; end
-  if MicroButtonAndBagsBar:IsMouseOver() then return; end
+  if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
+    MainMenuBar:IsMouseOver() or CompactRaidFrameContainer:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
+    then return; end
   fade=fade-0.1;
   --print("FADING"..fade)
-  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
+  FadeAll();
   if fade >= 0 then C_Timer.After(.1, function() HideAll() end) end
+end
+
+function FadeAll()
+  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
+  CompactRaidFrameContainer:SetAlpha(fade);
 end
 
 function ShowAll()
   fade=1;
-  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
+  FadeAll();
 end
 
 -- Init
@@ -70,6 +72,8 @@ MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
 MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
 MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
 MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
+CompactRaidFrameContainer:SetScript('OnEnter', function() ShowAll() end)
+CompactRaidFrameContainer:SetScript('OnLeave', function() CheckHide() end)
 
 
 -- GERER LE MOUSE OVER
