@@ -47,7 +47,9 @@ local GloFrame = CreateFrame("FRAME", "GlomodFrame");
 GloFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
 GloFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 GloFrame:RegisterEvent("PLAYER_TARGET_CHANGED");
-local function GlomodEventHandler(self, event, ...)
+GloFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
+
+local function GlomodEventHandler(self, event, arg1, arg2, arg3, ...)
   --print("EVENT TRIGGERED : " .. event);
   -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
   if event == 'PLAYER_REGEN_DISABLED' then 
@@ -62,6 +64,7 @@ local function GlomodEventHandler(self, event, ...)
     else
       CheckHide(); targeting=false;
     end
+  elseif event == 'UNIT_SPELLCAST_STOP' then
   end
 end
 GloFrame:SetScript("OnEvent", GlomodEventHandler);
