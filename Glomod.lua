@@ -6,9 +6,9 @@ MainMenuBarArtFrame.RightEndCap:Hide()
 
 function GlomodOnload() 
   inCombat = false;
-  fade=1;
+  fade=0;
   targeting=false;
-  HideAll();
+  FadeAll();
 end
 
 function CheckHide()
@@ -19,17 +19,15 @@ end
 
 function HideAll()
   if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
-    MainMenuBar:IsMouseOver() or CompactRaidFrameContainer:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
-    then return; end
+    MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() then return end
   fade=fade-0.1;
-  --print("FADING"..fade)
+  --print(fade)
   FadeAll();
   if fade >= 0 then C_Timer.After(.1, function() HideAll() end) end
 end
 
 function FadeAll()
-  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade);
-  CompactRaidFrameContainer:SetAlpha(fade);
+  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade); ChatFrame1:SetAlpha(fade);
 end
 
 function ShowAll()
@@ -78,8 +76,8 @@ MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
 MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
 MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
 MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
-CompactRaidFrameContainer:SetScript('OnEnter', function() ShowAll() end)
-CompactRaidFrameContainer:SetScript('OnLeave', function() CheckHide() end)
+ChatFrame1:SetScript('OnEnter', function() ShowAll() end)
+ChatFrame1:SetScript('OnLeave', function() CheckHide() end)
 
 -- GERER LE MOUSE OVER
 --frame:EnableMouse()
