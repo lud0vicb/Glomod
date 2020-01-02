@@ -8,6 +8,8 @@ function GlomodOnload(self)
   self:RegisterEvent("PLAYER_REGEN_ENABLED")
   self:RegisterEvent("PLAYER_TARGET_CHANGED")
   self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+  self:RegisterEvent("PLAYER_ENTERING_WORLD");
+  --self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
   TargetFrame:SetScript('OnEnter', function() ShowAll() end)
@@ -46,7 +48,7 @@ function ShowAll()
   fade=1; FadeAll();
 end
 
-local function GlomodEventHandler(self, event, ...)
+function GlomodEventHandler(self, event, ...)
   --print("EVENT TRIGGERED : " .. event);
   -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
   if event == 'PLAYER_REGEN_DISABLED' then 
@@ -61,7 +63,10 @@ local function GlomodEventHandler(self, event, ...)
     else
       CheckHide(); targeting=false;
     end
-  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
+  elseif event == 'PLAYER_ENTERING_WORLD' then
+    print('Bienvenue à nouveau ');
+    fade=0;
+    FadeAll();
   end
 end
 
