@@ -4,11 +4,13 @@ function GlomodOnload(self)
   fade=0
   targeting=false
   FadeAll()
+  FRClass, ENClass, iclass = UnitClass("player")
   self:RegisterEvent("PLAYER_REGEN_DISABLED")
   self:RegisterEvent("PLAYER_REGEN_ENABLED")
   self:RegisterEvent("PLAYER_TARGET_CHANGED")
   self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
   self:RegisterEvent("PLAYER_ENTERING_WORLD");
+  self:RegisterEvent("UNIT_MODEL_CHANGED");
   --self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
@@ -52,21 +54,27 @@ function GlomodEventHandler(self, event, ...)
   --print("EVENT TRIGGERED : " .. event);
   -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
   if event == 'PLAYER_REGEN_DISABLED' then 
-    inCombat = true;
-    ShowAll();
+    inCombat = true; ShowAll()
   elseif event == 'PLAYER_REGEN_ENABLED' then
-    inCombat = false;
-    CheckHide();
+    inCombat = false; CheckHide()
   elseif event == 'PLAYER_TARGET_CHANGED' then
     if UnitExists("target") then
-      ShowAll(); targeting=true;
+      ShowAll(); targeting=true
     else
-      CheckHide(); targeting=false;
+      CheckHide(); targeting=false
     end
   elseif event == 'PLAYER_ENTERING_WORLD' then
-    print('Bienvenue à nouveau ');
-    fade=0;
-    FadeAll();
+    fade=0; FadeAll()
+  elseif event == 'UNIT_MODEL_CHANGED' then
+    if iclass == 11 then
+        iforme = GetShapeshiftForm(flag)
+        print('CHANGEFORM'.. iforme)
+        if iforme == 3 or iforme == 4 then 
+            SetView(2) 
+        else 
+            SetView(1) 
+        end
+    end
   end
 end
 
