@@ -1,14 +1,25 @@
---graph 
-MainMenuBarArtFrame.LeftEndCap:Hide()
-MainMenuBarArtFrame.RightEndCap:Hide()
--- groupe
 
-
-function GlomodOnload() 
-  inCombat = false;
-  fade=0;
-  targeting=false;
-  FadeAll();
+function GlomodOnload(self) 
+  inCombat = false
+  fade=0
+  targeting=false
+  FadeAll()
+  self:RegisterEvent("PLAYER_REGEN_DISABLED")
+  self:RegisterEvent("PLAYER_REGEN_ENABLED")
+  self:RegisterEvent("PLAYER_TARGET_CHANGED")
+  self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
+  PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
+  PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
+  TargetFrame:SetScript('OnEnter', function() ShowAll() end)
+  TargetFrame:SetScript('OnLeave', function() CheckHide() end)
+  MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
+  MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
+  MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
+  MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
+  ChatFrame1:SetScript('OnEnter', function() ShowAll() end)
+  ChatFrame1:SetScript('OnLeave', function() CheckHide() end)
+  MainMenuBarArtFrame.LeftEndCap:Hide()
+  MainMenuBarArtFrame.RightEndCap:Hide()
 end
 
 function CheckHide()
@@ -20,34 +31,22 @@ end
 function HideAll()
   if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
     MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() then return end
-  fade=fade-0.1;
+  fade=fade-0.1
   --print(fade)
-  FadeAll();
+  FadeAll()
   if fade >= 0 then C_Timer.After(.1, function() HideAll() end) end
 end
 
 function FadeAll()
-  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);MicroButtonAndBagsBar:SetAlpha(fade); ChatFrame1:SetAlpha(fade);
+  PlayerFrame:SetAlpha(fade); TargetFrame:SetAlpha(fade);MainMenuBar:SetAlpha(fade);
+  MicroButtonAndBagsBar:SetAlpha(fade); ChatFrame1:SetAlpha(fade);
 end
 
 function ShowAll()
-  fade=1;
-  FadeAll();
+  fade=1; FadeAll();
 end
 
--- Init ; essai de le faire dans le script de la frame du xml
---inCombat = false;
---fade=1;
---targeting=false;
---HideAll();
--- la frame pour y attacher la gestion d'events
-local GloFrame = CreateFrame("FRAME", "GlomodFrame");
-GloFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
-GloFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
-GloFrame:RegisterEvent("PLAYER_TARGET_CHANGED");
-GloFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
-
-local function GlomodEventHandler(self, event, arg1, arg2, arg3, ...)
+local function GlomodEventHandler(self, event, ...)
   --print("EVENT TRIGGERED : " .. event);
   -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
   if event == 'PLAYER_REGEN_DISABLED' then 
@@ -62,22 +61,11 @@ local function GlomodEventHandler(self, event, arg1, arg2, arg3, ...)
     else
       CheckHide(); targeting=false;
     end
-  elseif event == 'UNIT_SPELLCAST_STOP' then
+  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
   end
 end
-GloFrame:SetScript("OnEvent", GlomodEventHandler);
--- ajout des events souris sur certaines frames
+
 --PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
-PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
-PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
-TargetFrame:SetScript('OnEnter', function() ShowAll() end)
-TargetFrame:SetScript('OnLeave', function() CheckHide() end)
-MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
-MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
-MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
-MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
-ChatFrame1:SetScript('OnEnter', function() ShowAll() end)
-ChatFrame1:SetScript('OnLeave', function() CheckHide() end)
 
 -- GERER LE MOUSE OVER
 --frame:EnableMouse()

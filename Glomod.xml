@@ -6,8 +6,11 @@
   <Frame name="GlomodFrame" hidden="true">
    <Scripts>
     <OnLoad>
-        GlomodOnload()
+        GlomodOnload(self)
     </OnLoad>
+    <OnEvent>>
+        GlomodEventHandler(self, event, ...)
+    </OnEvent>
    </Scripts>
   </Frame>
 </Ui>
