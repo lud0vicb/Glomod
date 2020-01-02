@@ -20,3 +20,25 @@ frame:RegisterForDrag("LeftButton")
 frame:SetScript("OnDragStart", frame.StartMoving)
 frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 ```
+
+## Gestion souris
+
+```
+PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
+
+-- GERER LE MOUSE OVER
+frame:EnableMouse()
+frame:SetScript('OnEnter', function() highlightStuff end)
+frame:SetScript('OnLeave', function() unHighightStuff end)
+
+```
+
+## Masquer une frame
+
+```
+-- MASQUER UN ELEMENTE
+PlayerFrame:SetAlpha(0);
+-- autres syntaxes ; à noter qu'une frame cachée ne peut être survolée à la souris !
+HideUIPanel(PlayerFrame);
+PlayerFrame:Hide();
+```

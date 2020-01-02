@@ -73,27 +73,15 @@ function GlomodEventHandler(self, event, ...)
   elseif event == 'UNIT_MODEL_CHANGED' then
     -- druide
     if iclass == 11 then
-        iforme = GetShapeshiftForm(flag)
+        local iforme = GetShapeshiftForm(flag)
         print('CHANGEFORM'.. iforme)
         if iforme == 3 or iforme == 4 then SetView(2) else SetView(1) end
     end
     -- shaman
     if iclass == 7 then
-        iforme = GetShapeshiftForm(flag)
+        local iforme = GetShapeshiftForm(flag)
         if iforme == 1 then SetView(2) else SetView(1) end
     end
   end
 end
 
---PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
-
--- GERER LE MOUSE OVER
---frame:EnableMouse()
---frame:SetScript('OnEnter', function() highlightStuff end)
---frame:SetScript('OnLeave', function() unHighightStuff end)
-
--- MASQUER UN ELEMENTE
---PlayerFrame:SetAlpha(0);
--- autres syntaxes ; à noter qu'une frame cachée ne peut être survolée à la souris !
---HideUIPanel(PlayerFrame);
---PlayerFrame:Hide();
