@@ -45,7 +45,8 @@ local GloFrame = CreateFrame("FRAME", "GlomodFrame");
 GloFrame:RegisterEvent("PLAYER_REGEN_DISABLED");
 GloFrame:RegisterEvent("PLAYER_REGEN_ENABLED");
 GloFrame:RegisterEvent("PLAYER_TARGET_CHANGED");
-GloFrame:RegisterEvent("UNIT_SPELLCAST_STOP");
+--GloFrame:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
+GloFrame:RegisterEvent("PLAYER_ENTERING_WORLD");
 
 local function GlomodEventHandler(self, event, arg1, arg2, arg3, ...)
   --print("EVENT TRIGGERED : " .. event);
@@ -62,7 +63,10 @@ local function GlomodEventHandler(self, event, arg1, arg2, arg3, ...)
     else
       CheckHide(); targeting=false;
     end
-  elseif event == 'UNIT_SPELLCAST_STOP' then
+  elseif event == 'PLAYER_ENTERING_WORLD' then
+    print('Bienvenue à nouveau ');
+    fade=0;
+    FadeAll();
   end
 end
 GloFrame:SetScript("OnEvent", GlomodEventHandler);
