@@ -54,26 +54,33 @@ function GlomodEventHandler(self, event, ...)
   --print("EVENT TRIGGERED : " .. event);
   -- utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
   if event == 'PLAYER_REGEN_DISABLED' then 
-    inCombat = true; ShowAll()
+    inCombat = true; 
+    ShowAll()
   elseif event == 'PLAYER_REGEN_ENABLED' then
-    inCombat = false; CheckHide()
+    inCombat = false; 
+    CheckHide()
   elseif event == 'PLAYER_TARGET_CHANGED' then
     if UnitExists("target") then
-      ShowAll(); targeting=true
+      ShowAll(); 
+      targeting=true
     else
-      CheckHide(); targeting=false
+      CheckHide(); 
+      targeting=false
     end
   elseif event == 'PLAYER_ENTERING_WORLD' then
-    fade=0; FadeAll()
+    fade=0; 
+    FadeAll()
   elseif event == 'UNIT_MODEL_CHANGED' then
+    -- druide
     if iclass == 11 then
         iforme = GetShapeshiftForm(flag)
         print('CHANGEFORM'.. iforme)
-        if iforme == 3 or iforme == 4 then 
-            SetView(2) 
-        else 
-            SetView(1) 
-        end
+        if iforme == 3 or iforme == 4 then SetView(2) else SetView(1) end
+    end
+    -- shaman
+    if iclass == 7 then
+        iforme = GetShapeshiftForm(flag)
+        if iforme == 1 then SetView(2) else SetView(1) end
     end
   end
 end
