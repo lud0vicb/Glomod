@@ -11,6 +11,8 @@ function GlomodOnload(self)
   self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
   self:RegisterEvent("PLAYER_ENTERING_WORLD");
   self:RegisterEvent("UNIT_MODEL_CHANGED");
+  self:RegisterEvent("PLAYER_CONTROL_GAINED");  
+  self:RegisterEvent("PLAYER_CONTROL_LOST");  
   --self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
@@ -67,6 +69,14 @@ function GlomodEventHandler(self, event, ...)
       CheckHide(); 
       targeting=false
     end
+  elseif event == 'PLAYER_CONTROL_LOST' then
+    UIParent:Hide()
+    MoveViewLeftStart(0.1)
+    SetView(2)
+  elseif event == 'PLAYER_CONTROL_GAINED' then
+    UIParent:Show()
+    MoveViewLeftStop()
+    SetView(1)
   elseif event == 'PLAYER_ENTERING_WORLD' then
     fade=0; 
     FadeAll()
@@ -80,6 +90,7 @@ function GlomodEventHandler(self, event, ...)
     -- shaman
     if iclass == 7 then
         local iforme = GetShapeshiftForm(flag)
+        print('CHANGEFORM'.. iforme)
         if iforme == 1 then SetView(2) else SetView(1) end
     end
   end
