@@ -1,10 +1,13 @@
-
 function GlomodOnload(self) 
   inCombat = false
   fade=0
   targeting=false
   FadeAll()
+  MountZoom=15
+  FeetZoom=7
+  
   FRClass, ENClass, iclass = UnitClass("player")
+  
   self:RegisterEvent("PLAYER_REGEN_DISABLED")
   self:RegisterEvent("PLAYER_REGEN_ENABLED")
   self:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -13,9 +16,9 @@ function GlomodOnload(self)
   self:RegisterEvent("UNIT_MODEL_CHANGED");
   self:RegisterEvent("PLAYER_CONTROL_GAINED");  
   self:RegisterEvent("PLAYER_CONTROL_LOST");  
-  self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
+  --self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   self:RegisterEvent("PLAYER_STARTED_MOVING");
-  self:RegisterEvent("PLAYER_STOPPED_MOVING");
+  --self:RegisterEvent("PLAYER_STOPPED_MOVING");
   
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
@@ -65,13 +68,22 @@ function ShowAll()
 end
 
 function CheckMount()
+  local z=GetCameraZoom()
+  --print ('ZOOM '..z)
   if IsMounted() then 
-    SetView(2) 
+    if MountZoom > z then
+      CameraZoomOut(MountZoom - z)
+    else
+      CameraZoomIn(z - MountZoom)
+    end
   else 
     if inCombat == false then
-      SetView(1)
+      if FeetZoom > z then
+        CameraZoomOut(FeetZoom - z)
+      else
+        CameraZoomIn(z - FeetZoom)
+      end
     end
-    --SetView(1)
   end
 end
 
@@ -84,12 +96,8 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
   elseif event == 'PLAYER_REGEN_ENABLED' then
     inCombat = false; 
     CheckHide()
-  elseif event == 'PLAYER_STARTED_MOVING' or event == 'PLAYER_STOPPED_MOVING' then
-    --print ('MOVING')
+  elseif event == 'PLAYER_STARTED_MOVING' then
     CheckMount()
---  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
-    --print ('SPELL'..arg1..' '..arg3); 
-    --C_Timer.After(1, function() CheckMount() end)
   elseif event == 'PLAYER_TARGET_CHANGED' then
     if UnitExists("target") then
         ShowAll(); 
