@@ -14,6 +14,9 @@ function GlomodOnload(self)
   self:RegisterEvent("PLAYER_CONTROL_GAINED");  
   self:RegisterEvent("PLAYER_CONTROL_LOST");  
   self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
+  self:RegisterEvent("PLAYER_STARTED_MOVING");
+  self:RegisterEvent("PLAYER_STOPPED_MOVING");
+  
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
   TargetFrame:SetScript('OnEnter', function() ShowAll() end)
@@ -26,21 +29,26 @@ function GlomodOnload(self)
   ChatFrame1:SetScript('OnLeave', function() CheckHide() end)
   MainMenuBarArtFrame.LeftEndCap:Hide()
   MainMenuBarArtFrame.RightEndCap:Hide()
+  MainMenuBarArtFrameBackground:Hide()
 end
 
 function CheckHide()
-    if inCombat == false then C_Timer.After(3, function() HideAll() end) end
+    if inCombat == false then
+      C_Timer.After(3, function() HideAll() end)
+    end
 end
 
 function HideAll()
   if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
     MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() then 
-        return 
+      return 
   end
   fade=fade-0.1
   --print(fade)
   FadeAll()
-  if fade >= 0 then C_Timer.After(.1, function() HideAll() end) end
+  if fade >= 0 then
+    C_Timer.After(.1, function() HideAll() end)
+  end
 end
 
 function FadeAll()
@@ -57,12 +65,14 @@ function ShowAll()
 end
 
 function CheckMount()
-    if IsMounted() then 
-        SetView(2) 
-    else 
-        if inCombat == false then SetView(1) end
-        --SetView(1)
+  if IsMounted() then 
+    SetView(2) 
+  else 
+    if inCombat == false then
+      SetView(1)
     end
+    --SetView(1)
+  end
 end
 
 function GlomodEventHandler(self, event, arg1, arg2, arg3)
@@ -74,16 +84,19 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
   elseif event == 'PLAYER_REGEN_ENABLED' then
     inCombat = false; 
     CheckHide()
-  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
-    print ('SPELL'..arg1..' '..arg3); 
-    C_Timer.After(1, function() CheckMount() end)
+  elseif event == 'PLAYER_STARTED_MOVING' or event == 'PLAYER_STOPPED_MOVING' then
+    --print ('MOVING')
+    CheckMount()
+--  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
+    --print ('SPELL'..arg1..' '..arg3); 
+    --C_Timer.After(1, function() CheckMount() end)
   elseif event == 'PLAYER_TARGET_CHANGED' then
     if UnitExists("target") then
-      ShowAll(); 
-      targeting=true
+        ShowAll(); 
+        targeting=true
     else
-      CheckHide(); 
-      targeting=false
+        CheckHide(); 
+        targeting=false
     end
   elseif event == 'PLAYER_CONTROL_LOST' then
     UIParent:Hide()
@@ -99,15 +112,23 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
   elseif event == 'UNIT_MODEL_CHANGED' then
     -- druide
     if iclass == 11 then
-        local iforme = GetShapeshiftForm(flag)
-        print('CHANGEFORM'.. iforme)
-        if iforme == 3 or iforme == 4 then SetView(2) else SetView(1) end
+      local iforme = GetShapeshiftForm(flag)
+      print('CHANGEFORM'.. iforme)
+      if iforme == 3 or iforme == 4 then
+        SetView(2)
+      else
+        SetView(1)
+      end
     end
     -- shaman
     if iclass == 7 then
-        local iforme = GetShapeshiftForm(flag)
-        print('CHANGEFORM'.. iforme)
-        if iforme == 1 then SetView(2) else SetView(1) end
+      local iforme = GetShapeshiftForm(flag)
+      print('CHANGEFORM'.. iforme)
+      if iforme == 1 then
+        SetView(2)
+      else
+        SetView(1)
+      end
     end
   end
 end
