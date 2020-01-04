@@ -9,6 +9,8 @@ local GloFrame = CreateFrame("FRAME", "GlomodFrame");
 GloFrame:SetScript("OnEvent", GlomodEventHandler);
 ```
 
+Utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
+  
 ## Bouger une frame déjà définie
 
 on ne définit pas le xml puisqu'il existe déjà, donc on appelle des méthodes lua
