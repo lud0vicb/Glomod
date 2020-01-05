@@ -5,7 +5,7 @@ function GlomodOnload(self)
   FadeAll()
   MountZoom=15
   FeetZoom=5
-  FishZoom=2
+  FishZoom=1.5
   IsFishing = false
   FirstFeetMove = true
   FirstMountMove = true
@@ -124,7 +124,11 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
     else
       CheckMount()
     end
-    IsFishing = false
+    if IsFishing then
+      IsFishing = false
+      MoveViewLeftStart(0.05)
+      C_Timer.After(2, function() MoveViewLeftStop() end)
+    end
   
   ---- CHANGEMENT DE CIBLE (ou perte de cible)
   elseif event == 'PLAYER_TARGET_CHANGED' then
@@ -140,13 +144,13 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
   elseif event == 'PLAYER_CONTROL_LOST' then
     UIParent:Hide()
     MoveViewLeftStart(0.1)
-    SetView(2)
+    MoveCam (MountZoom)
   
   ---- AVATAR DE NOUVEAU SOUS CONTROL
   elseif event == 'PLAYER_CONTROL_GAINED' then
     UIParent:Show()
     MoveViewLeftStop()
-    SetView(1)
+    MoveCam (FeetZoom)
   
   ---- UN SORT EST LANCE
   elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
@@ -158,6 +162,8 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
         C_Timer.After(2, function() MoveViewRightStop() end)
         IsFishing = true
         MoveCam (FishZoom)
+        FirstFeetMove = true
+        FirstMountMove = true
       end
     end
   
