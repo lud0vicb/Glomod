@@ -7,6 +7,8 @@ function GlomodOnload(self)
   FeetZoom=5
   FishZoom=2
   IsFishing = false
+  FirstFeetMove = true
+  FirstMountMove = true
   
   FRClass, ENClass, iclass = UnitClass("player")
   
@@ -83,10 +85,16 @@ end
 
 function CheckMount()
   if IsMounted() then 
+    if not FirstMountMove then return end
     MoveCam(MountZoom)
+    FirstMountMove = false
+    FirstFeetMove = true
   else 
-    if inCombat == false then
+    if not inCombat then
+      if not FirstFeetMove then return end
       MoveCam (FeetZoom)
+      FirstFeetMove = false
+      FirstMountMove = true
     end
   end
 end
@@ -106,8 +114,14 @@ function GlomodEventHandler(self, event, arg1, arg2, arg3)
   
   ---- DEBUT DEPLACEMENT MANUEL
   elseif event == 'PLAYER_STARTED_MOVING' then
-    -- la caméra de druide est gérée direct via les transformations
-    if iclass ~= 11 then
+    -- druide et shaman
+    if iclass == 11 or iclass == 7 then
+      local iforme = GetShapeshiftForm(flag)
+      if iforme == 0 then
+        -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
+        CheckMount()
+      end
+    else
       CheckMount()
     end
     IsFishing = false
