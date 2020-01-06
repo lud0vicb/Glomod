@@ -24,7 +24,9 @@ function GlomodOnload(self)
   self:RegisterEvent("PLAYER_CONTROL_LOST");  
   self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
   self:RegisterEvent("PLAYER_STARTED_MOVING");
-  --self:RegisterEvent("PLAYER_STOPPED_MOVING");
+  self:RegisterEvent("PLAYER_STOPPED_MOVING");
+  --self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
+  self:RegisterEvent("UNIT_SPELLCAST_START");
   
   self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](...) end)
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
@@ -42,33 +44,31 @@ function GlomodOnload(self)
   MainMenuBarArtFrame.LeftEndCap:Hide()
   MainMenuBarArtFrame.RightEndCap:Hide()
   MainMenuBarArtFrameBackground:Hide()
+
 end
 
 function MyFunctions:PLAYER_REGEN_DISABLED()
   inCombat = true; 
   ShowAll()  
 end
+
+function MyFunctions:UNIT_SPELLCAST_START()
+  CastingBarFrame:ClearAllPoints()
+  CastingBarFrame:SetPoint("TOP",0, -30)  
+end
 function MyFunctions:PLAYER_REGEN_ENABLED()
     inCombat = false; 
     CheckHide()  
 end
-function MyFunctions:PLAYER_STARTED_MOVING()
-    -- druide et shaman
-    if iclass == 11 or iclass == 7 then
-      local iforme = GetShapeshiftForm(flag)
-      if iforme == 0 then
-        -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
-        CheckMount()
-      end
-    else
-      CheckMount()
-    end
-    if IsFishing then
-      IsFishing = false
-      MoveViewLeftStart(0.05)
-      C_Timer.After(2, function() MoveViewLeftStop() end)
-    end
+
+function MyFunctions:PLAYER_STOPPED_MOVING()
+  Moved()
 end
+
+function MyFunctions:PLAYER_STARTED_MOVING()
+  Moved()
+end
+
 function MyFunctions:PLAYER_TARGET_CHANGED()
     if UnitExists("target") then
         ShowAll(); 
@@ -78,16 +78,19 @@ function MyFunctions:PLAYER_TARGET_CHANGED()
         targeting=false
     end
 end
+
 function MyFunctions:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(0.1)
     MoveCam (MountZoom)
 end
+
 function MyFunctions:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
     MoveCam (FeetZoom)
 end
+
 function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2)
     --print ('SPELL' arg2)
     local iSpell = arg2
@@ -103,10 +106,12 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2)
       end
     end  
 end
+
 function MyFunctions:PLAYER_ENTERING_WORLD()
     fade=0; 
     FadeAll()
 end
+
 function MyFunctions:UNIT_MODEL_CHANGED()
     -- druide
     if iclass == 11 then
@@ -130,6 +135,23 @@ function MyFunctions:UNIT_MODEL_CHANGED()
     end 
 end
 
+function Moved()
+    -- druide et shaman
+  if iclass == 11 or iclass == 7 then
+    local iforme = GetShapeshiftForm(flag)
+    if iforme == 0 then
+      -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
+      CheckMount()
+    end
+  else
+    CheckMount()
+  end
+  if IsFishing then
+    IsFishing = false
+    MoveViewLeftStart(0.05)
+    C_Timer.After(2, function() MoveViewLeftStop() end)
+  end
+end
 
 function MoveCam(ref)
   local z=GetCameraZoom()
@@ -151,10 +173,12 @@ function HideAll()
     MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() then 
       return 
   end
-  fade=fade-0.1
+  if fade ~= 0 then
+    fade=fade-0.1
+  end
   --print(fade)
   FadeAll()
-  if fade >= 0 then
+  if fade > 0 then
     C_Timer.After(.1, function() HideAll() end)
   end
 end
