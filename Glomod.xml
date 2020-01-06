@@ -8,9 +8,6 @@
     <OnLoad>
         GlomodOnload(self)
     </OnLoad>
-    <OnEvent>
-        GlomodEventHandler(self, event, ...)
-    </OnEvent>
    </Scripts>
   </Frame>
 </Ui>

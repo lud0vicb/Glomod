@@ -1,3 +1,5 @@
+MyFunctions={}
+
 function GlomodOnload(self) 
   inCombat = false
   fade=0
@@ -24,6 +26,7 @@ function GlomodOnload(self)
   self:RegisterEvent("PLAYER_STARTED_MOVING");
   --self:RegisterEvent("PLAYER_STOPPED_MOVING");
   
+  self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](...) end)
   PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
   PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
   TargetFrame:SetScript('OnEnter', function() ShowAll() end)
@@ -40,6 +43,93 @@ function GlomodOnload(self)
   MainMenuBarArtFrame.RightEndCap:Hide()
   MainMenuBarArtFrameBackground:Hide()
 end
+
+function MyFunctions:PLAYER_REGEN_DISABLED()
+  inCombat = true; 
+  ShowAll()  
+end
+function MyFunctions:PLAYER_REGEN_ENABLED()
+    inCombat = false; 
+    CheckHide()  
+end
+function MyFunctions:PLAYER_STARTED_MOVING()
+    -- druide et shaman
+    if iclass == 11 or iclass == 7 then
+      local iforme = GetShapeshiftForm(flag)
+      if iforme == 0 then
+        -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
+        CheckMount()
+      end
+    else
+      CheckMount()
+    end
+    if IsFishing then
+      IsFishing = false
+      MoveViewLeftStart(0.05)
+      C_Timer.After(2, function() MoveViewLeftStop() end)
+    end
+end
+function MyFunctions:PLAYER_TARGET_CHANGED()
+    if UnitExists("target") then
+        ShowAll(); 
+        targeting=true
+    else
+        CheckHide(); 
+        targeting=false
+    end
+end
+function MyFunctions:PLAYER_CONTROL_LOST()
+    UIParent:Hide()
+    MoveViewLeftStart(0.1)
+    MoveCam (MountZoom)
+end
+function MyFunctions:PLAYER_CONTROL_GAINED()
+    UIParent:Show()
+    MoveViewLeftStop()
+    MoveCam (FeetZoom)
+end
+function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2)
+    --print ('SPELL' arg2)
+    local iSpell = arg2
+    -- PECHE A LA LIGNE
+    if iSpell == 131476 then
+      if not IsFishing then
+        MoveViewRightStart(0.05)
+        C_Timer.After(2, function() MoveViewRightStop() end)
+        IsFishing = true
+        MoveCam (FishZoom)
+        FirstFeetMove = true
+        FirstMountMove = true
+      end
+    end  
+end
+function MyFunctions:PLAYER_ENTERING_WORLD()
+    fade=0; 
+    FadeAll()
+end
+function MyFunctions:UNIT_MODEL_CHANGED()
+    -- druide
+    if iclass == 11 then
+      local iforme = GetShapeshiftForm(flag)
+      --print('CHANGEFORM'.. iforme)
+      if iforme == 3 or iforme == 4 then
+        MoveCam(MountZoom)
+      else
+        MoveCam(FeetZoom)
+      end
+    end
+    -- shaman
+    if iclass == 7 then
+      local iforme = GetShapeshiftForm(flag)
+      --print('CHANGEFORM'.. iforme)
+      if iforme == 1 then
+        MoveCam(MountZoom)
+      else
+        MoveCam(FeetZoom)
+      end
+    end 
+end
+
 
 function MoveCam(ref)
   local z=GetCameraZoom()
@@ -99,101 +189,4 @@ function CheckMount()
   end
 end
 
-function GlomodEventHandler(self, event, arg1, arg2, arg3)
-  --print("EVENT TRIGGERED : " .. event);
-  
-  ---- ENTREE EN COMBAT
-  if event == 'PLAYER_REGEN_DISABLED' then 
-    inCombat = true; 
-    ShowAll()
-  
-  ---- FIN DE COMBAT
-  elseif event == 'PLAYER_REGEN_ENABLED' then
-    inCombat = false; 
-    CheckHide()
-  
-  ---- DEBUT DEPLACEMENT MANUEL
-  elseif event == 'PLAYER_STARTED_MOVING' then
-    -- druide et shaman
-    if iclass == 11 or iclass == 7 then
-      local iforme = GetShapeshiftForm(flag)
-      if iforme == 0 then
-        -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
-        CheckMount()
-      end
-    else
-      CheckMount()
-    end
-    if IsFishing then
-      IsFishing = false
-      MoveViewLeftStart(0.05)
-      C_Timer.After(2, function() MoveViewLeftStop() end)
-    end
-  
-  ---- CHANGEMENT DE CIBLE (ou perte de cible)
-  elseif event == 'PLAYER_TARGET_CHANGED' then
-    if UnitExists("target") then
-        ShowAll(); 
-        targeting=true
-    else
-        CheckHide(); 
-        targeting=false
-    end
-  
-  ---- AVATAR HORS DE CONTROL (inclut le taxi)
-  elseif event == 'PLAYER_CONTROL_LOST' then
-    UIParent:Hide()
-    MoveViewLeftStart(0.1)
-    MoveCam (MountZoom)
-  
-  ---- AVATAR DE NOUVEAU SOUS CONTROL
-  elseif event == 'PLAYER_CONTROL_GAINED' then
-    UIParent:Show()
-    MoveViewLeftStop()
-    MoveCam (FeetZoom)
-  
-  ---- UN SORT EST LANCE
-  elseif event == 'UNIT_SPELLCAST_SUCCEEDED' then
-    --print ('SPELL '..arg3)
-    -- PECHE A LA LIGNE
-    if arg3 == 131476 then
-      if not IsFishing then
-        MoveViewRightStart(0.05)
-        C_Timer.After(2, function() MoveViewRightStop() end)
-        IsFishing = true
-        MoveCam (FishZoom)
-        FirstFeetMove = true
-        FirstMountMove = true
-      end
-    end
-  
-  ---- ENTREE DANS LE JEU (inclut après un chargement)
-  elseif event == 'PLAYER_ENTERING_WORLD' then
-    fade=0; 
-    FadeAll()
-  
-  ---- AVATAR CHANGE DE MODELE 3D (inclut les transformations)
-  elseif event == 'UNIT_MODEL_CHANGED' then
-    -- druide
-    if iclass == 11 then
-      local iforme = GetShapeshiftForm(flag)
-      --print('CHANGEFORM'.. iforme)
-      if iforme == 3 or iforme == 4 then
-        MoveCam(MountZoom)
-      else
-        MoveCam(FeetZoom)
-      end
-    end
-    -- shaman
-    if iclass == 7 then
-      local iforme = GetShapeshiftForm(flag)
-      --print('CHANGEFORM'.. iforme)
-      if iforme == 1 then
-        MoveCam(MountZoom)
-      else
-        MoveCam(FeetZoom)
-      end
-    end
-  end
-end
 
