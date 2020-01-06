@@ -44,7 +44,7 @@ function GlomodOnload(self)
   MainMenuBarArtFrame.LeftEndCap:Hide()
   MainMenuBarArtFrame.RightEndCap:Hide()
   MainMenuBarArtFrameBackground:Hide()
-
+  CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 0);
 end
 
 function MyFunctions:PLAYER_REGEN_DISABLED()
@@ -54,7 +54,8 @@ end
 
 function MyFunctions:UNIT_SPELLCAST_START()
   CastingBarFrame:ClearAllPoints()
-  CastingBarFrame:SetPoint("TOP",0, -30)  
+  --CastingBarFrame:SetPoint("TOP",0, -30)
+  CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM", 20, 0);
 end
 function MyFunctions:PLAYER_REGEN_ENABLED()
     inCombat = false; 
