@@ -52,10 +52,11 @@ function MyFunctions:PLAYER_REGEN_DISABLED()
   ShowAll()  
 end
 
-function MyFunctions:UNIT_SPELLCAST_START()
+function MyFunctions:UNIT_SPELLCAST_START(arg1,arg2,arg3)
   CastingBarFrame:ClearAllPoints()
-  CastingBarFrame:SetPoint("TOP",0, -30)  
+  CastingBarFrame:SetPoint("TOP",PlayerFrame,"BOTTOM",30, 40)
 end
+
 function MyFunctions:PLAYER_REGEN_ENABLED()
     inCombat = false; 
     CheckHide()  
