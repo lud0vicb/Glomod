@@ -44,7 +44,7 @@ function GlomodOnload(self)
   MainMenuBarArtFrame.LeftEndCap:Hide()
   MainMenuBarArtFrame.RightEndCap:Hide()
   MainMenuBarArtFrameBackground:Hide()
-
+  CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 0);
 end
 
 function MyFunctions:PLAYER_REGEN_DISABLED()
@@ -213,5 +213,3 @@ function CheckMount()
     end
   end
 end
-
-
