@@ -1,5 +1,8 @@
 MyFunctions={}
-
+tableFrame ={ --global bcause used in different functions
+    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, MicroButtonAndBagsBar, ChatFrame1, BuffFrame
+} 
+  
 function GlomodOnload(self) 
   inCombat = false
   fade=0
@@ -14,7 +17,7 @@ function GlomodOnload(self)
   
   FRClass, ENClass, iclass = UnitClass("player")
   
-  tableEvent = {
+  local tableEvent = {
     "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED","UNIT_SPELLCAST_SUCCEEDED","PLAYER_ENTERING_WORLD",
     "UNIT_MODEL_CHANGED", "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_STARTED_MOVING",
     "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START"
@@ -25,15 +28,12 @@ function GlomodOnload(self)
   
   self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](...) end)
   
-  tableFrame ={
-    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, MicroButtonAndBagsBar, ChatFrame1, BuffFrame
-  } 
   for i,v in ipairs(tableFrame) do
       v:SetScript('OnEnter', function() ShowAll() end)
       v:SetScript('OnLeave', function() CheckHide() end)
   end
     
-  tableHide={
+  local tableHide={
     MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
   }
   for i,v in ipairs(tableHide) do
@@ -43,7 +43,8 @@ function GlomodOnload(self)
 end
 
 function MyFunctions:PLAYER_REGEN_DISABLED()
-  inCombat = true; 
+  inCombat = true
+  CombatHide()
   ShowAll()  
 end
 
@@ -58,12 +59,23 @@ function MyFunctions:UNIT_SPELLCAST_START()
 end
 
 function MyFunctions:PLAYER_REGEN_ENABLED()
-    inCombat = false; 
-    CheckHide()  
+    inCombat = false
+    CheckHide()
+    CombatHide()
 end
 
 function MyFunctions:PLAYER_STOPPED_MOVING()
   Moved()
+end
+
+function CombatHide()
+  if inCombat then
+    ObjectiveTrackerFrame:Hide()
+    Minimap:SetAlpha(0.5)
+  else
+    ObjectiveTrackerFrame:Show()
+    Minimap:SetAlpha(1)
+  end
 end
 
 function MyFunctions:PLAYER_STARTED_MOVING()
@@ -186,13 +198,9 @@ function HideAll()
 end
 
 function FadeAll()
-  PlayerFrame:SetAlpha(fade);
-  TargetFrame:SetAlpha(fade)
-  MainMenuBar:SetAlpha(fade)
-  MicroButtonAndBagsBar:SetAlpha(fade)
-  ChatFrame1:SetAlpha(fade)
-  MultiBarRight:SetAlpha(fade)
-  BuffFrame:SetAlpha(fade)
+  for i,v in ipairs(tableFrame) do
+      v:SetAlpha(fade);
+  end
 end
 
 function ShowAll()
