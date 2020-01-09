@@ -14,37 +14,32 @@ function GlomodOnload(self)
   
   FRClass, ENClass, iclass = UnitClass("player")
   
-  self:RegisterEvent("PLAYER_REGEN_DISABLED")
-  self:RegisterEvent("PLAYER_REGEN_ENABLED")
-  self:RegisterEvent("PLAYER_TARGET_CHANGED")
-  self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED")
-  self:RegisterEvent("PLAYER_ENTERING_WORLD");
-  self:RegisterEvent("UNIT_MODEL_CHANGED");
-  self:RegisterEvent("PLAYER_CONTROL_GAINED");  
-  self:RegisterEvent("PLAYER_CONTROL_LOST");  
-  self:RegisterEvent("UNIT_SPELLCAST_SUCCEEDED");
-  self:RegisterEvent("PLAYER_STARTED_MOVING");
-  self:RegisterEvent("PLAYER_STOPPED_MOVING");
-  --self:RegisterEvent("UNIT_SPELLCAST_CHANNEL_START");
-  self:RegisterEvent("UNIT_SPELLCAST_START");
+  tableEvent = {
+    "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED","UNIT_SPELLCAST_SUCCEEDED","PLAYER_ENTERING_WORLD",
+    "UNIT_MODEL_CHANGED", "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_STARTED_MOVING",
+    "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START"
+  }
+  for i,v in ipairs(tableEvent) do
+      self:RegisterEvent(v);
+  end
   
   self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](...) end)
-  PlayerFrame:SetScript('OnEnter', function() ShowAll() end)
-  PlayerFrame:SetScript('OnLeave', function() CheckHide() end)
-  TargetFrame:SetScript('OnEnter', function() ShowAll() end)
-  TargetFrame:SetScript('OnLeave', function() CheckHide() end)
-  MainMenuBar:SetScript('OnEnter', function() ShowAll() end)
-  MainMenuBar:SetScript('OnLeave', function() CheckHide() end)
-  MultiBarRight:SetScript('OnEnter', function() ShowAll() end)
-  MultiBarRight:SetScript('OnLeave', function() CheckHide() end)
-  MicroButtonAndBagsBar:SetScript('OnEnter', function() ShowAll() end)
-  MicroButtonAndBagsBar:SetScript('OnLeave', function() CheckHide() end)
-  ChatFrame1:SetScript('OnEnter', function() ShowAll() end)
-  ChatFrame1:SetScript('OnLeave', function() CheckHide() end)
-  MainMenuBarArtFrame.LeftEndCap:Hide()
-  MainMenuBarArtFrame.RightEndCap:Hide()
-  MainMenuBarArtFrameBackground:Hide()
-  CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM", 30, 0);
+  
+  tableFrame ={
+    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, MicroButtonAndBagsBar, ChatFrame1, BuffFrame
+  } 
+  for i,v in ipairs(tableFrame) do
+      v:SetScript('OnEnter', function() ShowAll() end)
+      v:SetScript('OnLeave', function() CheckHide() end)
+  end
+    
+  tableHide={
+    MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
+  }
+  for i,v in ipairs(tableHide) do
+      v:Hide()
+  end  
+  
 end
 
 function MyFunctions:PLAYER_REGEN_DISABLED()
@@ -52,9 +47,14 @@ function MyFunctions:PLAYER_REGEN_DISABLED()
   ShowAll()  
 end
 
-function MyFunctions:UNIT_SPELLCAST_START(arg1,arg2,arg3)
+function MoveCastBar()
   CastingBarFrame:ClearAllPoints()
-  CastingBarFrame:SetPoint("TOP",PlayerFrame,"BOTTOM",30, 40)
+  CastingBarFrame:SetPoint("TOP",PlayerFrame,"BOTTOM",30, 30)
+  CastingBarFrame:SetHeight  (14)
+end
+
+function MyFunctions:UNIT_SPELLCAST_START()
+  
 end
 
 function MyFunctions:PLAYER_REGEN_ENABLED()
@@ -171,7 +171,8 @@ end
 
 function HideAll()
   if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver() or 
-    MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() then 
+    MainMenuBar:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or ChatFrame1:IsMouseOver() or BuffFrame:IsMouseOver()
+    then 
       return 
   end
   if fade ~= 0 then
@@ -191,6 +192,7 @@ function FadeAll()
   MicroButtonAndBagsBar:SetAlpha(fade)
   ChatFrame1:SetAlpha(fade)
   MultiBarRight:SetAlpha(fade)
+  BuffFrame:SetAlpha(fade)
 end
 
 function ShowAll()
