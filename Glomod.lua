@@ -32,7 +32,7 @@ function GlomodOnload(self)
         self:RegisterEvent(v);
     end
     
-    self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](...) end)
+    self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
           
     local tableHide={
         MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
@@ -45,7 +45,7 @@ function GlomodOnload(self)
         ChatFrame1, ChatFrame2,
     }
     for i,v in ipairs(tableShowOnMouse) do
-        ShowOnMouse(v)
+        --ShowOnMouse(v)
     end
     
 end
@@ -196,9 +196,12 @@ function MyFunctions:PLAYER_CONTROL_GAINED()
     MoveCam (FeetZoom)
 end
 
-function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2)
-    --print ('SPELL' arg2)
-    local iSpell = arg2
+function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)  
+    local caster = arg2
+    local iSpell = arg4
+    if caster ~= "player" then
+        return
+    end
     -- PECHE A LA LIGNE
     if iSpell == 131476 then
         if not IsFishing then
@@ -209,7 +212,18 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2)
             FirstFeetMove = true
             FirstMountMove = true
         end
-    end  
+    end
+    -- CHANGEFORM
+    -- druid
+    if iSpell == 5487 or iSpell == 768 then
+        MoveCam(FeetZoom)
+    elseif iSpell == 783 then
+        MoveCam(MountZoom)
+    end
+    -- shaman
+    if iSpell == 2645 then
+        MoveCam(MountZoom)
+    end
 end
 
 function MyFunctions:PLAYER_ENTERING_WORLD()
@@ -218,24 +232,18 @@ function MyFunctions:PLAYER_ENTERING_WORLD()
 end
 
 function MyFunctions:UNIT_MODEL_CHANGED()
-    -- druide
+    -- druid
     if iclass == 11 then
         local iforme = GetShapeshiftForm(flag)
-        --print('CHANGEFORM'.. iforme)
-        if iforme == 3 or iforme == 4 then
-            MoveCam(MountZoom)
-        else
-            MoveCam(FeetZoom)
+        if iforme == 0 or iforme == 1 or iforme == 3 then
+            FirstFeetMove = true
         end
     end
     -- shaman
     if iclass == 7 then
-          local iforme = GetShapeshiftForm(flag)
-          --print('CHANGEFORM'.. iforme)
-        if iforme == 1 then
-            MoveCam(MountZoom)
-        else
-            MoveCam(FeetZoom)
+        local iforme = GetShapeshiftForm(flag)
+        if iforme == 0 then
+            FirstFeetMove = true
         end
     end 
 end
