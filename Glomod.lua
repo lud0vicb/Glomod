@@ -1,16 +1,15 @@
-MyFunctions={}
-tableFrame ={ --global bcause used in different functions
+MyFunctions = {}
+tableFrame = { --global bcause used in different functions
     PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar
 } 
   
 function GlomodOnload(self) 
     inCombat = false
-    fade=0
-    targeting=false
-    FadeAll()
-    MountZoom=15
-    FeetZoom=5
-    FishZoom=1.5
+    fade = 0
+    targeting = false
+    MountZoom = 15
+    FeetZoom = 5
+    FishZoom = 1.5
     IsFishing = false
     FirstFeetMove = true
     FirstMountMove = true
@@ -40,12 +39,14 @@ function GlomodOnload(self)
     for i,v in ipairs(tableHide) do
         v:Hide()
     end  
-  
+    
+    FadeAll()
+    
     local tableShowOnMouse = {
         ChatFrame1, ChatFrame2,
     }
     for i,v in ipairs(tableShowOnMouse) do
-        --ShowOnMouse(v)
+        ShowOnMouse(v)
     end
     
 end
@@ -58,8 +59,8 @@ end
 
 function MoveCastBar()
     CastingBarFrame:ClearAllPoints()
-    CastingBarFrame:SetPoint("TOP",PlayerFrame,"BOTTOM",30, 30)
-    CastingBarFrame:SetHeight  (14)
+    CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM",30, 30)
+    CastingBarFrame:SetHeight(14)
 end
 
 function CombatHide()
@@ -82,10 +83,10 @@ function Moved()
             -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
             CheckMount()
         end
-      else
+    else
           CheckMount()
-      end
-      if IsFishing then
+     end
+     if IsFishing then
           IsFishing = false
           MoveViewLeftStart(0.05)
           C_Timer.After(2, function() MoveViewLeftStop() end)
@@ -93,7 +94,7 @@ function Moved()
 end
 
 function MoveCam(ref)
-    local z=GetCameraZoom()
+    local z = GetCameraZoom()
     if ref > z then
         CameraZoomOut(ref - z)
     else
@@ -111,10 +112,10 @@ function HideAll()
     if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver() or 
         MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
     then 
-          return 
+        return 
     end
     if fade ~= 0 then
-        fade=fade-0.1
+        fade = fade-0.1
     end
     --print(fade)
     FadeAll()
@@ -130,7 +131,7 @@ function FadeAll()
 end
 
 function ShowAll()
-    fade=1; 
+    fade = 1; 
     FadeAll();
 end
 
@@ -177,23 +178,23 @@ end
 function MyFunctions:PLAYER_TARGET_CHANGED()
     if UnitExists("target") then
         ShowAll(); 
-        targeting=true
+        targeting = true
     else
         CheckHide(); 
-        targeting=false
+        targeting = false
     end
 end
 
 function MyFunctions:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(0.1)
-    MoveCam (MountZoom)
+    MoveCam(MountZoom)
 end
 
 function MyFunctions:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
-    MoveCam (FeetZoom)
+    MoveCam(FeetZoom)
 end
 
 function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)  
@@ -227,7 +228,7 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)
 end
 
 function MyFunctions:PLAYER_ENTERING_WORLD()
-    fade=0; 
+    fade = 0; 
     FadeAll()
 end
 
