@@ -1,6 +1,6 @@
 MyFunctions = {}
 tableFrame = { --global bcause used in different functions
-    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar
+    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
 } 
   
 function GlomodOnload(self) 
@@ -43,7 +43,6 @@ function GlomodOnload(self)
     FadeAll()
     
     local tableShowOnMouse = {
-        ChatFrame1, ChatFrame2,
     }
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
@@ -109,8 +108,10 @@ function CheckHide()
 end
 
 function HideAll()
-    if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver() or 
-        MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
+    if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
+        or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
+        or ChatFrame1:IsMouseOver()
+        or ChatFrame2:IsMouseOver()
     then 
         return 
     end
