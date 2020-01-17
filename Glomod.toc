@@ -4,3 +4,4 @@
 ## Version: 0.5
 Glomod.lua
 Glomod.xml
+handlers.lua
