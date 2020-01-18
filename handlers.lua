@@ -85,6 +85,7 @@ function MyFunctions:UNIT_MODEL_CHANGED()
         local iforme = GetShapeshiftForm(flag)
         if iforme == 0 or iforme == 1 or iforme == 3 then
             FirstFeetMove = true
+            print ('GLO Druid FORM : FirstFeetMove')
         end
     end
     -- shaman
@@ -92,6 +93,7 @@ function MyFunctions:UNIT_MODEL_CHANGED()
         local iforme = GetShapeshiftForm(flag)
         if iforme == 0 then
             FirstFeetMove = true
+            print ('GLO Shaman FORM : FirstFeetMove')
         end
     end 
 end
