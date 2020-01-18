@@ -112,10 +112,7 @@ function MyFunctions:ADDON_LOADED(arg1, arg2)
         intFeetZoom = saveZoom[1] 
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
-        print('LOADED ' )
-        print(intFeetZoom)
-        print(intMountZoom)
-        print(tostring(isZoomOn))
+        printZoom()
     end
 end
 

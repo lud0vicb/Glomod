@@ -78,7 +78,7 @@ function CombatHide()
 end
 
 function Moved()
-      -- druide et shaman
+    -- druide et shaman
     if iclass == 11 or iclass == 7 then
         local iforme = GetShapeshiftForm(flag)
         if iforme == 0 then
@@ -86,12 +86,12 @@ function Moved()
             CheckMount()
         end
     else
-          CheckMount()
-     end
-     if isFishing then
-          isFishing = false
-          MoveViewLeftStart(0.05)
-          C_Timer.After(2, function() MoveViewLeftStop() end)
+        CheckMount()
+    end
+    if isFishing then
+        isFishing = false
+        MoveViewLeftStart(0.05)
+        C_Timer.After(2, function() MoveViewLeftStop() end)
     end
 end
 
@@ -144,17 +144,19 @@ end
 
 function CheckMount()
     if IsMounted() then 
-        if not isFirstMountMove then return end
-        MoveCam(intMountZoom)
-        isFirstMountMove = false
-        isFirstFeetMove = true
+        if isFirstMountMove then 
+            MoveCam(intMountZoom)
+            isFirstMountMove = false
+            isFirstFeetMove = true
+        end
     else 
         if not isInCombat then
-            if not isFirstFeetMove then return end
-            MoveCam (intFeetZoom)
-            isFirstFeetMove = false
-            isFirstMountMove = true
+            if isFirstFeetMove then 
+                MoveCam (intFeetZoom)
+                isFirstFeetMove = false
+                isFirstMountMove = true
+            end
         end
-      end
+    end
 end
 
