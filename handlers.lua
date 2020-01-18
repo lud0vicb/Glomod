@@ -1,5 +1,5 @@
 function MyFunctions:PLAYER_REGEN_DISABLED()
-    inCombat = true
+    isInCombat = true
     CombatHide()
     ShowAll()  
 end
@@ -9,7 +9,7 @@ function MyFunctions:UNIT_SPELLCAST_START()
 end
 
 function MyFunctions:PLAYER_REGEN_ENABLED()
-    inCombat = false
+    isInCombat = false
     CheckHide()
     CombatHide()
 end
@@ -24,23 +24,23 @@ end
 function MyFunctions:PLAYER_TARGET_CHANGED()
     if UnitExists("target") then
         ShowAll(); 
-        targeting = true
+        isTargeting = true
     else
         CheckHide(); 
-        targeting = false
+        isTargeting = false
     end
 end
 
 function MyFunctions:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(0.1)
-    MoveCam(MountZoom)
+    MoveCam(intMountZoom)
 end
 
 function MyFunctions:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
-    MoveCam(FeetZoom)
+    MoveCam(intFeetZoom)
 end
 
 function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)  
@@ -51,30 +51,30 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)
     end
     -- PECHE A LA LIGNE
     if iSpell == 131476 then
-        if not IsFishing then
+        if not isFishing then
             MoveViewRightStart(0.05)
             C_Timer.After(2, function() MoveViewRightStop() end)
-            IsFishing = true
-            MoveCam (FishZoom)
-            FirstFeetMove = true
-            FirstMountMove = true
+            isFishing = true
+            MoveCam (intFishZoom)
+            isFirstFeetMove = true
+            isFirstMountMove = true
         end
     end
     -- CHANGEFORM
     -- druid
     if iSpell == 5487 or iSpell == 768 then
-        MoveCam(FeetZoom)
+        MoveCam(intFeetZoom)
     elseif iSpell == 783 then
-        MoveCam(MountZoom)
+        MoveCam(intMountZoom)
     end
     -- shaman
     if iSpell == 2645 then
-        MoveCam(MountZoom)
+        MoveCam(intMountZoom)
     end
 end
 
 function MyFunctions:PLAYER_ENTERING_WORLD()
-    fade = 0; 
+    intFade = 0; 
     FadeAll()
 end
 
@@ -87,16 +87,40 @@ function MyFunctions:UNIT_MODEL_CHANGED()
     if iclass == 11 then
         local iforme = GetShapeshiftForm(flag)
         if iforme == 0 or iforme == 1 or iforme == 3 then
-            FirstFeetMove = true
-            print ('GLO Druid FORM : FirstFeetMove')
+            isFirstFeetMove = true
+            print ('GLO Druid FORM : isFirstFeetMove')
         end
     end
     -- shaman
     if iclass == 7 then
         local iforme = GetShapeshiftForm(flag)
         if iforme == 0 then
-            FirstFeetMove = true
-            print ('GLO Shaman FORM : FirstFeetMove')
+            isFirstFeetMove = true
+            print ('GLO Shaman FORM : isFirstFeetMove')
         end
     end 
+end
+
+function MyFunctions:ADDON_LOADED(arg1, arg2)
+    if arg2 ~= "Glomod" then
+        return
+    end
+    if saveZoom == nil then
+        saveZoom = {5, 15, true}
+        print ('INIT')
+    else
+        intFeetZoom = saveZoom[1] 
+        intMountZoom = saveZoom[2]
+        isZoomOn = saveZoom[3]
+        print('LOADED ' )
+        print(intFeetZoom)
+        print(intMountZoom)
+        print(tostring(isZoomOn))
+    end
+end
+
+function MyFunctions:PLAYER_LOGOUT()
+    saveZoom[1] = intFeetZoom
+    saveZoom[2] = intMountZoom
+    saveZoom[3] = isZoomOn
 end

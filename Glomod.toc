@@ -1,7 +1,8 @@
 ## Interface: 80300
 ## Title: Glomod
 ## Author: Lud0vicB
-## Version: 0.5
+## Version: 1.5
+##SavedVariablesPerCharacter: saveZoom
 Glomod.lua
 Glomod.xml
 handlers.lua

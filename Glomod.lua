@@ -4,17 +4,17 @@ tableFrame = { --global bcause used in different functions
 } 
   
 function GlomodOnload(self) 
-    zoomFunc = true
-    inCombat = false
-    fade = 0
-    targeting = false
-    MountZoom = 15
-    FeetZoom = 5
-    FishZoom = 1.5
-    IsFishing = false
-    FirstFeetMove = true
-    FirstMountMove = true
-    TimerFade = 3
+    isZoomOn = true
+    isInCombat = false
+    intFade = 0
+    isTargeting = false
+    intMountZoom = 15
+    intFeetZoom = 5
+    intFishZoom = 1.5
+    isFishing = false
+    isFirstFeetMove = true
+    isFirstMountMove = true
+    secTimerFade = 3
     
     FRClass, ENClass, iclass = UnitClass("player")
     
@@ -28,7 +28,7 @@ function GlomodOnload(self)
       "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "UNIT_MODEL_CHANGED",
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED",
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START",
-      "GROUP_FORMED", 
+      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", 
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
@@ -66,7 +66,7 @@ function MoveCastBar()
 end
 
 function CombatHide()
-    if inCombat then
+    if isInCombat then
         ObjectiveTrackerFrame:SetAlpha(0.5) -- il y a des quêtes avec des icones à cliquer sur le tracker donc pas bon de le cacher
         Minimap:SetAlpha(0.5)
         --MicroButtonAndBagsBar:SetAlpha(0)
@@ -88,15 +88,15 @@ function Moved()
     else
           CheckMount()
      end
-     if IsFishing then
-          IsFishing = false
+     if isFishing then
+          isFishing = false
           MoveViewLeftStart(0.05)
           C_Timer.After(2, function() MoveViewLeftStop() end)
     end
 end
 
 function MoveCam(ref)
-    if zoomFunc == false then
+    if isZoomOn == false then
         return
     end
     local z = GetCameraZoom()
@@ -108,52 +108,52 @@ function MoveCam(ref)
 end
 
 function CheckHide()
-    if inCombat == false then
-        C_Timer.After(TimerFade, function() HideAll() end)
+    if isInCombat == false then
+        C_Timer.After(secTimerFade, function() HideAll() end)
     end
 end
 
 function HideAll()
-    if inCombat or targeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
+    if isInCombat or isTargeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
         or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
         or ChatFrame1:IsMouseOver()
         or ChatFrame2:IsMouseOver()
     then 
         return 
     end
-    if fade ~= 0 then
-        fade = fade-0.1
+    if intFade ~= 0 then
+        intFade = intFade-0.1
     end
-    --print(fade)
+    --print(intFade)
     FadeAll()
-    if fade > 0 then
+    if intFade > 0 then
         C_Timer.After(.1, function() HideAll() end)
     end
 end
 
 function FadeAll()
     for i,v in ipairs(tableFrame) do
-        v:SetAlpha(fade);
+        v:SetAlpha(intFade);
     end
 end
 
 function ShowAll()
-    fade = 1; 
+    intFade = 1; 
     FadeAll();
 end
 
 function CheckMount()
     if IsMounted() then 
-        if not FirstMountMove then return end
-        MoveCam(MountZoom)
-        FirstMountMove = false
-        FirstFeetMove = true
+        if not isFirstMountMove then return end
+        MoveCam(intMountZoom)
+        isFirstMountMove = false
+        isFirstFeetMove = true
     else 
-        if not inCombat then
-            if not FirstFeetMove then return end
-            MoveCam (FeetZoom)
-            FirstFeetMove = false
-            FirstMountMove = true
+        if not isInCombat then
+            if not isFirstFeetMove then return end
+            MoveCam (intFeetZoom)
+            isFirstFeetMove = false
+            isFirstMountMove = true
         end
       end
 end
