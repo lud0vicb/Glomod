@@ -78,6 +78,10 @@ function MyFunctions:PLAYER_ENTERING_WORLD()
     FadeAll()
 end
 
+function MyFunctions:GROUP_FORMED()
+    PlaySound(17316)
+end
+
 function MyFunctions:UNIT_MODEL_CHANGED()
     -- druid
     if iclass == 11 then
