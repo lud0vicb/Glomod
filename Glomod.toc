@@ -5,3 +5,4 @@
 Glomod.lua
 Glomod.xml
 handlers.lua
+commandLines.lua

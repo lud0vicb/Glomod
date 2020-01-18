@@ -1,10 +1,9 @@
-------------------------------------- EVENT HANDLERS
-
 function MyFunctions:PLAYER_REGEN_DISABLED()
     inCombat = true
     CombatHide()
     ShowAll()  
 end
+
 function MyFunctions:UNIT_SPELLCAST_START()
   
 end
