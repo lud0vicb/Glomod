@@ -4,6 +4,7 @@ tableFrame = { --global bcause used in different functions
 } 
   
 function GlomodOnload(self) 
+    zoomFunc = true
     inCombat = false
     fade = 0
     targeting = false
@@ -23,9 +24,11 @@ function GlomodOnload(self)
     end
 
     local tableEvent = {
-      "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED","UNIT_SPELLCAST_SUCCEEDED","PLAYER_ENTERING_WORLD",
-      "UNIT_MODEL_CHANGED", "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_STARTED_MOVING",
-      "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START", "GROUP_FORMED"
+      "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
+      "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "UNIT_MODEL_CHANGED",
+      "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED",
+      "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START",
+      "GROUP_FORMED", 
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
@@ -93,6 +96,9 @@ function Moved()
 end
 
 function MoveCam(ref)
+    if zoomFunc == false then
+        return
+    end
     local z = GetCameraZoom()
     if ref > z then
         CameraZoomOut(ref - z)
