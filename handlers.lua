@@ -27,10 +27,9 @@ function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     else
         SendChatMessage(msg, "EMOTE")
     end
-    SendChatMessage(msg, "SAY")
     if type == "Creature" then
         DoEmote("OPENFIRE")
-    elseif type == "Object" then
+    elseif type == "GameObject" then
         DoEmote("CHARGE")
     end
     --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
