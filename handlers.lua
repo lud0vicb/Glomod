@@ -2,16 +2,18 @@ function MyFunctions:PLAYER_REGEN_DISABLED()
     isInCombat = true
     CombatHide()
     ShowAll()  
-end
-
-function MyFunctions:UNIT_SPELLCAST_START()
-  
+    combatCamIn()
 end
 
 function MyFunctions:PLAYER_REGEN_ENABLED()
     isInCombat = false
     CheckHide()
     CombatHide()
+    combatCamOut()
+    --CheckMount()
+end
+
+function MyFunctions:UNIT_SPELLCAST_START()
 end
 
 function MyFunctions:PLAYER_STOPPED_MOVING()
@@ -60,19 +62,6 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)
             isFirstMountMove = true
         end
     end
-    -- CHANGEFORM
-    -- druid
-    if iSpell == 5487 or iSpell == 768 then -- ours ou chat
-        if not isInCombat then
-            MoveCam(intFeetZoom)
-        end
-    elseif iSpell == 783 then -- voyage, ne peut arriver en combat
-        MoveCam(intMountZoom)
-    end
-    -- shaman
-    if iSpell == 2645 then
-        MoveCam(intMountZoom)
-    end
 end
 
 function MyFunctions:PLAYER_ENTERING_WORLD()
@@ -84,21 +73,22 @@ function MyFunctions:GROUP_FORMED()
     PlaySound(17316)
 end
 
-function MyFunctions:UNIT_MODEL_CHANGED()
-    -- druid
-    if iclass == 11 then
-        local iforme = GetShapeshiftForm(flag)
-        if iforme == 0 or iforme == 1 or iforme == 3 then
-            isFirstFeetMove = true
-            print ('GLO Druid FORM : isFirstFeetMove')
+function MyFunctions:UPDATE_SHAPESHIFT_FORM()
+    if iclass == 11 or iclass == 7 then -- druid
+        local fff = GetShapeshiftForm(flag)
+        if iforme == fff or fff == 4 then
+            return
         end
-    end
-    -- shaman
-    if iclass == 7 then
-        local iforme = GetShapeshiftForm(flag)
-        if iforme == 0 then
-            isFirstFeetMove = true
-            print ('GLO Shaman FORM : isFirstFeetMove')
+        iforme = fff
+        --print (string.format("FORM %d", iforme))
+        if iforme ~= tableForm[iclass] then
+            if isInCombat then
+                MoveCam(intCombatZoom)
+            else
+                MoveCam(intFeetZoom)
+            end
+        else
+            MoveCam(intMountZoom)
         end
     end 
 end
@@ -108,12 +98,12 @@ function MyFunctions:ADDON_LOADED(arg1, arg2)
         return
     end
     if saveZoom == nil then
-        saveZoom = {5, 15, true}
-        print ('INIT')
+        saveZoom = {5, 15, true, 10}
     else
         intFeetZoom = saveZoom[1] 
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
+        intCombatZoom = saveZoom[4]        
         printZoom()
     end
 end
@@ -122,4 +112,5 @@ function MyFunctions:PLAYER_LOGOUT()
     saveZoom[1] = intFeetZoom
     saveZoom[2] = intMountZoom
     saveZoom[3] = isZoomOn
+    saveZoom[4] = intCombatZoom
 end

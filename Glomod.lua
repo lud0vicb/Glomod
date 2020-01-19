@@ -2,21 +2,28 @@ MyFunctions = {}
 tableFrame = { --global bcause used in different functions
     PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
 } 
-  
+
 function GlomodOnload(self) 
     isZoomOn = true
     isInCombat = false
-    intFade = 0
     isTargeting = false
-    intMountZoom = 15
-    intFeetZoom = 5
-    intFishZoom = 1.5
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
+
+    intFade = 0
+    intMountZoom = 15
+    intFeetZoom = 5
+    intFishZoom = 1.5
+    intCombatZoom = 10
+
     secTimerFade = 3
     
     FRClass, ENClass, iclass = UnitClass("player")
+    if iclass == 11 or iclass == 7 then
+        iforme = GetShapeshiftForm(flag)
+        tableForm = {[11]=3, [7]=1}
+    end
     
     for i,v in ipairs(tableFrame) do
         v:SetScript('OnEnter', function() ShowAll() end)
@@ -25,10 +32,10 @@ function GlomodOnload(self)
 
     local tableEvent = {
       "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
-      "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "UNIT_MODEL_CHANGED",
+      "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", 
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED",
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START",
-      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", 
+      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM"
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
@@ -50,7 +57,6 @@ function GlomodOnload(self)
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
     end
-    
 end
 
 function ShowOnMouse(frame)
@@ -74,36 +80,6 @@ function CombatHide()
         ObjectiveTrackerFrame:SetAlpha(1)
         Minimap:SetAlpha(1)
         --MicroButtonAndBagsBar:SetAlpha(1)
-    end
-end
-
-function Moved()
-    -- druide et shaman
-    if iclass == 11 or iclass == 7 then
-        local iforme = GetShapeshiftForm(flag)
-        if iforme == 0 then
-            -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
-            CheckMount()
-        end
-    else
-        CheckMount()
-    end
-    if isFishing then
-        isFishing = false
-        MoveViewLeftStart(0.05)
-        C_Timer.After(2, function() MoveViewLeftStop() end)
-    end
-end
-
-function MoveCam(ref)
-    if isZoomOn == false then
-        return
-    end
-    local z = GetCameraZoom()
-    if ref > z then
-        CameraZoomOut(ref - z)
-    else
-        CameraZoomIn(z - ref)
     end
 end
 
@@ -141,22 +117,3 @@ function ShowAll()
     intFade = 1; 
     FadeAll();
 end
-
-function CheckMount()
-    if IsMounted() then 
-        if isFirstMountMove then 
-            MoveCam(intMountZoom)
-            isFirstMountMove = false
-            isFirstFeetMove = true
-        end
-    else 
-        if not isInCombat then
-            if isFirstFeetMove then 
-                MoveCam (intFeetZoom)
-                isFirstFeetMove = false
-                isFirstMountMove = true
-            end
-        end
-    end
-end
-

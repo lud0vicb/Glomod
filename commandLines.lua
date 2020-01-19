@@ -22,7 +22,8 @@ function switchZoomFunc(args)
         end
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[2])
-        print ('GLO ZOOM CHANGE ' .. tableArgs[1] .. ' ' .. tableArgs[2])
+        intCombatZoom = tonumber(tableArgs[3])
+        print (string.format("GLO ZOOM CHANGE %d %d %d", tableArgs[1], tableArgs[2]), tableArgs[3])
     end
 end
 SLASH_ZOOM1 = '/zoom'
@@ -30,7 +31,7 @@ SLASH_ZOOM2 = '/z'
 SlashCmdList["ZOOM"] = switchZoomFunc
 
 function printZoom(msg)
-    print('GLOZOOM ' .. tostring(isZoomOn) .. ' ' .. tostring(intFeetZoom) .. ' ' .. tostring(intMountZoom))
+    print(string.format("GLOZOOM %s %d %d %d", tostring(isZoomOn), intFeetZoom, intMountZoom, intCombatZoom))
 end
 SLASH_PZOOM1 = '/pzoom'
 SLASH_PZOOM2 = '/pz'
