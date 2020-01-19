@@ -35,7 +35,7 @@ function combatCamOut()
     if IsMounted() then
         return
     end
-    if iclass == 11 then -- druid 
+    if iclass == 11 then -- druid
         if iforme == 3 then
             return
         end
@@ -48,15 +48,15 @@ function combatCamOut()
 end
 
 function CheckMount()
-    if IsMounted() then 
-        if isFirstMountMove then 
+    if IsMounted() then
+        if isFirstMountMove then
             MoveCam(intMountZoom)
             isFirstMountMove = false
             isFirstFeetMove = true
         end
-    else 
+    else
         --if not isInCombat then
-            if isFirstFeetMove then 
+            if isFirstFeetMove then
                 MoveCam (intFeetZoom)
                 isFirstFeetMove = false
                 isFirstMountMove = true
@@ -74,11 +74,12 @@ function MoveCam(ref)
     if ref > z then
         y = ref -z
         CameraZoomOut(y)
-        print(string.format("OUT de %d depuis %d pour atteindre %d\n\n", y, z, ref))
+        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
+        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
     else
         y = z - ref
         CameraZoomIn(y)
-        print(string.format("IN de %d depuis %d pour atteindre %d\n\n", y, z, ref))
+        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
+        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
     end
 end
-

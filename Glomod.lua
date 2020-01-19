@@ -1,9 +1,9 @@
 MyFunctions = {}
 tableFrame = { --global bcause used in different functions
     PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
-} 
+}
 
-function GlomodOnload(self) 
+function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
     isTargeting = false
@@ -18,13 +18,13 @@ function GlomodOnload(self)
     intCombatZoom = 10
 
     secTimerFade = 3
-    
+
     FRClass, ENClass, iclass = UnitClass("player")
     if iclass == 11 or iclass == 7 then
         iforme = GetShapeshiftForm(flag)
         tableForm = {[11]=3, [7]=1}
     end
-    
+
     for i,v in ipairs(tableFrame) do
         v:SetScript('OnEnter', function() ShowAll() end)
         v:SetScript('OnLeave', function() CheckHide() end)
@@ -32,7 +32,7 @@ function GlomodOnload(self)
 
     local tableEvent = {
       "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
-      "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", 
+      "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "VIGNETTE_MINIMAP_UPDATED", 
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED",
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START",
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM"
@@ -40,18 +40,18 @@ function GlomodOnload(self)
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
     end
-    
+
     self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
-          
+
     local tableHide={
         MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
     }
     for i,v in ipairs(tableHide) do
         v:Hide()
-    end  
-    
+    end
+
     FadeAll()
-    
+
     local tableShowOnMouse = {
     }
     for i,v in ipairs(tableShowOnMouse) do
@@ -94,8 +94,8 @@ function HideAll()
         or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
         or ChatFrame1:IsMouseOver()
         or ChatFrame2:IsMouseOver()
-    then 
-        return 
+    then
+        return
     end
     if intFade ~= 0 then
         intFade = intFade-0.1
@@ -114,6 +114,6 @@ function FadeAll()
 end
 
 function ShowAll()
-    intFade = 1; 
+    intFade = 1;
     FadeAll();
 end

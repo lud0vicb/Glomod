@@ -2,7 +2,6 @@ function playSnd (msg)
     sndId = tonumber(msg)
     PlaySound(sndId)
 end
-
 SLASH_PL1 = '/pl'
 SLASH_PL2 = '/play'
 SlashCmdList["PL"] = playSnd
@@ -23,7 +22,7 @@ function switchZoomFunc(args)
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[2])
         intCombatZoom = tonumber(tableArgs[3])
-        print (string.format("GLO ZOOM CHANGE %d %d %d", tableArgs[1], tableArgs[2]), tableArgs[3])
+        print (string.format("GLO ZOOM  F%d M%d C%d", tableArgs[1], tableArgs[2], tableArgs[3]))
     end
 end
 SLASH_ZOOM1 = '/zoom'

@@ -1,7 +1,7 @@
 function MyFunctions:PLAYER_REGEN_DISABLED()
     isInCombat = true
     CombatHide()
-    ShowAll()  
+    ShowAll()
     combatCamIn()
 end
 
@@ -11,6 +11,29 @@ function MyFunctions:PLAYER_REGEN_ENABLED()
     CombatHide()
     combatCamOut()
     --CheckMount()
+end
+
+function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
+    if not isVisible then
+        return
+    end
+    --PlaySound(77003)
+    vInfo = C_VignetteInfo.GetVignetteInfo(id)
+    local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", vInfo.objectGUID)
+    ChatFrame1:SetAlpha(1)
+    local msg = string.format("ALERTE %s : %s à proximité", type, vInfo.name)
+    if UnitInParty("player") then
+        SendChatMessage(msg, "PARTY")
+    else
+        SendChatMessage(msg, "EMOTE")
+    end
+    SendChatMessage(msg, "SAY")
+    if type == "Creature" then
+        DoEmote("OPENFIRE")
+    elseif type == "Object" then
+        DoEmote("CHARGE")
+    end
+    --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
 end
 
 function MyFunctions:UNIT_SPELLCAST_START()
@@ -25,10 +48,10 @@ end
 
 function MyFunctions:PLAYER_TARGET_CHANGED()
     if UnitExists("target") then
-        ShowAll(); 
+        ShowAll();
         isTargeting = true
     else
-        CheckHide(); 
+        CheckHide();
         isTargeting = false
     end
 end
@@ -45,9 +68,9 @@ function MyFunctions:PLAYER_CONTROL_GAINED()
     MoveCam(intFeetZoom)
 end
 
-function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)  
-    local caster = arg2
-    local iSpell = arg4
+function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
+    --local caster = arg2
+    --local iSpell = arg4
     if caster ~= "player" then
         return
     end
@@ -65,7 +88,7 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)
 end
 
 function MyFunctions:PLAYER_ENTERING_WORLD()
-    intFade = 0; 
+    intFade = 0;
     FadeAll()
 end
 
@@ -90,7 +113,7 @@ function MyFunctions:UPDATE_SHAPESHIFT_FORM()
         else
             MoveCam(intMountZoom)
         end
-    end 
+    end
 end
 
 function MyFunctions:ADDON_LOADED(arg1, arg2)
@@ -100,10 +123,10 @@ function MyFunctions:ADDON_LOADED(arg1, arg2)
     if saveZoom == nil then
         saveZoom = {5, 15, true, 10}
     else
-        intFeetZoom = saveZoom[1] 
+        intFeetZoom = saveZoom[1]
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
-        intCombatZoom = saveZoom[4]        
+        intCombatZoom = saveZoom[4]
         printZoom()
     end
 end
