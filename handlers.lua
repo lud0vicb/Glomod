@@ -62,9 +62,11 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(arg1, arg2, arg3, arg4)
     end
     -- CHANGEFORM
     -- druid
-    if iSpell == 5487 or iSpell == 768 then
-        MoveCam(intFeetZoom)
-    elseif iSpell == 783 then
+    if iSpell == 5487 or iSpell == 768 then -- ours ou chat
+        if not isInCombat then
+            MoveCam(intFeetZoom)
+        end
+    elseif iSpell == 783 then -- voyage, ne peut arriver en combat
         MoveCam(intMountZoom)
     end
     -- shaman
