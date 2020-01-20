@@ -8,3 +8,4 @@ Glomod.xml
 handlers.lua
 commandLines.lua
 autoCam.lua
+vignettes.lua

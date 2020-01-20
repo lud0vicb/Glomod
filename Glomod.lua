@@ -1,8 +1,3 @@
-MyFunctions = {}
-tableFrame = { --global bcause used in different functions
-    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
-}
-
 function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
@@ -16,6 +11,7 @@ function GlomodOnload(self)
     intFeetZoom = 5
     intFishZoom = 1.5
     intCombatZoom = 10
+    intVignetteSave = 1
 
     secTimerFade = 3
 
@@ -25,6 +21,10 @@ function GlomodOnload(self)
         tableForm = {[11]=3, [7]=1}
     end
 
+    tableFrame = {
+        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
+        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
+    }
     for i,v in ipairs(tableFrame) do
         v:SetScript('OnEnter', function() ShowAll() end)
         v:SetScript('OnLeave', function() CheckHide() end)
@@ -41,6 +41,7 @@ function GlomodOnload(self)
         self:RegisterEvent(v);
     end
 
+    MyFunctions = {}
     self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
 
     local tableHide={
@@ -56,6 +57,10 @@ function GlomodOnload(self)
     }
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
+    end
+    tableVignetteSave = {}
+    for ind=1,12,1 do
+        tableVignetteSave[ind] = ""
     end
 end
 

@@ -17,20 +17,10 @@ function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
         return
     end
     vInfo = C_VignetteInfo.GetVignetteInfo(id)
-    local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", vInfo.objectGUID)
-    ChatFrame1:SetAlpha(1)
-    local msg = string.format("ALERTE %s : %s à proximité", type, vInfo.name)
-    if UnitInParty("player") then
-        SendChatMessage(msg, "PARTY")
-    else
-        SendChatMessage(msg, "EMOTE")
+    if checkVignetteSave(vInfo) then
+        return
     end
-    if type == "Creature" then
-        DoEmote("OPENFIRE")
-    elseif type == "GameObject" then
-        DoEmote("CHARGE")
-    end
-    --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+    sendInfoVignette(vInfo)
 end
 
 function MyFunctions:UNIT_SPELLCAST_START()
