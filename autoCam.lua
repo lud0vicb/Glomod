@@ -39,7 +39,7 @@ function combatCamOut()
         return
     end
     isFirstMountMove = false
-    isFirstFeetMove = true
+    C_Timer.After(3, function() isFirstFeetMove = true end)
 end
 
 function CheckMount()
@@ -67,12 +67,12 @@ function MoveCam(ref)
     if ref > z then
         y = ref -z
         CameraZoomOut(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+        --local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
+        --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
     else
         y = z - ref
         CameraZoomIn(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+        --local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
+        --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
     end
 end

@@ -10,7 +10,7 @@ GloFrame:SetScript("OnEvent", GlomodEventHandler);
 ```
 
 Utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
-  
+
 ## Bouger une frame déjà définie
 
 on ne définit pas le xml puisqu'il existe déjà, donc on appelle des méthodes lua
@@ -26,7 +26,7 @@ frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 ## Gestion souris
 
 ```
-PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
+PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse();
 
 -- GERER LE MOUSE OVER
 frame:EnableMouse()
@@ -43,4 +43,10 @@ PlayerFrame:SetAlpha(0);
 -- autres syntaxes ; à noter qu'une frame cachée ne peut être survolée à la souris !
 HideUIPanel(PlayerFrame);
 PlayerFrame:Hide();
+```
+## Changer position FRAME
+
+```
+/run GossipFrame:ClearAllPoints();
+/run GossipFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0);
 ```

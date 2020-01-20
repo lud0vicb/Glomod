@@ -25,5 +25,7 @@ function sendInfoVignette(vInfo)
     elseif type == "GameObject" then
         DoEmote("CHARGE")
     end
+    local msg = string.format("%s sauvée dans %d", vInfo.objectGUID, intVignetteSave - 1)
+    SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
     --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
 end
