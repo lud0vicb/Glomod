@@ -35,16 +35,11 @@ function combatCamOut()
     if IsMounted() then
         return
     end
-    if iclass == 11 then -- druid
-        if iforme == 3 then
-            return
-        end
-    elseif iclass == 7 then -- shaman
-        if iforme == 1 then
-            return
-        end
+    if (iclass == 11 and iforme == 3) or (iclass == 7 and iforme == 1) then
+        return
     end
-    MoveCam(intFeetZoom)
+    isFirstMountMove = false
+    isFirstFeetMove = true
 end
 
 function CheckMount()
@@ -55,13 +50,11 @@ function CheckMount()
             isFirstFeetMove = true
         end
     else
-        --if not isInCombat then
-            if isFirstFeetMove then
-                MoveCam (intFeetZoom)
-                isFirstFeetMove = false
-                isFirstMountMove = true
-            end
-        --end
+        if isFirstFeetMove then
+            MoveCam (intFeetZoom)
+            isFirstFeetMove = false
+            isFirstMountMove = true
+        end
     end
 end
 

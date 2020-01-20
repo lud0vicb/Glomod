@@ -10,14 +10,12 @@ function MyFunctions:PLAYER_REGEN_ENABLED()
     CheckHide()
     CombatHide()
     combatCamOut()
-    --CheckMount()
 end
 
 function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     if not isVisible then
         return
     end
-    --PlaySound(77003)
     vInfo = C_VignetteInfo.GetVignetteInfo(id)
     local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", vInfo.objectGUID)
     ChatFrame1:SetAlpha(1)
@@ -68,8 +66,6 @@ function MyFunctions:PLAYER_CONTROL_GAINED()
 end
 
 function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
-    --local caster = arg2
-    --local iSpell = arg4
     if caster ~= "player" then
         return
     end
@@ -96,7 +92,7 @@ function MyFunctions:GROUP_FORMED()
 end
 
 function MyFunctions:UPDATE_SHAPESHIFT_FORM()
-    if iclass == 11 or iclass == 7 then -- druid
+    if iclass == 11 or iclass == 7 then -- druid shaman
         local fff = GetShapeshiftForm(flag)
         if iforme == fff or fff == 4 then
             return
