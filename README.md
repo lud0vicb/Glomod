@@ -1,6 +1,6 @@
 # Glomod
 
-## Gestion frame
+# Gestion frame
 
 On les gère plutôt dans le fichier xml. Mais on peut le faire des le code :
 
@@ -11,7 +11,11 @@ GloFrame:SetScript("OnEvent", GlomodEventHandler);
 
 Utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
 
+<<<<<<< HEAD
 ## Bouger une frame déjà définie
+=======
+# Bouger une frame déjà définie
+>>>>>>> autoCamVehicle
 
 on ne définit pas le xml puisqu'il existe déjà, donc on appelle des méthodes lua
 
@@ -23,7 +27,7 @@ frame:SetScript("OnDragStart", frame.StartMoving)
 frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 ```
 
-## Gestion souris
+# Gestion souris
 
 ```
 PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse();
@@ -35,7 +39,7 @@ frame:SetScript('OnLeave', function() unHighightStuff end)
 
 ```
 
-## Masquer une frame
+# Masquer une frame
 
 ```
 -- MASQUER UN ELEMENTE
@@ -44,9 +48,19 @@ PlayerFrame:SetAlpha(0);
 HideUIPanel(PlayerFrame);
 PlayerFrame:Hide();
 ```
+<<<<<<< HEAD
 ## Changer position FRAME
 
 ```
 /run GossipFrame:ClearAllPoints();
 /run GossipFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0);
+=======
+
+# objectGUID
+
+Ce type de données contient divers info que l'on peut "ouvrir" de cette façon :
+
+```
+local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", var_objectGUID)
+>>>>>>> autoCamVehicle
 ```
