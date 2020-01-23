@@ -19,7 +19,7 @@ function Moved()
 end
 
 function combatCamIn()
-    if IsMounted() then
+    if IsMounted() or isZoomOn == false then
         return
     end
     if iclass == 11 or iclass == 7 then -- druid shaman
@@ -32,7 +32,7 @@ function combatCamIn()
 end
 
 function combatCamOut()
-    if IsMounted() then
+    if IsMounted() or isZoomOn == false then
         return
     end
     if (iclass == 11 and iforme == 3) or (iclass == 7 and iforme == 1) then
@@ -51,7 +51,7 @@ function CheckMount()
         end
     else
         if isFirstFeetMove then
-            MoveCam (intFeetZoom)
+            MoveCam(intFeetZoom)
             isFirstFeetMove = false
             isFirstMountMove = true
         end

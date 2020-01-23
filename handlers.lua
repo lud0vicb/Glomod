@@ -1,3 +1,17 @@
+function MyFunctions:UNIT_ENTERING_VEHICLE(event, target){
+    if target ~= "player" then
+        return
+    end
+    MoveCam(intCombatZoom)
+    isZoomOn = false
+}
+function MyFunctions:UNIT_EXITING_VEHICLE(event, target){
+    if target ~= "player" then
+        return
+    end
+    isZoomOn = true
+    MoveCam(intFeetZoom)
+}
 function MyFunctions:PLAYER_REGEN_DISABLED()
     isInCombat = true
     CombatHide()

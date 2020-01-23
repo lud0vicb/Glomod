@@ -1,8 +1,3 @@
-MyFunctions = {}
-tableFrame = { --global bcause used in different functions
-    PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
-}
-
 function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
@@ -16,6 +11,8 @@ function GlomodOnload(self)
     intFeetZoom = 5
     intFishZoom = 1.5
     intCombatZoom = 10
+    intVehicleZoom = 20
+    intVignetteSave = 1
 
     secTimerFade = 3
 
@@ -25,6 +22,10 @@ function GlomodOnload(self)
         tableForm = {[11]=3, [7]=1}
     end
 
+    tableFrame = {
+        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
+        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
+    }
     for i,v in ipairs(tableFrame) do
         v:SetScript('OnEnter', function() ShowAll() end)
         v:SetScript('OnLeave', function() CheckHide() end)
@@ -33,14 +34,16 @@ function GlomodOnload(self)
     local tableEvent = {
       "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
       "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "VIGNETTE_MINIMAP_UPDATED",
-      "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST", "UNIT_SPELLCAST_SUCCEEDED",
-      "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "UNIT_SPELLCAST_START",
-      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM"
+      "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST",
+      "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", 
+      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
+      "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE"
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
     end
 
+    MyFunctions = {}
     self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
 
     local tableHide={
@@ -56,6 +59,10 @@ function GlomodOnload(self)
     }
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
+    end
+    tableVignetteSave = {}
+    for ind=1,12,1 do
+        tableVignetteSave[ind] = ""
     end
 end
 
