@@ -5,6 +5,7 @@ function GlomodOnload(self)
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
+    isDebuging = false
 
     intFade = 0
     intMountZoom = 15

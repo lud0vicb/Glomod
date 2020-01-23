@@ -35,3 +35,15 @@ end
 SLASH_PZOOM1 = '/pzoom'
 SLASH_PZOOM2 = '/pz'
 SlashCmdList["PZOOM"] = printZoom
+
+function showDebug()
+    if isDebuging == true then
+        isDebuging = false
+        DebugFrame:Hide()
+    else
+        isDebuging = true
+        DebugFrame:Show()
+    end
+end
+SLASH_DEBUG1 = '/debug'
+SlashCmdList["DEBUG"] = showDebug

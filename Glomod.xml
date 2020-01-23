@@ -2,12 +2,32 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
                    ..\..\FrameXML\UI.xsd">
-  <Script File="Glomod.lua"/>
-  <Frame name="GlomodFrame" hidden="true">
-   <Scripts>
-    <OnLoad>
-        GlomodOnload(self)
-    </OnLoad>
-   </Scripts>
-  </Frame>
+    <Script File="Glomod.lua"/>
+    <Frame name="GlomodFrame" hidden="true">
+        <Scripts>
+            <OnLoad>
+                GlomodOnload(self)
+            </OnLoad>
+        </Scripts>
+    </Frame>
+    <Frame name=“DebugFrame“ hidden="true" frameStrata=“HIGH“ frameLevel=“5“>
+        <Size x=“384“ y=“512“/>
+        <Anchors>
+            <Anchor point=“RIGHT“ relativePoint=“RIGHT“ relativeTo=“UIParent“/>
+        </Anchors>
+        <Scripts>
+            <OnLoad>
+                DebugFrameOnload(self)
+            </OnLoad>
+        </Scripts>
+        <Layers>
+            <Layer level=“BACKGROUND“>
+                <Texture file=“Interface\MailFrame\UI-MailFrameBG“>
+                    <Anchors>
+                        <Anchor point=“CENTER“/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame>
 </Ui>

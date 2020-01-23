@@ -64,3 +64,9 @@ Ce type de données contient divers info que l'on peut "ouvrir" de cette façon 
 local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", var_objectGUID)
 >>>>>>> autoCamVehicle
 ```
+
+# Console
+
+* lancer le jeu avec `-console` en paramètre
+* dans le jeu lancer `/run SetConsoleKey("k")`
+* appuyer sur k
