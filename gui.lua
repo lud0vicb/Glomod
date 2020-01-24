@@ -35,4 +35,5 @@ end
 function debugFrameOnclose(self)
     debugButton:SetText("debug on")
     isDebuging = false
+    debugFrame:Hide()
 end

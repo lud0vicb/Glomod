@@ -22,9 +22,10 @@ function switchZoomFunc(args)
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[3])
         intCombatZoom = tonumber(tableArgs[2])
-        --print (string.format("GLO ZOOM  F%d M%d C%d", tableArgs[1], tableArgs[2], tableArgs[3]))
-        local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
-        debugFrame.zoomText:SetText(z)
+        if isDebuging then
+            local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+            debugFrame.zoomText:SetText(z)
+        end
     end
 end
 SLASH_ZOOM1 = '/zoom'

@@ -1,8 +1,10 @@
 function checkVignetteSave(vInfo)
-    for ind=1,12,1 do
+    for ind=1, 12, 1 do
         if tableVignetteSave[ind] == vInfo.objectGUID then
-            --msg = string.format("Vignette %s déjà connue", vInfo.objectGUID)
-            --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+            if isDebuging then
+                log = string.format("Vignette trouvée %d", ind)
+                printDebug(log)
+            end
             return true
         end
     end
@@ -25,6 +27,8 @@ function sendInfoVignette(vInfo)
     elseif type == "GameObject" then
         DoEmote("CHARGE")
     end
-    --local msg = string.format("%s sauvée dans %d", vInfo.objectGUID, intVignetteSave - 1)
-    --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+    if isDebuging then
+        local log = string.format("Vignette %d = %s", intVignetteSave - 1, vInfo.name)
+        printDebug(log)
+    end
 end

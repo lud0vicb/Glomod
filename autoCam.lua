@@ -63,15 +63,18 @@ function moveCam(ref)
     end
     local z = GetCameraZoom()
     local y
+    local m
     if ref > z then
         y = ref -z
         CameraZoomOut(y)
+        m = "Out"
     else
         y = z - ref
         CameraZoomIn(y)
+        m = "In"
     end
     if isDebuging then
-        local msg = string.format("Zoom %d > %d > %d", y, z, ref)
+        local msg = string.format("%s %d from %d to %d", m, y, z, ref)
         printDebug(msg)
         debugFrame.zoomActual:SetText(ref)
     end
