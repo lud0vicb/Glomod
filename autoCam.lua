@@ -66,15 +66,14 @@ function moveCam(ref)
     if ref > z then
         y = ref -z
         CameraZoomOut(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
-        --DebugFrame.zoomText:SetText(msg)
     else
         y = z - ref
         CameraZoomIn(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
-        --DebugFrame.zoomText:SetText(msg)
     end
-    debugFrame.zoomActual:SetText(ref)
+    if isDebuging then
+        local msg = string.format("Zoom %d > %d > %d", y, z, ref)
+        printDebug(msg)
+        debugFrame.zoomActual:SetText(ref)
+    end
+
 end

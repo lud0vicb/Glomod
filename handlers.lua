@@ -52,7 +52,7 @@ function MyFunctions:PLAYER_TARGET_CHANGED()
         showAll();
         isTargeting = true
     else
-        CheckHide();
+        checkHide();
         isTargeting = false
     end
 end
