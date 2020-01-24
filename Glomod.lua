@@ -42,7 +42,7 @@ function GlomodOnload(self)
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
       "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
       "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
-      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING",
+      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
@@ -138,7 +138,7 @@ function showAll()
 end
 function moveFrame(fr)
     fr:ClearAllPoints()
-    fr:SetPoint("LEFT", "UIParent", "CENTER", 100, 0)
+    fr:SetPoint("LEFT", "UIParent", "CENTER", 80, 100)
     if isDebuging then
         local log = string.format("Move %s", fr:GetName())
         printDebug(log)

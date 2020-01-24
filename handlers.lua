@@ -73,6 +73,10 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
     if caster ~= "player" then
         return
     end
+    if isDebuging then
+        local msg = string.format("SPELL %d", iSpell)
+        printDebug(msg)
+    end
     -- PECHE A LA LIGNE
     if iSpell == 131476 then
         if not isFishing then
@@ -147,6 +151,12 @@ function MyFunctions:QUEST_PROGRESS()
     moveFrame(QuestFrame)
 end
 function MyFunctions:QUEST_DETAIL()
+    moveFrame(QuestFrame)
+end
+function MyFunctions:QUEST_ITEM_UPDATE()
+    moveFrame(QuestFrame)
+end
+function MyFunctions:QUEST_COMPLETE()
     moveFrame(QuestFrame)
 end
 function MyFunctions:MERCHANT_SHOW()

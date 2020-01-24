@@ -62,6 +62,9 @@ function moveCam(ref)
         return
     end
     local z = GetCameraZoom()
+    if z == nil then
+        z = intFeetZoom
+    end
     local y
     local m
     if ref > z then
