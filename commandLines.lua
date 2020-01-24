@@ -10,7 +10,7 @@ function switchZoomFunc(args)
     local cmd = string.sub(args, 1, 1)
     if cmd == "0" then
         isZoomOn = false
-        DebugFrame.zoomText:SetText("OFF")
+        debugFrame.zoomText:SetText("OFF")
     elseif cmd == '1' then
         isZoomOn = true
         local tableArgs = {}
@@ -24,7 +24,7 @@ function switchZoomFunc(args)
         intCombatZoom = tonumber(tableArgs[2])
         --print (string.format("GLO ZOOM  F%d M%d C%d", tableArgs[1], tableArgs[2], tableArgs[3]))
         local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
-        DebugFrame.zoomText:SetText(z)
+        debugFrame.zoomText:SetText(z)
     end
 end
 SLASH_ZOOM1 = '/zoom'

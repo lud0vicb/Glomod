@@ -1,15 +1,14 @@
-function Moved()
+function moved()
     if isInCombat then
         return
     end
     -- druide et shaman
     if iclass == 11 or iclass == 7 then
-        if iforme == 0 then
-            -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
-            CheckMount()
+        if not iforme ~= tableForm[iclass] then -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
+            checkMount()
         end
     else
-        CheckMount()
+        checkMount()
     end
     if isFishing then
         isFishing = false
@@ -24,10 +23,10 @@ function combatCamIn()
     end
     if iclass == 11 or iclass == 7 then -- druid shaman
         if iforme ~= tableForm[iclass] then
-            MoveCam(intCombatZoom)
+            moveCam(intCombatZoom)
         end
     else
-        MoveCam(intCombatZoom)
+        moveCam(intCombatZoom)
     end
 end
 
@@ -42,23 +41,23 @@ function combatCamOut()
     C_Timer.After(3, function() isFirstFeetMove = true end)
 end
 
-function CheckMount()
+function checkMount()
     if IsMounted() then
         if isFirstMountMove then
-            MoveCam(intMountZoom)
+            moveCam(intMountZoom)
             isFirstMountMove = false
             isFirstFeetMove = true
         end
     else
         if isFirstFeetMove then
-            MoveCam(intFeetZoom)
+            moveCam(intFeetZoom)
             isFirstFeetMove = false
             isFirstMountMove = true
         end
     end
 end
 
-function MoveCam(ref)
+function moveCam(ref)
     if isZoomOn == false or ref == 0 then
         return
     end
@@ -77,5 +76,5 @@ function MoveCam(ref)
         --SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
         --DebugFrame.zoomText:SetText(msg)
     end
-
+    debugFrame.zoomActual:SetText(ref)
 end

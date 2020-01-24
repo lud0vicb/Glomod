@@ -14,6 +14,7 @@ function GlomodOnload(self)
     intFishZoom = 1.5
     intCombatZoom = 10
     intVignetteSave = 1
+    intDebugLine = 1
 
     secTimerFade = 3
 
@@ -28,8 +29,8 @@ function GlomodOnload(self)
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
     }
     for i,v in ipairs(tableFrame) do
-        v:SetScript('OnEnter', function() ShowAll() end)
-        v:SetScript('OnLeave', function() CheckHide() end)
+        v:SetScript('OnEnter', function() showAll() end)
+        v:SetScript('OnLeave', function() checkHide() end)
     end
 
     local tableEvent = {
@@ -53,7 +54,7 @@ function GlomodOnload(self)
         v:Hide()
     end
 
-    FadeAll()
+    fadeAll()
 
     local tableShowOnMouse = {
     }
@@ -64,21 +65,25 @@ function GlomodOnload(self)
     for ind=1,12,1 do
         tableVignetteSave[ind] = ""
     end
+    tableDebugLine = {}
+    for ind=1,25,1 do
+        tableDebugLine[ind] = ""
+    end
 end
 
-function ShowOnMouse(frame)
+function showOnMouse(frame)
     frame:SetScript('OnEnter', function() frame:SetAlpha(1) end)
     frame:SetScript('OnLeave', function() frame:SetAlpha(0) end)
     C_Timer.After(6, function() frame:SetAlpha(0) end)
 end
 
-function MoveCastBar()
+function moveCastBar()
     CastingBarFrame:ClearAllPoints()
     CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM",30, 30)
     CastingBarFrame:SetHeight(14)
 end
 
-function CombatHide()
+function combatHide()
     if isInCombat then
         ObjectiveTrackerFrame:SetAlpha(0.5) -- il y a des quêtes avec des icones à cliquer sur le tracker donc pas bon de le cacher
         Minimap:SetAlpha(0.5)
@@ -90,13 +95,13 @@ function CombatHide()
     end
 end
 
-function CheckHide()
+function checkHide()
     if isInCombat == false then
-        C_Timer.After(secTimerFade, function() HideAll() end)
+        C_Timer.After(secTimerFade, function() hideAll() end)
     end
 end
 
-function HideAll()
+function hideAll()
     if isInCombat or isTargeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
         or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
         or ChatFrame1:IsMouseOver()
@@ -108,19 +113,19 @@ function HideAll()
         intFade = intFade-0.1
     end
     --print(intFade)
-    FadeAll()
+    fadeAll()
     if intFade > 0 then
-        C_Timer.After(.1, function() HideAll() end)
+        C_Timer.After(.1, function() hideAll() end)
     end
 end
 
-function FadeAll()
+function fadeAll()
     for i,v in ipairs(tableFrame) do
         v:SetAlpha(intFade);
     end
 end
 
-function ShowAll()
+function showAll()
     intFade = 1;
-    FadeAll();
+    fadeAll();
 end

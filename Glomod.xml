@@ -22,18 +22,18 @@
         </Anchors>
     </Button>
 
-    <Frame name="DebugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
+    <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
             <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent"/>
         </Anchors>
         <Scripts>
-            <OnLoad function="DebugFrameOnload"/>
+            <OnLoad function="debugFrameOnload"/>
         </Scripts>
         <Frames>
             <Button name="$parent_Close" parentKey="close" inherits="UIPanelCloseButton">
                 <Scripts>
-                    <OnClick function="DebugFrameOnclose"/>
+                    <OnClick function="debugFrameOnclose"/>
                 </Scripts>
                 <Anchors>
                     <Anchor point="TOPRIGHT">
@@ -82,5 +82,5 @@
                 </Texture>
             </Layer>
         </Layers>
-    </Frame> --DebugFrame
+    </Frame> --debugFrame
 </Ui>
