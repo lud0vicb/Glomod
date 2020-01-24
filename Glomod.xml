@@ -9,6 +9,16 @@
         </Scripts>
     </Frame>
     <Script File="gui.lua"/>
+    <Button name="debugButton" inherits="UIPanelButtonTemplate">
+        <Size x="70" y="20"/>
+        <Scripts>
+            <OnLoad function="debugButtonOnload"/>
+            <OnClick function="debugButtonClick" />
+        </Scripts>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="UIParent"/>
+        </Anchors>
+    </Button>
     <Frame name="DebugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
@@ -26,6 +36,13 @@
                     </Anchor>
                 </Anchors>
             </Button>
+            <FontStrings name="zoomText">
+                <Anchors>
+                    <Anchor point="BOTTOMLEFTRIGHT">
+                        <Offset x="30" y="-10"/>
+                    </Anchor>
+                </Anchors>
+            </FontStrings>
         </frames>
         <Layers>
             <Layer level="BORDER">
