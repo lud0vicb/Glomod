@@ -40,7 +40,9 @@ function GlomodOnload(self)
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST",
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING",
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
-      "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE"
+      "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
+      "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING",
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
@@ -105,7 +107,7 @@ end
 function hideAll()
     if  isInCombat or isTargeting or
         PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
-        MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or 
+        MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or
         MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
         ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
     then
@@ -133,4 +135,12 @@ end
 function showAll()
     intFade = 1;
     fadeAll();
+end
+function moveFrame(fr)
+    fr:ClearAllPoints()
+    fr:SetPoint("LEFT", "UIParent", "CENTER", 100, 0)
+    if isDebuging then
+        local log = string.format("Move %s", fr:GetName())
+        printDebug(log)
+    end
 end

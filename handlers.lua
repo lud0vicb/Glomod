@@ -137,3 +137,21 @@ function MyFunctions:PLAYER_LOGOUT()
     saveZoom[3] = isZoomOn
     saveZoom[4] = intCombatZoom
 end
+function MyFunctions:GOSSIP_SHOW()
+    moveFrame(GossipFrame)
+end
+function MyFunctions:QUEST_GREETING()
+    moveFrame(QuestFrame)
+end
+function MyFunctions:QUEST_PROGRESS()
+    moveFrame(QuestFrame)
+end
+function MyFunctions:QUEST_DETAIL()
+    moveFrame(QuestFrame)
+end
+function MyFunctions:MERCHANT_SHOW()
+    moveFrame(MerchantFrame)
+end
+function MyFunctions:MERCHANT_UPDATE()
+    moveFrame(MerchantFrame)
+end
