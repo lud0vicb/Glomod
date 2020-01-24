@@ -126,7 +126,8 @@ function MyFunctions:ADDON_LOADED(arg1, addon)
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
         intCombatZoom = saveZoom[4]
-        --printZoom()
+        local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        DebugFrame.zoomText:SetText(z)
     end
 end
 

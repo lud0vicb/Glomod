@@ -3,12 +3,14 @@
                    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
                    ..\..\FrameXML\UI.xsd">
     <Script File="Glomod.lua"/>
+    <Script File="gui.lua"/>
+
     <Frame name="GlomodFrame" hidden="true">
         <Scripts>
             <OnLoad function="GlomodOnload"/>
         </Scripts>
     </Frame>
-    <Script File="gui.lua"/>
+
     <Button name="debugButton" inherits="UIPanelButtonTemplate">
         <Size x="70" y="20"/>
         <Scripts>
@@ -19,6 +21,7 @@
             <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="UIParent"/>
         </Anchors>
     </Button>
+
     <Frame name="DebugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
@@ -26,24 +29,19 @@
         </Anchors>
         <Scripts>
             <OnLoad function="DebugFrameOnload"/>
-            <OnShow function="DebugFrameOnload"/>
         </Scripts>
-        <frames>
+        <Frames>
             <Button name="$parent_Close" parentKey="close" inherits="UIPanelCloseButton">
+                <Scripts>
+                    <OnClick function="DebugFrameOnclose"/>
+                </Scripts>
                 <Anchors>
                     <Anchor point="TOPRIGHT">
                         <Offset x="-30" y="-8"/>
                     </Anchor>
                 </Anchors>
             </Button>
-            <FontStrings name="zoomText">
-                <Anchors>
-                    <Anchor point="BOTTOMLEFTRIGHT">
-                        <Offset x="30" y="-10"/>
-                    </Anchor>
-                </Anchors>
-            </FontStrings>
-        </frames>
+        </Frames>
         <Layers>
             <Layer level="BORDER">
                 <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-TOPLEFT">
@@ -84,5 +82,5 @@
                 </Texture>
             </Layer>
         </Layers>
-    </Frame>
+    </Frame> --DebugFrame
 </Ui>
