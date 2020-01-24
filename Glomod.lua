@@ -1,3 +1,4 @@
+MyFunctions = {}
 function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
@@ -43,7 +44,6 @@ function GlomodOnload(self)
         self:RegisterEvent(v);
     end
 
-    MyFunctions = {}
     self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
 
     local tableHide={

@@ -115,8 +115,8 @@ function MyFunctions:UPDATE_SHAPESHIFT_FORM()
     end
 end
 
-function MyFunctions:ADDON_LOADED(arg1, arg2)
-    if arg2 ~= "Glomod" then
+function MyFunctions:ADDON_LOADED(arg1, addon)
+    if addon ~= "Glomod" then
         return
     end
     if saveZoom == nil then
@@ -126,7 +126,7 @@ function MyFunctions:ADDON_LOADED(arg1, arg2)
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
         intCombatZoom = saveZoom[4]
-        printZoom()
+        --printZoom()
     end
 end
 
