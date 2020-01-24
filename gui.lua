@@ -1,6 +1,4 @@
 function debugFrameOnload(self)
-    debugFrame:Show()
-    isDebuging = true
     self.zoomText = debugFrame:CreateFontString(nil, "OVERLAY")
     self.zoomActual = debugFrame:CreateFontString(nil, "OVERLAY")
     self.zoomText:SetPoint("BOTTOMLEFT", 22, 83)

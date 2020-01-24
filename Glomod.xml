@@ -25,7 +25,9 @@
     <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
-            <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent"/>
+            <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent">
+                <Offset y="-20"/>
+            </Anchor>
         </Anchors>
         <Scripts>
             <OnLoad function="debugFrameOnload"/>

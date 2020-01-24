@@ -27,7 +27,7 @@ function GlomodOnload(self)
 
     tableFrame = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
-        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
+        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
     }
     for i,v in ipairs(tableFrame) do
         v:SetScript('OnEnter', function() showAll() end)
@@ -103,12 +103,16 @@ function checkHide()
 end
 
 function hideAll()
-    if isInCombat or isTargeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
-        or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
-        or ChatFrame1:IsMouseOver()
-        or ChatFrame2:IsMouseOver()
+    if  isInCombat or isTargeting or
+        PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
+        MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or 
+        MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
+        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
     then
         return
+    end
+    if isDebuging and intFade == 1 then
+        printDebug("Start fading")
     end
     if intFade ~= 0 then
         intFade = intFade-0.1
