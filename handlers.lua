@@ -77,8 +77,7 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
         local msg = string.format("SPELL %d", iSpell)
         printDebug(msg)
     end
-    -- PECHE A LA LIGNE
-    if iSpell == 131476 then
+    if iSpell == 131476 then -- PECHE A LA LIGNE
         if not isFishing then
             MoveViewRightStart(0.05)
             C_Timer.After(2, function() MoveViewRightStop() end)
@@ -87,6 +86,8 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
             isFirstFeetMove = true
             isFirstMountMove = true
         end
+    elseif iSpell == 125883 then -- nuage volant du moine
+        --moveCam (intMountZoom)
     end
 end
 

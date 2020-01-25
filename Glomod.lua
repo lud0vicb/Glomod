@@ -26,13 +26,24 @@ function GlomodOnload(self)
         tableForm = {[11]=3, [7]=1}
     end
 
-    tableFrame = {
+    tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
     }
-    for i,v in ipairs(tableFrame) do
+    for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)
         v:SetScript('OnLeave', function() checkHide() end)
+    end
+
+    local tableFrameMove = {
+        ExtraActionBarFrame,
+    }
+    for i,v in ipairs(tableFrameMove) do
+        v:SetMovable(true)
+        v:EnableMouse(true)
+        v:RegisterForDrag("LeftButton")
+        v:SetScript("OnDragStart", v.StartMoving)
+        v:SetScript("OnDragStop", v.StopMovingOrSizing)
     end
 
     local tableEvent = {
@@ -92,11 +103,9 @@ function combatHide()
     if isInCombat then
         ObjectiveTrackerFrame:SetAlpha(0.5) -- il y a des quêtes avec des icones à cliquer sur le tracker donc pas bon de le cacher
         Minimap:SetAlpha(0.5)
-        --MicroButtonAndBagsBar:SetAlpha(0)
     else
         ObjectiveTrackerFrame:SetAlpha(1)
         Minimap:SetAlpha(1)
-        --MicroButtonAndBagsBar:SetAlpha(1)
     end
 end
 
@@ -121,7 +130,6 @@ function hideAll()
     if intFade ~= 0 then
         intFade = intFade-0.1
     end
-    --print(intFade)
     fadeAll()
     if intFade > 0 then
         C_Timer.After(.1, function() hideAll() end)
@@ -129,7 +137,7 @@ function hideAll()
 end
 
 function fadeAll()
-    for i,v in ipairs(tableFrame) do
+    for i,v in ipairs(tableFrameShowHide) do
         v:SetAlpha(intFade);
     end
 end

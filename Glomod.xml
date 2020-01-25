@@ -11,7 +11,7 @@
         </Scripts>
     </Frame>
 
-    <Button name="debugButton" inherits="UIPanelButtonTemplate">
+    <Button name="debugButton" inherits="UIPanelButtonTemplate" parent="UIParent">
         <Size x="70" y="20"/>
         <Scripts>
             <OnLoad function="debugButtonOnload"/>
