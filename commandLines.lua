@@ -22,6 +22,7 @@ function switchZoomFunc(args)
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[3])
         intCombatZoom = tonumber(tableArgs[2])
+        moveCam(intFeetZoom)
         if isDebuging then
             local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
             debugFrame.zoomText:SetText(z)

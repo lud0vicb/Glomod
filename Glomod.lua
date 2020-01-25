@@ -1,4 +1,4 @@
-MyFunctions = {}
+myHandlers = {}
 function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
@@ -16,6 +16,7 @@ function GlomodOnload(self)
     intVignetteSave = 1
     intDebugLine = 1
     intMaxDebug = 26
+    intVehicleZoom = 30
 
     secTimerFade = 3
 
@@ -43,12 +44,13 @@ function GlomodOnload(self)
       "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
       "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
       "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
+      "PET_BATTLE_OPENING_DONE", "PET_BATTLE_CLOSE",
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
     end
 
-    self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
+    self:SetScript('OnEvent', function(self, event, ...) myHandlers[event](self, event, ...) end)
 
     local tableHide={
         MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground

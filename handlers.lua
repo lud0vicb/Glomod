@@ -1,32 +1,32 @@
-function MyFunctions:UNIT_ENTERING_VEHICLE(event, target)
+function myHandlers:UNIT_ENTERING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
     moveCam(intVehicleZoom)
     isZoomOn = false
 end
-function MyFunctions:UNIT_EXITING_VEHICLE(event, target)
+function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
     isZoomOn = true
     moveCam(intFeetZoom)
 end
-function MyFunctions:PLAYER_REGEN_DISABLED()
+function myHandlers:PLAYER_REGEN_DISABLED()
     isInCombat = true
     combatHide()
     showAll()
     combatCamIn()
 end
 
-function MyFunctions:PLAYER_REGEN_ENABLED()
+function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
     checkHide()
     combatHide()
     combatCamOut()
 end
 
-function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
+function myHandlers:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     if not isVisible then
         return
     end
@@ -37,17 +37,17 @@ function MyFunctions:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     sendInfoVignette(vInfo)
 end
 
-function MyFunctions:UNIT_SPELLCAST_START()
+function myHandlers:UNIT_SPELLCAST_START()
 end
 
-function MyFunctions:PLAYER_STOPPED_MOVING()
+function myHandlers:PLAYER_STOPPED_MOVING()
     moved()
 end
-function MyFunctions:PLAYER_STARTED_MOVING()
+function myHandlers:PLAYER_STARTED_MOVING()
     moved()
 end
 
-function MyFunctions:PLAYER_TARGET_CHANGED()
+function myHandlers:PLAYER_TARGET_CHANGED()
     if UnitExists("target") then
         showAll();
         isTargeting = true
@@ -57,19 +57,19 @@ function MyFunctions:PLAYER_TARGET_CHANGED()
     end
 end
 
-function MyFunctions:PLAYER_CONTROL_LOST()
+function myHandlers:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(0.1)
     moveCam(intMountZoom)
 end
 
-function MyFunctions:PLAYER_CONTROL_GAINED()
+function myHandlers:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
     moveCam(intFeetZoom)
 end
 
-function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
+function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
     if caster ~= "player" then
         return
     end
@@ -90,16 +90,16 @@ function MyFunctions:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
     end
 end
 
-function MyFunctions:PLAYER_ENTERING_WORLD()
+function myHandlers:PLAYER_ENTERING_WORLD()
     intFade = 0;
     fadeAll()
 end
 
-function MyFunctions:GROUP_FORMED()
+function myHandlers:GROUP_FORMED()
     PlaySound(17316)
 end
 
-function MyFunctions:UPDATE_SHAPESHIFT_FORM()
+function myHandlers:UPDATE_SHAPESHIFT_FORM()
     if iclass == 11 or iclass == 7 then -- druid shaman
         local fff = GetShapeshiftForm(flag)
         if iforme == fff or fff == 4 then
@@ -119,7 +119,7 @@ function MyFunctions:UPDATE_SHAPESHIFT_FORM()
     end
 end
 
-function MyFunctions:ADDON_LOADED(arg1, addon)
+function myHandlers:ADDON_LOADED(arg1, addon)
     if addon ~= "Glomod" then
         return
     end
@@ -135,33 +135,38 @@ function MyFunctions:ADDON_LOADED(arg1, addon)
     end
 end
 
-function MyFunctions:PLAYER_LOGOUT()
+function myHandlers:PLAYER_LOGOUT()
     saveZoom[1] = intFeetZoom
     saveZoom[2] = intMountZoom
     saveZoom[3] = isZoomOn
     saveZoom[4] = intCombatZoom
 end
-function MyFunctions:GOSSIP_SHOW()
+function myHandlers:GOSSIP_SHOW()
     moveFrame(GossipFrame)
 end
-function MyFunctions:QUEST_GREETING()
+function myHandlers:QUEST_GREETING()
     moveFrame(QuestFrame)
 end
-function MyFunctions:QUEST_PROGRESS()
+function myHandlers:QUEST_PROGRESS()
     moveFrame(QuestFrame)
 end
-function MyFunctions:QUEST_DETAIL()
+function myHandlers:QUEST_DETAIL()
     moveFrame(QuestFrame)
 end
-function MyFunctions:QUEST_ITEM_UPDATE()
+function myHandlers:QUEST_ITEM_UPDATE()
     moveFrame(QuestFrame)
 end
-function MyFunctions:QUEST_COMPLETE()
+function myHandlers:QUEST_COMPLETE()
     moveFrame(QuestFrame)
 end
-function MyFunctions:MERCHANT_SHOW()
+function myHandlers:MERCHANT_SHOW()
     moveFrame(MerchantFrame)
 end
-function MyFunctions:MERCHANT_UPDATE()
+function myHandlers:MERCHANT_UPDATE()
     moveFrame(MerchantFrame)
+end
+function myHandlers:PET_BATTLE_CLOSE()
+    ChatFrame1:SetAlpha(1)
+end
+function myHandlers:PET_BATTLE_OPENING_DONE()
 end
