@@ -2,12 +2,87 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.blizzard.com/wow/ui/
                    ..\..\FrameXML\UI.xsd">
-  <Script File="Glomod.lua"/>
-  <Frame name="GlomodFrame" hidden="true">
-   <Scripts>
-    <OnLoad>
-        GlomodOnload(self)
-    </OnLoad>
-   </Scripts>
-  </Frame>
+    <Script File="Glomod.lua"/>
+    <Script File="gui.lua"/>
+
+    <Frame name="GlomodFrame" hidden="true">
+        <Scripts>
+            <OnLoad function="GlomodOnload"/>
+        </Scripts>
+    </Frame>
+
+    <Button name="debugButton" inherits="UIPanelButtonTemplate" parent="UIParent">
+        <Size x="70" y="20"/>
+        <Scripts>
+            <OnLoad function="debugButtonOnload"/>
+            <OnClick function="debugButtonClick" />
+        </Scripts>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="UIParent"/>
+        </Anchors>
+    </Button>
+
+    <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
+        <Size x="384" y="512"/>
+        <Anchors>
+            <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent">
+                <Offset y="-20"/>
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad function="debugFrameOnload"/>
+        </Scripts>
+        <Frames>
+            <Button name="$parent_Close" parentKey="close" inherits="UIPanelCloseButton">
+                <Scripts>
+                    <OnClick function="debugFrameOnclose"/>
+                </Scripts>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="-30" y="-8"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Layers>
+            <Layer level="BORDER">
+                <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-TOPLEFT">
+                    <Anchors>
+                        <Anchor point="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-TOPRIGHT">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-BOTLEFT">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-BOTRIGHT">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BACKGROUND">
+                <Texture name="$parent_Portrait" parentKey="portrait" file="Interface\Icons\INV_Misc_EngGizmos_30">
+                    <Size x="60" y="60"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="7" y="-6"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame> --debugFrame
 </Ui>

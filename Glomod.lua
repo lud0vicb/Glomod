@@ -1,3 +1,4 @@
+myHandlers = {}
 function GlomodOnload(self)
     isZoomOn = true
     isInCombat = false
@@ -5,6 +6,7 @@ function GlomodOnload(self)
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
+    isDebuging = false
 
     intFade = 0
     intMountZoom = 15
@@ -12,6 +14,9 @@ function GlomodOnload(self)
     intFishZoom = 1.5
     intCombatZoom = 10
     intVignetteSave = 1
+    intDebugLine = 1
+    intMaxDebug = 26
+    intVehicleZoom = 30
 
     secTimerFade = 3
 
@@ -21,13 +26,24 @@ function GlomodOnload(self)
         tableForm = {[11]=3, [7]=1}
     end
 
-    tableFrame = {
+    tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
-        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2,
+        MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
     }
-    for i,v in ipairs(tableFrame) do
-        v:SetScript('OnEnter', function() ShowAll() end)
-        v:SetScript('OnLeave', function() CheckHide() end)
+    for i,v in ipairs(tableFrameShowHide) do
+        v:SetScript('OnEnter', function() showAll() end)
+        v:SetScript('OnLeave', function() checkHide() end)
+    end
+
+    local tableFrameMove = {
+        ExtraActionBarFrame,
+    }
+    for i,v in ipairs(tableFrameMove) do
+        v:SetMovable(true)
+        v:EnableMouse(true)
+        v:RegisterForDrag("LeftButton")
+        v:SetScript("OnDragStart", v.StartMoving)
+        v:SetScript("OnDragStop", v.StopMovingOrSizing)
     end
 
     local tableEvent = {
@@ -36,14 +52,16 @@ function GlomodOnload(self)
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST",
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING",
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
-      "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE"
+      "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
+      "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
+      "PET_BATTLE_OPENING_DONE", "PET_BATTLE_CLOSE",
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
     end
 
-    MyFunctions = {}
-    self:SetScript('OnEvent', function(self, event, ...) MyFunctions[event](self, event, ...) end)
+    self:SetScript('OnEvent', function(self, event, ...) myHandlers[event](self, event, ...) end)
 
     local tableHide={
         MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
@@ -52,7 +70,7 @@ function GlomodOnload(self)
         v:Hide()
     end
 
-    FadeAll()
+    fadeAll()
 
     local tableShowOnMouse = {
     }
@@ -60,66 +78,79 @@ function GlomodOnload(self)
         ShowOnMouse(v)
     end
     tableVignetteSave = {}
-    for ind=1,12,1 do
+    for ind=1, 12, 1 do
         tableVignetteSave[ind] = ""
+    end
+    tableDebugLine = {}
+    for ind=1, intMaxDebug, 1 do
+        tableDebugLine[ind] = ""
     end
 end
 
-function ShowOnMouse(frame)
+function showOnMouse(frame)
     frame:SetScript('OnEnter', function() frame:SetAlpha(1) end)
     frame:SetScript('OnLeave', function() frame:SetAlpha(0) end)
     C_Timer.After(6, function() frame:SetAlpha(0) end)
 end
 
-function MoveCastBar()
+function moveCastBar()
     CastingBarFrame:ClearAllPoints()
     CastingBarFrame:SetPoint("TOP", PlayerFrame, "BOTTOM",30, 30)
     CastingBarFrame:SetHeight(14)
 end
 
-function CombatHide()
+function combatHide()
     if isInCombat then
         ObjectiveTrackerFrame:SetAlpha(0.5) -- il y a des quêtes avec des icones à cliquer sur le tracker donc pas bon de le cacher
         Minimap:SetAlpha(0.5)
-        --MicroButtonAndBagsBar:SetAlpha(0)
     else
         ObjectiveTrackerFrame:SetAlpha(1)
         Minimap:SetAlpha(1)
-        --MicroButtonAndBagsBar:SetAlpha(1)
     end
 end
 
-function CheckHide()
+function checkHide()
     if isInCombat == false then
-        C_Timer.After(secTimerFade, function() HideAll() end)
+        C_Timer.After(secTimerFade, function() hideAll() end)
     end
 end
 
-function HideAll()
-    if isInCombat or isTargeting or PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or MultiBarRight:IsMouseOver()
-        or MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver()
-        or ChatFrame1:IsMouseOver()
-        or ChatFrame2:IsMouseOver()
+function hideAll()
+    if  isInCombat or isTargeting or
+        PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
+        MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or
+        MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
+        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
     then
         return
+    end
+    if isDebuging and intFade == 1 then
+        printDebug("Start fading")
     end
     if intFade ~= 0 then
         intFade = intFade-0.1
     end
-    --print(intFade)
-    FadeAll()
+    fadeAll()
     if intFade > 0 then
-        C_Timer.After(.1, function() HideAll() end)
+        C_Timer.After(.1, function() hideAll() end)
     end
 end
 
-function FadeAll()
-    for i,v in ipairs(tableFrame) do
+function fadeAll()
+    for i,v in ipairs(tableFrameShowHide) do
         v:SetAlpha(intFade);
     end
 end
 
-function ShowAll()
+function showAll()
     intFade = 1;
-    FadeAll();
+    fadeAll();
+end
+function moveFrame(fr)
+    fr:ClearAllPoints()
+    fr:SetPoint("LEFT", "UIParent", "CENTER", 80, 100)
+    if isDebuging then
+        local log = string.format("Move %s", fr:GetName())
+        printDebug(log)
+    end
 end

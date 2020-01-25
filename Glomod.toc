@@ -9,3 +9,5 @@ handlers.lua
 commandLines.lua
 autoCam.lua
 vignettes.lua
+gui.lua
+debug.lua
