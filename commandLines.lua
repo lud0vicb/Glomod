@@ -49,3 +49,30 @@ function showDebug()
 end
 SLASH_DEBUG1 = '/debug'
 SlashCmdList["DEBUG"] = showDebug
+
+function changePitch(args)
+    local tableArgs = {}
+    local j = 0
+    for i in string.gmatch(args, "%w+") do
+        tableArgs[j] = i
+        j = j +1
+    end
+    intPitchZoom = tonumber(tableArgs[0])
+    if intPitchZoom == 0 then
+        C_CVar.SetCVar("test_cameraDynamicPitch", 0)
+        printDebug("PITCH OFF")
+        return
+    end
+    intPitchZoom = intPitchZoom / 10
+    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
+    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
+    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom) --, "scriptCVar"
+    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", intPitchZoom) --, "scriptCVar"
+    if isDebuging then
+        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, intPitchZoom, GetCVar("test_cameraDynamicPitchBaseFovPad"))
+        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(intPitchZoom))
+        printDebug(log)
+    end
+end
+SLASH_PI1 = "/pi"
+SlashCmdList["PI"] = changePitch
