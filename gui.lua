@@ -15,6 +15,7 @@ function debugFrameOnload(self)
     self.debugText:SetJustifyV("TOP")
     self.debugText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
     self.debugText:SetText("this is it\noh yeah")
+    SetConsoleKey("!")
 end
 function debugButtonOnload(self)
     self:SetText("debug on")
