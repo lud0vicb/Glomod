@@ -63,5 +63,11 @@ local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", var_objec
 # Console
 
 * lancer le jeu avec `-console` en paramètre
-* dans le jeu lancer `/run SetConsoleKey("k")`
+* dans le jeu lancer `/run SetConsoleKey("!")`
 * appuyer sur k
+
+# CVAR expérimental
+
+Il faut virer l'event qui affiche une confirmation à l'écran.
+
+`UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED");`
