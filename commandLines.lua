@@ -57,9 +57,12 @@ function changePitch(args)
         tableArgs[j] = i
         j = j +1
     end
-    intPitchZoom = tonumber(tableArgs[0])
+    local intPitchZoom = tonumber(tableArgs[0])
     if intPitchZoom == 0 then
+        intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
         C_CVar.SetCVar("test_cameraDynamicPitch", 0)
+        C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
+        C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
         printDebug("PITCH OFF")
         return
     end

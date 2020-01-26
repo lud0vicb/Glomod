@@ -17,8 +17,6 @@ function GlomodOnload(self)
     intDebugLine = 1
     intMaxDebug = 26
     intVehicleZoom = 30
-    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
-    print(intPitchZoom)
 
     secTimerFade = 3
 
