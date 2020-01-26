@@ -3,6 +3,7 @@
 ## Author: Lud0vicB
 ## Version: 1.7
 ##SavedVariablesPerCharacter: saveZoom
+fadeAndHide.lua
 Glomod.lua
 Glomod.xml
 handlers.lua

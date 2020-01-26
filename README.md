@@ -63,5 +63,5 @@ local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", var_objec
 # Console
 
 * lancer le jeu avec `-console` en paramètre
-* dans le jeu lancer `/run SetConsoleKey("k")`
+* dans le jeu lancer `/run SetConsoleKey("!")`
 * appuyer sur k

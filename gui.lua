@@ -15,6 +15,7 @@ function debugFrameOnload(self)
     self.debugText:SetJustifyV("TOP")
     self.debugText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
     self.debugText:SetText("this is it\noh yeah")
+    SetConsoleKey("!")
 end
 function debugButtonOnload(self)
     self:SetText("debug on")
@@ -35,3 +36,5 @@ function debugFrameOnclose(self)
     isDebuging = false
     debugFrame:Hide()
 end
+-- CVAR à changer pour modifier la hauteur de la prise de vue ??
+-- test_cameraDynamicPitchBaseFovPad

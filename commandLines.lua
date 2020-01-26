@@ -49,3 +49,28 @@ function showDebug()
 end
 SLASH_DEBUG1 = '/debug'
 SlashCmdList["DEBUG"] = showDebug
+
+function changePitch(args)
+    local tableArgs = {}
+    local j = 0
+    for i in string.gmatch(args, "%w+") do
+        tableArgs[j] = i
+        j = j +1
+    end
+    intPitchZoom = tonumber(tableArgs[0])
+    intPitchZoom = intPitchZoom / 10
+    local actual = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
+    yeah = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom, "scriptCVar")
+    if isDebuging then
+        local m = ""
+        if yeah then
+            m = "PITCH CHANGED"
+        else
+            m = "PITCH FAILED"
+        end
+        log = string.format("%s from %.2f to %.2f = %.2f", m, actual, intPitchZoom, GetCVarDefault("test_cameraDynamicPitchBaseFovPad"))
+        printDebug(log)
+    end
+end
+SLASH_PI1 = "/pi"
+SlashCmdList["PI"] = changePitch
