@@ -58,17 +58,19 @@ function changePitch(args)
         j = j +1
     end
     intPitchZoom = tonumber(tableArgs[0])
+    if intPitchZoom == 0 then
+        C_CVar.SetCVar("test_cameraDynamicPitch", 0)
+        printDebug("PITCH OFF")
+        return
+    end
     intPitchZoom = intPitchZoom / 10
-    local actual = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
-    yeah = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom, "scriptCVar")
+    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
+    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
+    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom) --, "scriptCVar"
+    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", intPitchZoom) --, "scriptCVar"
     if isDebuging then
-        local m = ""
-        if yeah then
-            m = "PITCH CHANGED"
-        else
-            m = "PITCH FAILED"
-        end
-        log = string.format("%s from %.2f to %.2f = %.2f", m, actual, intPitchZoom, GetCVarDefault("test_cameraDynamicPitchBaseFovPad"))
+        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, intPitchZoom, GetCVar("test_cameraDynamicPitchBaseFovPad"))
+        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(intPitchZoom))
         printDebug(log)
     end
 end

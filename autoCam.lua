@@ -71,6 +71,6 @@ function moveCam(ref)
     if isDebuging then
         local msg = string.format("%s %d from %d to %d", m, y, z, ref)
         printDebug(msg)
-        debugFrame.zoomActual:SetText(ref)
+        debugFrame.zoomActual:SetText(tostring("ZA : " ..ref))
     end
 end

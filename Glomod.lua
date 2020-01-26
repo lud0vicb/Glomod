@@ -87,6 +87,7 @@ function GlomodOnload(self)
     for ind=1, intMaxDebug, 1 do
         tableDebugLine[ind] = ""
     end
+    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
 end
 
 function moveCastBar()
