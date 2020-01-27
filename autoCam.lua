@@ -1,15 +1,13 @@
-function Moved()
+function moved()
     if isInCombat then
         return
     end
-    -- druide et shaman
-    if iclass == 11 or iclass == 7 then
-        if iforme == 0 then
-            -- le druide/shaman est en humanoide ; il peut en se cas être sur une monture !
-            CheckMount()
+    if iclass == 11 or iclass == 7 then -- druide et shaman
+        if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
+            checkMount()
         end
     else
-        CheckMount()
+        checkMount()
     end
     if isFishing then
         isFishing = false
@@ -17,62 +15,62 @@ function Moved()
         C_Timer.After(2, function() MoveViewLeftStop() end)
     end
 end
-
 function combatCamIn()
-    if IsMounted() then
+    if IsMounted() or isZoomOn == false then
         return
     end
     if iclass == 11 or iclass == 7 then -- druid shaman
         if iforme ~= tableForm[iclass] then
-            MoveCam(intCombatZoom)
+            moveCam(intCombatZoom)
         end
     else
-        MoveCam(intCombatZoom)
+        moveCam(intCombatZoom)
     end
 end
-
 function combatCamOut()
-    if IsMounted() then
+    if IsMounted() or isZoomOn == false then
         return
     end
     if (iclass == 11 and iforme == 3) or (iclass == 7 and iforme == 1) then
         return
     end
     isFirstMountMove = false
-    isFirstFeetMove = true
+    C_Timer.After(3, function() isFirstFeetMove = true end)
 end
-
-function CheckMount()
+function checkMount()
     if IsMounted() then
         if isFirstMountMove then
-            MoveCam(intMountZoom)
+            moveCam(intMountZoom)
             isFirstMountMove = false
             isFirstFeetMove = true
         end
     else
         if isFirstFeetMove then
-            MoveCam (intFeetZoom)
+            moveCam(intFeetZoom)
             isFirstFeetMove = false
             isFirstMountMove = true
         end
     end
 end
-
-function MoveCam(ref)
+function moveCam(ref)
     if isZoomOn == false or ref == 0 then
         return
     end
     local z = GetCameraZoom()
     local y
+    local m
     if ref > z then
         y = ref -z
         CameraZoomOut(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+        m = "Out"
     else
         y = z - ref
         CameraZoomIn(y)
-        local msg = string.format("OUT de %d depuis %d pour atteindre %d", y, z, ref)
-        SendChatMessage(msg, "WHISPER", nil, GetUnitName("player"))
+        m = "In"
+    end
+    if isDebuging then
+        local msg = string.format("%s %d from %d to %d", m, y, z, ref)
+        printDebug(msg)
+        debugFrame.zoomActual:SetText(tostring("ZA : " ..ref))
     end
 end
