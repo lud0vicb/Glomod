@@ -1,5 +1,5 @@
 function checkVignetteSave(vInfo)
-    for ind=1, 12, 1 do
+    for ind=1, intVignetteMax, 1 do
         if tableVignetteSave[ind] == vInfo.objectGUID then
             if isDebuging then
                 log = string.format("Vignette trouvée %d", ind)

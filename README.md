@@ -16,11 +16,11 @@ Utiliser la commande /fstack en jeu pour identifier les élements de l'interface
 on ne définit pas le xml puisqu'il existe déjà, donc on appelle des méthodes lua
 
 ```
-frame:SetMovable(true)
-frame:EnableMouse(true)
-frame:RegisterForDrag("LeftButton")
-frame:SetScript("OnDragStart", frame.StartMoving)
-frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+ExtraActionBarFrame:SetMovable(true)
+ExtraActionBarFrame:EnableMouse(true)
+ExtraActionBarFrame:RegisterForDrag("LeftButton")
+ExtraActionBarFrame:SetScript("OnDragStart", frame.StartMoving)
+ExtraActionBarFrame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 ```
 
 # Gestion souris
