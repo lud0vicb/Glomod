@@ -17,6 +17,7 @@ function GlomodOnload(self)
     intDebugLine = 1
     intMaxDebug = 26
     intVehicleZoom = 30
+    intVignetteMax = 30
 
     secTimerFade = 3
 
@@ -78,7 +79,7 @@ function GlomodOnload(self)
         ShowOnMouse(v)
     end
     tableVignetteSave = {}
-    for ind=1, 12, 1 do
+    for ind=1, intVignetteMax, 1 do
         tableVignetteSave[ind] = ""
     end
     tableDebugLine = {}
