@@ -107,7 +107,7 @@ function myHandlers:UPDATE_SHAPESHIFT_FORM()
            local m = string.format("SHAPESHIFT %d %d", fff, iforme)
            printDebug(m)
          end
-        if iforme == fff or fff == 4 then
+        if iforme == fff or fff == 4 or fff == 6 then
             return
         end
         iforme = fff
