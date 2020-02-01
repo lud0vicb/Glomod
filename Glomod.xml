@@ -21,6 +21,68 @@
             <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT" relativeTo="UIParent"/>
         </Anchors>
     </Button>
+    <Button name="gloButton" inherits="UIPanelButtonTemplate" parent="UIParent">
+        <Size x="30" y="30"/>
+        <Scripts>
+            <OnLoad function="gloButtonOnload"/>
+            <OnClick function="gloButtonClick" />
+        </Scripts>
+        <Anchors>
+            <Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" relativeTo="MainMenuBarArtFrame"/>
+        </Anchors>
+    </Button>
+
+    <Frame name="optionsFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
+        <Size x="256" y="256"/>
+        <Anchors>
+            <Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent">
+            </Anchor>
+        </Anchors>
+        <Scripts>
+            <OnLoad function="optionsFrameOnload"/>
+        </Scripts>
+        <Frames>
+            <Button name="$parent_Close" parentKey="close" inherits="UIPanelCloseButton">
+                <Scripts>
+                    <OnClick function="optionsFrameOnclose"/>
+                </Scripts>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset x="0" y="0"/>
+                    </Anchor>
+                </Anchors>
+            </Button>
+        </Frames>
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\ContainerFrame\UI-Bag-4x4">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture file="Interface\BankFrame\Bank-Background">
+                    <Size x="172" y="164"/>
+                    <Anchors>
+                        <Anchor point="TOPRIGHT">
+                            <Offset x="-7" y="-49"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="ARTWORK">
+                <Texture name="$parent_Portrait" parentKey="portrait" file="Interface\CHARACTERFRAME\TemporaryPortrait-Male-Dwarf">
+                    <Size x="38" y="38"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset x="68" y="-5"/>
+                        </Anchor>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+    </Frame> --optionsFrame
 
     <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>

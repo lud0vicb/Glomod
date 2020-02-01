@@ -131,7 +131,18 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
         intCombatZoom = saveZoom[4]
-        local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        local z =""
+        if isZoomOn then
+            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
+            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
+            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
+            optionsFrame.zoomButton:SetChecked(true)
+        else
+            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
+            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
+            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
+            optionsFrame.zoomButton:SetChecked(false)
+        end
         debugFrame.zoomText:SetText(z)
     end
 end
