@@ -103,19 +103,28 @@ end
 function myHandlers:UPDATE_SHAPESHIFT_FORM()
     if iclass == 11 or iclass == 7 then -- druid shaman
         local fff = GetShapeshiftForm(flag)
+        if isDebuging then
+           local m = string.format("SHAPESHIFT %d %d", fff, iforme)
+           printDebug(m)
+         end
         if iforme == fff or fff == 4 then
             return
         end
         iforme = fff
-        --print (string.format("FORM %d", iforme))
         if iforme ~= tableForm[iclass] then
             if isInCombat then
                 moveCam(intCombatZoom)
+                m = string.format("SH combat %d",  intCombatZoom)
             else
                 moveCam(intFeetZoom)
+                m = string.format("SH feet %d",  intFeetZoom)
             end
         else
             moveCam(intMountZoom)
+            m = string.format("SH mount %d",  intMountZoom)
+        end
+        if isDebuging then
+          printDebug(m)
         end
     end
 end
