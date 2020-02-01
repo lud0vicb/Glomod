@@ -50,6 +50,29 @@ end
 SLASH_DEBUG1 = '/debug'
 SlashCmdList["DEBUG"] = showDebug
 
+function stopPitch()
+    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
+    C_CVar.SetCVar("test_cameraDynamicPitch", 0)
+    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
+    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
+    if isDebuging then
+        printDebug("PITCH OFF")
+        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(intPitchZoom))
+    end
+end
+function setPitch(i)
+    local j = i / 10
+    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
+    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
+    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", j) --, "scriptCVar"
+    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", j) --, "scriptCVar"
+    intPitchZoom = j
+    if isDebuging then
+        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, j, GetCVar("test_cameraDynamicPitchBaseFovPad"))
+        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(j))
+        printDebug(log)
+    end
+end
 function changePitch(args)
     local tableArgs = {}
     local j = 0
@@ -57,24 +80,11 @@ function changePitch(args)
         tableArgs[j] = i
         j = j +1
     end
-    local intPitchZoom = tonumber(tableArgs[0])
-    if intPitchZoom == 0 then
-        intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
-        C_CVar.SetCVar("test_cameraDynamicPitch", 0)
-        C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
-        C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
-        printDebug("PITCH OFF")
-        return
-    end
-    intPitchZoom = intPitchZoom / 10
-    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
-    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
-    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom) --, "scriptCVar"
-    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", intPitchZoom) --, "scriptCVar"
-    if isDebuging then
-        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, intPitchZoom, GetCVar("test_cameraDynamicPitchBaseFovPad"))
-        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(intPitchZoom))
-        printDebug(log)
+    local k = tonumber(tableArgs[0])
+    if k == 0 then
+        stopPitch()
+    else
+        setPitch(k)
     end
 end
 SLASH_PI1 = "/pi"

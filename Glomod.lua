@@ -6,7 +6,7 @@ function GlomodOnload(self)
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
-    isDebuging = false
+    isDebuging = true
 
     intFade = 0
     intMountZoom = 15
@@ -18,6 +18,7 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
+    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
 
     secTimerFade = 3
 
@@ -30,6 +31,7 @@ function GlomodOnload(self)
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
+        optionsFrame_Close,
     }
     for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)
