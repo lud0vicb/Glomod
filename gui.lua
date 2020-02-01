@@ -1,16 +1,16 @@
 function debugFrameOnload(self)
     self.zoomText = self:CreateFontString(nil, "OVERLAY")
     self.zoomText:SetPoint("BOTTOMLEFT", 22, 83)
-    self.zoomText:SetFont("Fonts\\FRIZQT__.TTF", 15, "OUTLINE")
+    self.zoomText:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
     self.zoomText:SetText("zooms")
     self.zoomActual = self:CreateFontString(nil, "OVERLAY")
-    self.zoomActual:SetPoint("BOTTOMLEFT", 172, 83)
-    self.zoomActual:SetFont("Fonts\\FRIZQT__.TTF", 15, "OUTLINE")
+    self.zoomActual:SetPoint("BOTTOMLEFT", 92, 83)
+    self.zoomActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
     self.zoomActual:SetText("0")
     self.dynamicPitchActual = self:CreateFontString(nil, "OVERLAY")
     self.dynamicPitchActual:SetPoint("BOTTOMLEFT", 272, 83)
-    self.dynamicPitchActual:SetFont("Fonts\\FRIZQT__.TTF", 15, "OUTLINE")
-    self.dynamicPitchActual:SetText(tostring("P : " .. GetCVar("test_cameraDynamicPitchBaseFovPad")))
+    self.dynamicPitchActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+    self.dynamicPitchActual:SetText(tostring("p: " .. GetCVar("test_cameraDynamicPitchBaseFovPad")))
     self.debugText = self:CreateFontString(nil, "OVERLAY")
     self.debugText:SetPoint("TOPLEFT", self, "TOPLEFT", 22, -80)
     self.debugText:SetWidth(300)
@@ -21,33 +21,35 @@ function debugFrameOnload(self)
     self.debugText:SetText("this is it\noh yeah")
     SetConsoleKey("!")
 end
-function debugButtonOnload(self)
-    self:SetText("debug on")
-end
-function debugButtonClick(self)
-    if debugFrame:IsVisible() then
-        self:SetText("debug on")
-        isDebuging = false
-        debugFrame:Hide()
-    else
-        self:SetText("debug off")
-        isDebuging = true
-        debugFrame:Show()
-    end
-end
+
 function debugFrameOnclose(self)
-    debugButton:SetText("debug on")
     isDebuging = false
     debugFrame:Hide()
 end
--- CVAR à changer pour modifier la hauteur de la prise de vue ??
--- test_cameraDynamicPitchBaseFovPad
+
 function gloButtonOnload(self)
     self:SetText("Glo")
+    self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
 end
-function gloButtonClick(self)
-    optionsFrame:Show()
+
+function gloButtonClick(self, button)
+    if button == "LeftButton" then
+        if optionsFrame:IsShown() then
+            optionsFrame:Hide()
+        else
+            optionsFrame:Show()
+        end
+    elseif button == 'RightButton' then
+        if debugFrame:IsVisible() then
+            isDebuging = false
+            debugFrame:Hide()
+        else
+            isDebuging = true
+            debugFrame:Show()
+        end
+    end
 end
+
 function optionsPitch()
     print(intPitchZoom)
     print(GetCVarDefault("test_cameraDynamicPitchBaseFovPad"))
@@ -57,6 +59,23 @@ function optionsPitch()
         setPitch(2)
     end
 end
+
+function optionsFading()
+    if isFadeOn then
+        showAll()
+        isFadeOn = false
+        if isDebuging then
+            printDebug('fading OFF')
+        end
+    else
+        isFadeOn = true
+        checkHide()
+        if isDebuging then
+            printDebug('fading ON')
+        end
+    end
+end
+
 function optionsZoom()
     local z = ""
     if isZoomOn then
@@ -74,19 +93,23 @@ function optionsZoom()
     end
     debugFrame.zoomText:SetText(z)
 end
+
 function optionsVignette()
-    if GlomodFrame:IsEventRegistered("VIGNETTE_MINIMAP_UPDATED") then
+    if isVignetteOn then
         GlomodFrame:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED")
+        isVignetteOn = false
         if isDebuging then
             printDebug('UnregisterEvent VIGNETTE')
         end
     else
         GlomodFrame:RegisterEvent("VIGNETTE_MINIMAP_UPDATED")
+        isVignetteOn = true
         if isDebuging then
             printDebug('RegisterEvent VIGNETTE')
         end
     end
 end
+
 function createCheckButton(parent, x, y, nom, fonc, tt)
 	local c = CreateFrame("CheckButton", nom, parent, "ChatConfigCheckButtonTemplate")
 	c:SetPoint("TOPLEFT", x, y)
@@ -95,6 +118,7 @@ function createCheckButton(parent, x, y, nom, fonc, tt)
     c:SetScript("OnClick", function() fonc() end)
     return c
 end
+
 function createEnter(parent, x, y, val)
     local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
     e:SetWidth(20)
@@ -105,6 +129,7 @@ function createEnter(parent, x, y, val)
     e:SetAutoFocus(false)
     return e
 end
+
 function computeZoom()
     local zf = optionsFrame.enterZF:GetText()
     local zc = optionsFrame.enterZC:GetText()
@@ -133,6 +158,7 @@ function computeZoom()
         debugFrame.zoomText:SetText(z)
     end
 end
+
 function optionsFrameOnload(self)
     self:SetMovable(true)
     self:EnableMouse(true)
@@ -150,9 +176,8 @@ function optionsFrameOnload(self)
         self.pitchButton:SetChecked(true)
     end
     self.vignetteButton = createCheckButton(self, 80, -70, "vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
-    self.vignetteButton:SetChecked(true)
     self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
-    self.zoomButton:SetChecked(true)
+    self.fadingButton = createCheckButton(self, 80, -110, "fading", optionsFading, "cache une partie de l'interface hors combat et hors cible")
     self.enterZF = createEnter(self, 85, 50, tostring(intFeetZoom))
     self.enterZC = createEnter(self, 110, 50, tostring(intCombatZoom))
     self.enterZM = createEnter(self, 135, 50, tostring(intMountZoom))
@@ -162,8 +187,8 @@ function optionsFrameOnload(self)
     self.validZoom:SetText("Z")
     self.validZoom:SetPoint("BOTTOMLEFT", 160, 45)
     self.validZoom:SetScript("OnClick", function() computeZoom() end)
-
 end
+
 function optionsFrameOnclose(self)
     optionsFrame:Hide()
 end

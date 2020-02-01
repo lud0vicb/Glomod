@@ -2,7 +2,7 @@
 ## Title: Glomod
 ## Author: Lud0vicB
 ## Version: 1.7
-##SavedVariablesPerCharacter: saveZoom
+##SavedVariablesPerCharacter: gloptions
 fadeAndHide.lua
 Glomod.lua
 Glomod.xml

@@ -27,7 +27,7 @@ function switchZoomFunc(args)
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[3])
         intCombatZoom = tonumber(tableArgs[2])
-        
+
         optionsFrame.zoomButton:SetChecked(true)
         moveCam(intFeetZoom)
         if isDebuging then
@@ -64,9 +64,10 @@ function stopPitch()
     C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
     if isDebuging then
         printDebug("PITCH OFF")
-        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(intPitchZoom))
+        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(intPitchZoom))
     end
 end
+
 function setPitch(i)
     local j = i / 10
     local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
@@ -76,10 +77,11 @@ function setPitch(i)
     intPitchZoom = j
     if isDebuging then
         log = string.format("PITCH from %.2f to %.2f = %.2f", actual, j, GetCVar("test_cameraDynamicPitchBaseFovPad"))
-        debugFrame.dynamicPitchActual:SetText("P : " .. tostring(j))
+        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(j))
         printDebug(log)
     end
 end
+
 function changePitch(args)
     local tableArgs = {}
     local j = 0
