@@ -43,6 +43,7 @@ end
 -- CVAR à changer pour modifier la hauteur de la prise de vue ??
 -- test_cameraDynamicPitchBaseFovPad
 function gloButtonOnload(self)
+    self:SetText("Glo")
 end
 function gloButtonClick(self)
     optionsFrame:Show()
@@ -86,13 +87,51 @@ function optionsVignette()
         end
     end
 end
-function createCheckButton(parent, x, y, nom, f, t)
+function createCheckButton(parent, x, y, nom, fonc, tt)
 	local c = CreateFrame("CheckButton", nom, parent, "ChatConfigCheckButtonTemplate")
 	c:SetPoint("TOPLEFT", x, y)
     _G[c:GetName() .. "Text"]:SetText(nom)
-	c.tooltip = t
-    c:SetScript("OnClick", function() f() end)
-    return c;
+	c.tooltip = tt
+    c:SetScript("OnClick", function() fonc() end)
+    return c
+end
+function createEnter(parent, x, y, val)
+    local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
+    e:SetWidth(20)
+    e:SetHeight(20)
+    e:SetPoint("BOTTOMLEFT", x, y)
+    e:SetMultiLine(1)
+    e:SetText(val)
+    e:SetAutoFocus(false)
+    return e
+end
+function computeZoom()
+    local zf = optionsFrame.enterZF:GetText()
+    local zc = optionsFrame.enterZC:GetText()
+    local zm = optionsFrame.enterZM:GetText()
+    intFeetZoom = tonumber(zf)
+    intCombatZoom = tonumber(zc)
+    intMountZoom = tonumber(zm)
+    isZoomOn = true
+    optionsFrame.zoomButton:SetChecked(true)
+    optionsFrame.enterZF:SetText(zf)
+    optionsFrame.enterZC:SetText(zc)
+    optionsFrame.enterZM:SetText(zm)
+    if isInCombat then
+        moveCam(intCombatZoom)
+    elseif IsMounted() then
+        moveCam(intMountZoom)
+    elseif iclass == 11 or iclass == 7 then
+        if iforme ~= tableForm[iclass] then
+            moveCam(intFeetZoom)
+        else
+            moveCam(intMountZoom)
+        end
+    end
+    if isDebuging then
+        local z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        debugFrame.zoomText:SetText(z)
+    end
 end
 function optionsFrameOnload(self)
     self:SetMovable(true)
@@ -114,7 +153,16 @@ function optionsFrameOnload(self)
     self.vignetteButton:SetChecked(true)
     self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
     self.zoomButton:SetChecked(true)
-    _G[self.zoomButton:GetName() .. "Text"]:SetText("zooms " .. tostring(intFeetZoom) .. " " .. tostring(intCombatZoom) .. " " .. tostring(intMountZoom))
+    self.enterZF = createEnter(self, 85, 50, tostring(intFeetZoom))
+    self.enterZC = createEnter(self, 110, 50, tostring(intCombatZoom))
+    self.enterZM = createEnter(self, 135, 50, tostring(intMountZoom))
+    self.validZoom = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
+    self.validZoom:SetWidth(30)
+    self.validZoom:SetHeight(30)
+    self.validZoom:SetText("Z")
+    self.validZoom:SetPoint("BOTTOMLEFT", 160, 45)
+    self.validZoom:SetScript("OnClick", function() computeZoom() end)
+
 end
 function optionsFrameOnclose(self)
     optionsFrame:Hide()

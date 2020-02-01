@@ -6,7 +6,7 @@ function GlomodOnload(self)
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
-    isDebuging = true
+    isDebuging = false
 
     intFade = 0
     intMountZoom = 15
@@ -31,7 +31,7 @@ function GlomodOnload(self)
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
-        optionsFrame_Close,
+        gloButton,
     }
     for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)

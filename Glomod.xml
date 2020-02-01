@@ -32,7 +32,7 @@
         </Anchors>
     </Button>
 
-    <Frame name="optionsFrame" hidden="false" frameStrata="HIGH" frameLevel="5">
+    <Frame name="optionsFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="256" y="256"/>
         <Anchors>
             <Anchor point="CENTER" relativePoint="CENTER" relativeTo="UIParent">
@@ -84,7 +84,7 @@
         </Layers>
     </Frame> --optionsFrame
 
-    <Frame name="debugFrame" hidden="false" frameStrata="HIGH" frameLevel="5">
+    <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
             <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent">
