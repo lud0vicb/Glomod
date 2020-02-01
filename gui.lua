@@ -57,17 +57,21 @@ function optionsPitch()
     end
 end
 function optionsZoom()
+    local z = ""
     if isZoomOn then
         isZoomOn = false
         if isDebuging then
             printDebug('zooms OFF')
         end
+        z = string.format("0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     else
         isZoomOn = true
         if isDebuging then
             printDebug('zooms ON')
         end
+        z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     end
+    debugFrame.zoomText:SetText(z)
 end
 function optionsVignette()
     if GlomodFrame:IsEventRegistered("VIGNETTE_MINIMAP_UPDATED") then
@@ -85,10 +89,8 @@ end
 function createCheckButton(parent, x, y, nom, f, t)
 	local c = CreateFrame("CheckButton", nom, parent, "ChatConfigCheckButtonTemplate")
 	c:SetPoint("TOPLEFT", x, y)
-    --c:SetWidth(20)
-    print(c:GetName())
-    _G[c:GetName() .. "Text"]:SetText(nom);
-	c.tooltip = t;
+    _G[c:GetName() .. "Text"]:SetText(nom)
+	c.tooltip = t
     c:SetScript("OnClick", function() f() end)
     return c;
 end
@@ -112,6 +114,7 @@ function optionsFrameOnload(self)
     self.vignetteButton:SetChecked(true)
     self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
     self.zoomButton:SetChecked(true)
+    _G[self.zoomButton:GetName() .. "Text"]:SetText("zooms " .. tostring(intFeetZoom) .. " " .. tostring(intCombatZoom) .. " " .. tostring(intMountZoom))
 end
 function optionsFrameOnclose(self)
     optionsFrame:Hide()

@@ -10,7 +10,12 @@ function switchZoomFunc(args)
     local cmd = string.sub(args, 1, 1)
     if cmd == "0" then
         isZoomOn = false
-        debugFrame.zoomText:SetText("OFF")
+        if isDebuging then
+            local z = string.format("0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+            debugFrame.zoomText:SetText(z)
+        end
+        _G[optionsFrame.zoomButton:GetName() .. "Text"]:SetText("zooms OFF / " .. tostring(intFeetZoom) .. " " .. tostring(intCombatZoom) .. " " .. tostring(intMountZoom))
+        optionsFrame.zoomButton:SetChecked(false)
     elseif cmd == '1' then
         isZoomOn = true
         local tableArgs = {}
@@ -22,9 +27,11 @@ function switchZoomFunc(args)
         intFeetZoom = tonumber(tableArgs[1])
         intMountZoom = tonumber(tableArgs[3])
         intCombatZoom = tonumber(tableArgs[2])
+        _G[optionsFrame.zoomButton:GetName() .. "Text"]:SetText("zooms " .. tableArgs[1] .. " " .. tableArgs[2] .. " " .. tableArgs[3])
+        optionsFrame.zoomButton:SetChecked(true)
         moveCam(intFeetZoom)
         if isDebuging then
-            local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+            local z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
             debugFrame.zoomText:SetText(z)
         end
     end

@@ -55,7 +55,7 @@
         </Frames>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture file="Interface\ContainerFrame\UI-Bag-4x4-Bank">
+                <Texture file="Interface\ContainerFrame\UI-Bag-4x4">
                     <Anchors>
                         <Anchor point="TOPRIGHT"/>
                     </Anchors>

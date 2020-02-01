@@ -131,7 +131,12 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         intMountZoom = saveZoom[2]
         isZoomOn = saveZoom[3]
         intCombatZoom = saveZoom[4]
-        local z = string.format("z = %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        local z =""
+        if isZoomOn then
+            z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        else
+            z = string.format("O %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        end
         debugFrame.zoomText:SetText(z)
     end
 end
