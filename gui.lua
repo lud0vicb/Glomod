@@ -123,7 +123,7 @@ function createEnter(parent, x, y, val)
     local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
     e:SetWidth(20)
     e:SetHeight(20)
-    e:SetPoint("BOTTOMLEFT", x, y)
+    e:SetPoint("TOPLEFT", x, y)
     e:SetMultiLine(1)
     e:SetText(val)
     e:SetAutoFocus(false)
@@ -139,9 +139,9 @@ function computeZoom()
     intMountZoom = tonumber(zm)
     isZoomOn = true
     optionsFrame.zoomButton:SetChecked(true)
-    optionsFrame.enterZF:SetText(zf)
-    optionsFrame.enterZC:SetText(zc)
-    optionsFrame.enterZM:SetText(zm)
+    --optionsFrame.enterZF:SetText(zf)
+    --optionsFrame.enterZC:SetText(zc)
+    --optionsFrame.enterZM:SetText(zm)
     if isInCombat then
         moveCam(intCombatZoom)
     elseif IsMounted() then
@@ -153,10 +153,12 @@ function computeZoom()
             moveCam(intMountZoom)
         end
     end
+    local z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     if isDebuging then
-        local z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
         debugFrame.zoomText:SetText(z)
+        printDebug(z)
     end
+    message("New zooms " .. z)
 end
 
 function optionsFrameOnload(self)
@@ -177,15 +179,15 @@ function optionsFrameOnload(self)
     end
     self.vignetteButton = createCheckButton(self, 80, -70, "vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
     self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
-    self.fadingButton = createCheckButton(self, 80, -110, "fading", optionsFading, "cache une partie de l'interface hors combat et hors cible")
-    self.enterZF = createEnter(self, 85, 50, tostring(intFeetZoom))
-    self.enterZC = createEnter(self, 110, 50, tostring(intCombatZoom))
-    self.enterZM = createEnter(self, 135, 50, tostring(intMountZoom))
+    self.fadingButton = createCheckButton(self, 80, -140, "fading", optionsFading, "cache une partie de l'interface hors combat et hors cible")
+    self.enterZF = createEnter(self, 85, -120, tostring(intFeetZoom))
+    self.enterZC = createEnter(self, 110, -120, tostring(intCombatZoom))
+    self.enterZM = createEnter(self, 135, -120, tostring(intMountZoom))
     self.validZoom = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
     self.validZoom:SetWidth(30)
     self.validZoom:SetHeight(30)
     self.validZoom:SetText("Z")
-    self.validZoom:SetPoint("BOTTOMLEFT", 160, 45)
+    self.validZoom:SetPoint("TOPLEFT", 160, -105)
     self.validZoom:SetScript("OnClick", function() computeZoom() end)
 end
 

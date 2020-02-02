@@ -3,7 +3,7 @@ function hideAll()
         PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
         MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or
         MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
-        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
+        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver() 
     then
         intFade = 1
         return

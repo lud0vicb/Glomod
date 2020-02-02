@@ -175,10 +175,10 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         optionsZoom()
         optionsFading()
         optionsVignette()
-        optionsFrame.zoomButton:SetChecked(isZoomOn)
-        optionsFrame.fadingButton:SetChecked(isFadeOn)
-        optionsFrame.vignetteButton:SetChecked(isVignetteOn)
     end
+    optionsFrame.zoomButton:SetChecked(isZoomOn)
+    optionsFrame.fadingButton:SetChecked(isFadeOn)
+    optionsFrame.vignetteButton:SetChecked(isVignetteOn)
     debugFrame.zoomActual:SetText(string.format("a: %d", GetCameraZoom()))
     debugFrame.zoomText:SetText(z)
 end
