@@ -158,6 +158,9 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isZoomOn = gloptions[6]
         intCombatZoom = gloptions[7]
         intScale = gloptions[8]
+        if intScale == nil then
+            intScale = 1
+        end
         optionsFrame.enterSC:SetText(tostring(intScale * 100))
         if isZoomOn then
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
