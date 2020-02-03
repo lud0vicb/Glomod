@@ -1,6 +1,6 @@
 # Glomod
 
-## Gestion frame
+# Gestion frame
 
 On les gère plutôt dans le fichier xml. Mais on peut le faire des le code :
 
@@ -10,23 +10,23 @@ GloFrame:SetScript("OnEvent", GlomodEventHandler);
 ```
 
 Utiliser la commande /fstack en jeu pour identifier les élements de l'interface wow
-  
-## Bouger une frame déjà définie
+
+# Bouger une frame déjà définie
 
 on ne définit pas le xml puisqu'il existe déjà, donc on appelle des méthodes lua
 
 ```
-frame:SetMovable(true)
-frame:EnableMouse(true)
-frame:RegisterForDrag("LeftButton")
-frame:SetScript("OnDragStart", frame.StartMoving)
-frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+ExtraActionBarFrame:SetMovable(true)
+ExtraActionBarFrame:EnableMouse(true)
+ExtraActionBarFrame:RegisterForDrag("LeftButton")
+ExtraActionBarFrame:SetScript("OnDragStart", frame.StartMoving)
+ExtraActionBarFrame:SetScript("OnDragStop", frame.StopMovingOrSizing)
 ```
 
-## Gestion souris
+# Gestion souris
 
 ```
-PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse(); 
+PlayerFrame:EnableMouse();TargetFrame:EnableMouse();MainMenuBar:EnableMouse();
 
 -- GERER LE MOUSE OVER
 frame:EnableMouse()
@@ -35,7 +35,7 @@ frame:SetScript('OnLeave', function() unHighightStuff end)
 
 ```
 
-## Masquer une frame
+# Masquer une frame
 
 ```
 -- MASQUER UN ELEMENTE
@@ -44,3 +44,30 @@ PlayerFrame:SetAlpha(0);
 HideUIPanel(PlayerFrame);
 PlayerFrame:Hide();
 ```
+
+## Changer position FRAME
+
+```
+/run GossipFrame:ClearAllPoints();
+/run GossipFrame:SetPoint("CENTER", "UIParent", "CENTER", 0, 0);
+```
+
+# objectGUID
+
+Ce type de données contient divers info que l'on peut "ouvrir" de cette façon :
+
+```
+local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", var_objectGUID)
+```
+
+# Console
+
+* lancer le jeu avec `-console` en paramètre
+* dans le jeu lancer `/run SetConsoleKey("!")`
+* appuyer sur k
+
+# CVAR expérimental
+
+Il faut virer l'event qui affiche une confirmation à l'écran.
+
+`UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED");`
