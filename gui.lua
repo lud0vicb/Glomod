@@ -51,8 +51,6 @@ function gloButtonClick(self, button)
 end
 
 function optionsPitch()
-    print(intPitchZoom)
-    print(GetCVarDefault("test_cameraDynamicPitchBaseFovPad"))
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         stopPitch()
     else
