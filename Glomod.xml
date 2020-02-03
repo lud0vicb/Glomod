@@ -51,6 +51,14 @@
                     </Anchors>
                 </Texture>
             </Layer>
+            <Layer level="BORDER">
+                <FontString font="Fonts\FRIZQT__.TTF" text="Gloptions">
+                    <FontHeight val="15"/>
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parent" x="120" y="-10" />
+                    </Anchors>
+                </FontString>
+            </Layer>
             <Layer level="ARTWORK">
                 <Texture file="Interface\BankFrame\Bank-Background">
                     <Size x="172" y="164"/>

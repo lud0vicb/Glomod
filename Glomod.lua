@@ -23,6 +23,7 @@ function GlomodOnload(self)
     intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
     intCameraZoomSpeed = 5
     C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+    intScale = 1
 
     secTimerFade = 3
 
@@ -31,6 +32,10 @@ function GlomodOnload(self)
         iforme = GetShapeshiftForm(flag)
         tableForm = {[11]=3, [7]=1}
     end
+
+    tableScale = {
+        MainMenuBar,
+    }
 
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
@@ -110,6 +115,31 @@ function moveFrame(fr)
     fr:SetPoint("LEFT", "UIParent", "CENTER", 80, 100)
     if isDebuging then
         local log = string.format("Move %s", fr:GetName())
+        printDebug(log)
+    end
+end
+
+function stopPitch()
+    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
+    C_CVar.SetCVar("test_cameraDynamicPitch", 0)
+    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
+    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
+    if isDebuging then
+        printDebug("PITCH OFF")
+        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(intPitchZoom))
+    end
+end
+
+function setPitch(i)
+    local j = i / 10
+    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
+    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
+    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", j) --, "scriptCVar"
+    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", j) --, "scriptCVar"
+    intPitchZoom = j
+    if isDebuging then
+        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, j, GetCVar("test_cameraDynamicPitchBaseFovPad"))
+        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(j))
         printDebug(log)
     end
 end

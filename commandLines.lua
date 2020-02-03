@@ -14,7 +14,6 @@ function switchZoomFunc(args)
             local z = string.format("0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
             debugFrame.zoomText:SetText(z)
         end
-
         optionsFrame.zoomButton:SetChecked(false)
     elseif cmd == '1' then
         isZoomOn = true
@@ -48,39 +47,14 @@ SLASH_PZOOM2 = '/pz'
 SlashCmdList["PZOOM"] = printZoom
 
 function showDebug()
-    if debugButton:IsVisible() then
-        debugButton:Hide()
+    if debugFrame:IsVisible() then
+        debugFrame:Hide()
     else
-        debugButton:Show()
+        debugFrame:Show()
     end
 end
 SLASH_DEBUG1 = '/debug'
 SlashCmdList["DEBUG"] = showDebug
-
-function stopPitch()
-    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
-    C_CVar.SetCVar("test_cameraDynamicPitch", 0)
-    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
-    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
-    if isDebuging then
-        printDebug("PITCH OFF")
-        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(intPitchZoom))
-    end
-end
-
-function setPitch(i)
-    local j = i / 10
-    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
-    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
-    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", j) --, "scriptCVar"
-    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", j) --, "scriptCVar"
-    intPitchZoom = j
-    if isDebuging then
-        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, j, GetCVar("test_cameraDynamicPitchBaseFovPad"))
-        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(j))
-        printDebug(log)
-    end
-end
 
 function changePitch(args)
     local tableArgs = {}

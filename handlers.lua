@@ -149,13 +149,16 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isFadeOn = true
         isZoomOn = true
         isVignetteOn = true
-        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom}
+        intScale = 1
+        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, intScale}
         z = string.format("z:0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     else
         intFeetZoom = gloptions[4]
         intMountZoom = gloptions[5]
         isZoomOn = gloptions[6]
         intCombatZoom = gloptions[7]
+        intScale = gloptions[8]
+        optionsFrame.enterSC:SetText(tostring(intScale * 100))
         if isZoomOn then
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
@@ -175,6 +178,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         optionsZoom()
         optionsFading()
         optionsVignette()
+        C_Timer.After(8, function() computeScale() end)
     end
     optionsFrame.zoomButton:SetChecked(isZoomOn)
     optionsFrame.fadingButton:SetChecked(isFadeOn)
@@ -191,6 +195,7 @@ function myHandlers:PLAYER_LOGOUT()
     gloptions[1] = isFadeOn
     gloptions[2] = isZoomOn
     gloptions[3] = isVignetteOn
+    gloptions[8] = intScale
 end
 
 function myHandlers:GOSSIP_SHOW()

@@ -121,7 +121,7 @@ end
 
 function createEnter(parent, x, y, val)
     local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
-    e:SetWidth(20)
+    e:SetWidth(30)
     e:SetHeight(20)
     e:SetPoint("TOPLEFT", x, y)
     e:SetMultiLine(1)
@@ -131,17 +131,11 @@ function createEnter(parent, x, y, val)
 end
 
 function computeZoom()
-    local zf = optionsFrame.enterZF:GetText()
-    local zc = optionsFrame.enterZC:GetText()
-    local zm = optionsFrame.enterZM:GetText()
-    intFeetZoom = tonumber(zf)
-    intCombatZoom = tonumber(zc)
-    intMountZoom = tonumber(zm)
+    intFeetZoom = tonumber(optionsFrame.enterZF:GetText())
+    intCombatZoom = tonumber(optionsFrame.enterZC:GetText())
+    intMountZoom = tonumber(optionsFrame.enterZM:GetText())
     isZoomOn = true
     optionsFrame.zoomButton:SetChecked(true)
-    --optionsFrame.enterZF:SetText(zf)
-    --optionsFrame.enterZC:SetText(zc)
-    --optionsFrame.enterZM:SetText(zm)
     if isInCombat then
         moveCam(intCombatZoom)
     elseif IsMounted() then
@@ -161,34 +155,56 @@ function computeZoom()
     message("New zooms " .. z)
 end
 
+function computeScale()
+    intScale = tonumber(optionsFrame.enterSC:GetText()) / 100
+    for i,v in ipairs(tableScale) do
+        v:SetScale(intScale)
+    end
+    if isDebuging then
+        printDebug(string.format("SCALE %.1f", intScale))
+    end
+    showAll()
+end
+
+function createButton (parent, x, y, fonc, nom)
+    local b = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
+    b:SetWidth(30)
+    b:SetHeight(30)
+    b:SetText(nom)
+    b:SetPoint("TOPLEFT", x, y)
+    b:SetScript("OnClick", function() fonc() end)
+    return b
+end
+
 function optionsFrameOnload(self)
+    -- fenêtre elle même
     self:SetMovable(true)
     self:EnableMouse(true)
     self:RegisterForDrag("LeftButton")
     self:SetScript("OnDragStart", self.StartMoving)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
-
-    self.titreText = optionsFrame:CreateFontString(nil, "OVERLAY")
-    self.titreText:SetPoint("TOPLEFT", 120, -10)
-    self.titreText:SetFont("Fonts\\FRIZQT__.TTF", 15, "OUTLINE")
-    self.titreText:SetText("Gloptions")
-
+    -- options pitch
     self.pitchButton = createCheckButton(self, 80, -50, "pitch", optionsPitch, "active le décalage de la caméra sur le bas")
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         self.pitchButton:SetChecked(true)
     end
+    -- options vignettes
     self.vignetteButton = createCheckButton(self, 80, -70, "vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
-    self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
+    -- options fading
     self.fadingButton = createCheckButton(self, 80, -140, "fading", optionsFading, "cache une partie de l'interface hors combat et hors cible")
+    -- options zooms
+    self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
     self.enterZF = createEnter(self, 85, -120, tostring(intFeetZoom))
     self.enterZC = createEnter(self, 110, -120, tostring(intCombatZoom))
     self.enterZM = createEnter(self, 135, -120, tostring(intMountZoom))
-    self.validZoom = CreateFrame("Button", nil, self, "UIPanelButtonTemplate")
-    self.validZoom:SetWidth(30)
-    self.validZoom:SetHeight(30)
-    self.validZoom:SetText("Z")
-    self.validZoom:SetPoint("TOPLEFT", 160, -105)
-    self.validZoom:SetScript("OnClick", function() computeZoom() end)
+    self.validZoom = createButton(self, 160, -105, computeZoom, "Z")
+    -- options scale
+    self.scaleText = optionsFrame:CreateFontString(nil, "OVERLAY")
+    self.scaleText:SetPoint("TOPLEFT", 80, -165)
+    self.scaleText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+    self.scaleText:SetText("scale")
+    self.enterSC = createEnter(self, 120, -165, tostring(intScale * 100))
+    self.validScale = createButton(self, 150, -155, computeScale, "S")
 end
 
 function optionsFrameOnclose(self)
