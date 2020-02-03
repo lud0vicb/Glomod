@@ -227,3 +227,18 @@ end
 function myHandlers:PET_BATTLE_OPENING_DONE()
     ChatFrame1:SetAlpha(1)
 end
+function myHandlers:ACTIONBAR_UPDATE_COOLDOWN()
+    for i,v in ipairs(tableScale) do
+        v:SetScale(intScale)
+    end
+end
+function myHandlers:ACTIONBAR_UPDATE_STATE()
+    for i,v in ipairs(tableScale) do
+        v:SetScale(intScale)
+    end
+end
+function myHandlers:ACTIONBAR_UPDATE_USABLE()
+    for i,v in ipairs(tableScale) do
+        v:SetScale(intScale)
+    end
+end

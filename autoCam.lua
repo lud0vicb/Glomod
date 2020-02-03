@@ -59,9 +59,10 @@ function checkMount()
 end
 
 function moveCam(ref)
-    if isZoomOn == false or ref == 0 then
+    if not isZoomOn or ref == 0 or isCamLock then
         return
     end
+    isCamLock = true
     local z = GetCameraZoom()
     local y
     local m
@@ -74,6 +75,7 @@ function moveCam(ref)
         CameraZoomIn(y)
         m = "In"
     end
+    isCamLock = false
     if isDebuging then
         local msg = string.format("%s %d from %d to %d", m, y, z, ref)
         printDebug(msg)
