@@ -1,3 +1,0 @@
-function GloDebugOnload(self) {
-    
-}
