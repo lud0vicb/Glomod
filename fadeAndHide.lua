@@ -3,8 +3,9 @@ function hideAll()
         PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
         MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or
         MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
-        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
+        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver() 
     then
+        intFade = 1
         return
     end
     if isDebuging and intFade == 1 then
@@ -26,9 +27,12 @@ function fadeAll()
 end
 
 function showAll()
-    intFade = 1;
-    fadeAll();
+    if isFadeOn then
+        intFade = 1
+        fadeAll()
+    end
 end
+
 function combatHide()
     if isInCombat then
         ObjectiveTrackerFrame:SetAlpha(0.5) -- il y a des quêtes avec des icones à cliquer sur le tracker donc pas bon de le cacher
@@ -40,7 +44,7 @@ function combatHide()
 end
 
 function checkHide()
-    if isInCombat == false then
+    if isFadeOn and not isInCombat then
         C_Timer.After(secTimerFade, function() hideAll() end)
     end
 end

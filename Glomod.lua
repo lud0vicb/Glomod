@@ -7,6 +7,8 @@ function GlomodOnload(self)
     isFirstFeetMove = true
     isFirstMountMove = true
     isDebuging = false
+    isFadeOn = true
+    isVignetteOn = true
 
     intFade = 0
     intMountZoom = 15
@@ -18,6 +20,9 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
+    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
+    intCameraZoomSpeed = 5
+    C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
 
     secTimerFade = 3
 
@@ -70,8 +75,6 @@ function GlomodOnload(self)
     for i,v in ipairs(tableHide) do
         v:Hide()
     end
-
-    fadeAll()
 
     local tableShowOnMouse = {
     }

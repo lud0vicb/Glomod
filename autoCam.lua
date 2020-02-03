@@ -2,19 +2,22 @@ function moved()
     if isInCombat then
         return
     end
-    if iclass == 11 or iclass == 7 then -- druide et shaman
-        if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
-            checkMount()
-        end
-    else
-        checkMount()
-    end
     if isFishing then
         isFishing = false
         MoveViewLeftStart(0.05)
         C_Timer.After(2, function() MoveViewLeftStop() end)
     end
+    if isFadeOn then
+        if iclass == 11 or iclass == 7 then -- druide et shaman
+            if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
+                checkMount()
+            end
+        else
+            checkMount()
+        end
+    end
 end
+
 function combatCamIn()
     if IsMounted() or isZoomOn == false then
         return
@@ -27,6 +30,7 @@ function combatCamIn()
         moveCam(intCombatZoom)
     end
 end
+
 function combatCamOut()
     if IsMounted() or isZoomOn == false then
         return
@@ -37,6 +41,7 @@ function combatCamOut()
     isFirstMountMove = false
     C_Timer.After(3, function() isFirstFeetMove = true end)
 end
+
 function checkMount()
     if IsMounted() then
         if isFirstMountMove then
@@ -52,6 +57,7 @@ function checkMount()
         end
     end
 end
+
 function moveCam(ref)
     if isZoomOn == false or ref == 0 then
         return
@@ -71,6 +77,6 @@ function moveCam(ref)
     if isDebuging then
         local msg = string.format("%s %d from %d to %d", m, y, z, ref)
         printDebug(msg)
-        debugFrame.zoomActual:SetText(tostring("ZA : " ..ref))
+        debugFrame.zoomActual:SetText(tostring("a: " .. ref))
     end
 end
