@@ -139,6 +139,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
     if addon ~= "Glomod" then
         return
     end
+    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
     local z = ""
     if gloptions == nil then
         intFeetZoom = 5

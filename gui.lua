@@ -121,7 +121,7 @@ end
 
 function createEnter(parent, x, y, val)
     local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
-    e:SetWidth(30)
+    e:SetWidth(26)
     e:SetHeight(20)
     e:SetPoint("TOPLEFT", x, y)
     e:SetMultiLine(1)

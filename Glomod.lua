@@ -1,29 +1,23 @@
 myHandlers = {}
 function GlomodOnload(self)
-    isZoomOn = true
     isInCombat = false
     isTargeting = false
     isFishing = false
     isFirstFeetMove = true
     isFirstMountMove = true
     isDebuging = false
-    isFadeOn = true
-    isVignetteOn = true
+    isCamLock = false
+    intScale = 1
 
     intFade = 0
-    intMountZoom = 15
-    intFeetZoom = 5
     intFishZoom = 1.5
-    intCombatZoom = 10
     intVignetteSave = 1
     intDebugLine = 1
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
     intCameraZoomSpeed = 5
     C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-    intScale = 1
 
     secTimerFade = 3
 
