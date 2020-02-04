@@ -3,7 +3,7 @@ function hideAll()
         PlayerFrame:IsMouseOver() or TargetFrame:IsMouseOver() or
         MultiBarRight:IsMouseOver() or MainMenuBarArtFrame:IsMouseOver() or
         MainMenuBar:IsMouseOver() or BuffFrame:IsMouseOver() or MicroButtonAndBagsBar:IsMouseOver() or
-        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver() 
+        ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
     then
         intFade = 1
         return
@@ -52,5 +52,5 @@ end
 function showOnMouse(frame)
     frame:SetScript('OnEnter', function() frame:SetAlpha(1) end)
     frame:SetScript('OnLeave', function() frame:SetAlpha(0) end)
-    C_Timer.After(6, function() frame:SetAlpha(0) end)
+    C_Timer.After(3, function() frame:SetAlpha(0) end)
 end

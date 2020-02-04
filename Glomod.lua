@@ -1,5 +1,6 @@
 myHandlers = {}
 function GlomodOnload(self)
+    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
     isInCombat = false
     isTargeting = false
     isFishing = false
@@ -16,10 +17,11 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-    intCameraZoomSpeed = 5
+    intCameraZoomSpeed = 60
     C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+    intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
 
-    secTimerFade = 3
+    secTimerFade = 10
 
     FRClass, ENClass, iclass = UnitClass("player")
     if iclass == 11 or iclass == 7 then
@@ -90,8 +92,6 @@ function GlomodOnload(self)
     for ind=1, intMaxDebug, 1 do
         tableDebugLine[ind] = ""
     end
-
-    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
 end
 
 function showOnMouse(frame)
