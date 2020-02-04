@@ -158,6 +158,8 @@ end
 function computeScale()
     intScale = tonumber(optionsFrame.enterSC:GetText()) / 100
     for i,v in ipairs(tableScale) do
+        v:SetMovable(true)
+        v:SetUserPlaced(true)
         v:SetScale(intScale)
     end
     if isDebuging then

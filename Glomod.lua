@@ -49,6 +49,7 @@ function GlomodOnload(self)
         v:RegisterForDrag("LeftButton")
         v:SetScript("OnDragStart", v.StartMoving)
         v:SetScript("OnDragStop", v.StopMovingOrSizing)
+        v:SetUserPlaced(true)
     end
 
     local tableEvent = {
@@ -61,7 +62,7 @@ function GlomodOnload(self)
       --"GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
       --"QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
       "PET_BATTLE_OPENING_DONE", "PET_BATTLE_CLOSE",
-      "ACTIONBAR_UPDATE_COOLDOWN", "ACTIONBAR_UPDATE_STATE", "ACTIONBAR_UPDATE_USABLE",
+      --"ACTIONBAR_UPDATE_COOLDOWN", "ACTIONBAR_UPDATE_STATE", "ACTIONBAR_UPDATE_USABLE",
     }
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
