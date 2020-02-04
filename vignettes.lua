@@ -23,7 +23,7 @@ function sendInfoVignette(vInfo)
         SendChatMessage(msg, "EMOTE")
     end
     if type == "Creature" then
-        DoEmote("OPENFIRE")
+        DoEmote("ATTACKMYTARGET")
     elseif type == "GameObject" then
         DoEmote("CHARGE")
     end

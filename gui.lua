@@ -185,6 +185,7 @@ function optionsFrameOnload(self)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
     -- options pitch
     self.pitchButton = createCheckButton(self, 80, -50, "pitch", optionsPitch, "active le décalage de la caméra sur le bas")
+    intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         self.pitchButton:SetChecked(true)
     end

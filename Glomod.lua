@@ -19,7 +19,6 @@ function GlomodOnload(self)
     intVignetteMax = 30
     intCameraZoomSpeed = 60
     C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-    intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
 
     secTimerFade = 10
 
