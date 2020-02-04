@@ -17,7 +17,7 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-    intCameraZoomSpeed = 60
+    intCameraZoomSpeed = 50
     C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
 
     secTimerFade = 10
@@ -60,8 +60,8 @@ function GlomodOnload(self)
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING",
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
       "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
-      --"GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
-      --"QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
+      "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
       "PET_BATTLE_OPENING_DONE", "PET_BATTLE_CLOSE",
       --"ACTIONBAR_UPDATE_COOLDOWN", "ACTIONBAR_UPDATE_STATE", "ACTIONBAR_UPDATE_USABLE",
     }
@@ -107,7 +107,9 @@ end
 
 function moveFrame(fr)
     fr:ClearAllPoints()
-    fr:SetPoint("LEFT", "UIParent", "CENTER", 80, 100)
+    fr:SetMovable(true)
+    fr:SetUserPlaced(true)
+    fr:SetPoint("RIGHT", "UIParent", "CENTER", -100, 0)
     if isDebuging then
         local log = string.format("Move %s", fr:GetName())
         printDebug(log)
