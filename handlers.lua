@@ -77,10 +77,10 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
     if caster ~= "player" then
         return
     end
-    if isDebuging then
-        local msg = string.format("SPELL %d", iSpell)
-        printDebug(msg)
-    end
+    --if isDebuging then
+        --local msg = string.format("SPELL %d", iSpell)
+        --printDebug(msg)
+    --end
     if iSpell == 131476 then -- PECHE A LA LIGNE
         if not isFishing then
             MoveViewRightStart(0.05)

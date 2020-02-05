@@ -154,6 +154,7 @@ function computeZoom()
 end
 
 function computeScale()
+    --if true then return end -- bloque 
     intScale = tonumber(optionsFrame.enterSC:GetText()) / 100
     for i,v in ipairs(tableScale) do
         v:SetMovable(true)
