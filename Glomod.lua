@@ -50,6 +50,8 @@ function GlomodOnload(self)
         v:RegisterForDrag("LeftButton")
         v:SetScript("OnDragStart", v.StartMoving)
         v:SetScript("OnDragStop", v.StopMovingOrSizing)
+        ancre, relativeTo, relativePoint, x, y = v:GetPoint(1)
+        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, 0) -- decalage à droite de 200px
         v:SetUserPlaced(true)
     end
 
