@@ -63,7 +63,7 @@ end
 
 function myHandlers:PLAYER_CONTROL_LOST()
     UIParent:Hide()
-    MoveViewLeftStart(0.1)
+    MoveViewLeftStart(intRotationSpeed)
     moveCam(intMountZoom)
 end
 
