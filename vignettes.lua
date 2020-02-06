@@ -13,7 +13,7 @@ end
 
 function sendInfoVignette(vInfo)
     tableVignetteSave[intVignetteSave] = vInfo.objectGUID
-    intVignetteSave = (intVignetteSave + 1) % 12
+    intVignetteSave = (intVignetteSave + 1) % intVignetteMax
     local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", vInfo.objectGUID)
     ChatFrame1:SetAlpha(1)
     local msg = string.format("ALERTE %s : %s à proximité", type, vInfo.name)
