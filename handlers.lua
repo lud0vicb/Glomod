@@ -23,6 +23,7 @@ end
 
 function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
+    isFading = false
     checkHide()
     combatHide()
     combatCamOut()

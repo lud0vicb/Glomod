@@ -6,17 +6,30 @@ function hideAll()
         ChatFrame1:IsMouseOver() or ChatFrame2:IsMouseOver()
     then
         intFade = 1
+        isFading = false
         return
     end
-    if isDebuging and intFade == 1 then
-        printDebug("Start fading")
-    end
-    if intFade ~= 0 then
+    if intFade == 1 then
+        -- first run
+        isFading = true
+        if isDebuging then
+            printDebug("Start fading")
+        end
         intFade = intFade-0.1
-    end
-    fadeAll()
-    if intFade > 0 then
+        fadeAll()
         C_Timer.After(.1, function() hideAll() end)
+    else
+        if not isFading then
+            intFade = 1
+        else
+            if intFade > 0 then
+                intFade = intFade - 0.1
+                fadeAll()
+                C_Timer.After(.1, function() hideAll() end)
+            else
+                isFading = false
+            end
+        end
     end
 end
 
@@ -29,6 +42,7 @@ end
 function showAll()
     if isFadeOn then
         intFade = 1
+        isFading = false
         fadeAll()
     end
 end

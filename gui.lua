@@ -157,14 +157,20 @@ end
 
 function computeScale()
     --if true then return end -- bloque
-    intScale = tonumber(optionsFrame.enterSC:GetText()) / 100
+    if isFading then
+        message("FADING : plz retry")
+        return
+    end
+    local s = tonumber(optionsFrame.enterSC:GetText())
+    -- need control on the type
+    intScale = s / 100
     for i,v in ipairs(tableScale) do
         v:SetMovable(true)
         v:SetUserPlaced(true)
         v:SetScale(intScale)
     end
     if isDebuging then
-        printDebug(string.format("SCALE %.1f", intScale))
+        printDebug(string.format("SCALE %.2f", intScale))
     end
     showAll()
 end

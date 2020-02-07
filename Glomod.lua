@@ -8,6 +8,7 @@ function GlomodOnload(self)
     isFirstMountMove = true
     isDebuging = false
     isCamLock = false
+    isFading = false
 
     intScale = 1
     intRotationSpeed = 0.05
