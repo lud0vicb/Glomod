@@ -165,6 +165,7 @@ function computeScale()
     -- need control on the type
     intScale = s / 100
     for i,v in ipairs(tableScale) do
+        --v:ClearAllPoints()
         v:SetMovable(true)
         v:SetUserPlaced(true)
         v:SetScale(intScale)
@@ -213,14 +214,14 @@ function optionsFrameOnload(self)
     -- options zooms
     self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques", optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
     self.zoomText = createText(80, -110, "feet/combat/mount/speed")
-    self.enterZF = createEnter(self, 85, -130, tostring(intFeetZoom))
-    self.enterZC = createEnter(self, 115, -130, tostring(intCombatZoom))
-    self.enterZM = createEnter(self, 145, -130, tostring(intMountZoom))
-    self.speedZ = createEnter(self, 175, -130, tostring(intCameraZoomSpeed))
+    self.enterZF = createEnter(self, 85, -130, 0)
+    self.enterZC = createEnter(self, 115, -130, 0)
+    self.enterZM = createEnter(self, 145, -130, 0)
+    self.speedZ = createEnter(self, 175, -130, 0)
     self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
     -- options scale
     self.scaleText = createText(80, -175, "échelle barre")
-    self.enterSC = createEnter(self, 175, -175, tostring(intScale * 100))
+    self.enterSC = createEnter(self, 175, -175, 0)
     self.validScale = createButton(self, 205, -165, computeScale, "S")
 end
 

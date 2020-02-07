@@ -10,7 +10,6 @@ function GlomodOnload(self)
     isCamLock = false
     isFading = false
 
-    intScale = 1
     intRotationSpeed = 0.05
     intFade = 0
     intFishZoom = 1.5
@@ -42,7 +41,7 @@ function GlomodOnload(self)
     end
 
     local tableFrameMove = {
-        ExtraActionBarFrame,
+        ExtraActionBarFrame, PlayerPowerBarAlt,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
@@ -51,7 +50,7 @@ function GlomodOnload(self)
         v:SetScript("OnDragStart", v.StartMoving)
         v:SetScript("OnDragStop", v.StopMovingOrSizing)
         ancre, relativeTo, relativePoint, x, y = v:GetPoint(1)
-        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, 0) -- decalage à droite de 200px
+        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, y) -- decalage à droite de 200px
         v:SetUserPlaced(true)
     end
 
