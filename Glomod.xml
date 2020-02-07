@@ -45,7 +45,7 @@
         </Frames>
         <Layers>
             <Layer level="BACKGROUND">
-                <Texture file="Interface\ContainerFrame\UI-Bag-4x4">
+                <Texture file="Interface\ContainerFrame\UI-Bag-5x4">
                     <Anchors>
                         <Anchor point="TOPRIGHT"/>
                     </Anchors>
@@ -61,7 +61,7 @@
             </Layer>
             <Layer level="ARTWORK">
                 <Texture file="Interface\BankFrame\Bank-Background">
-                    <Size x="172" y="164"/>
+                    <Size x="172" y="204"/>
                     <Anchors>
                         <Anchor point="TOPRIGHT">
                             <Offset x="-7" y="-49"/>

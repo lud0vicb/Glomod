@@ -145,7 +145,9 @@ function computeZoom()
             moveCam(intMountZoom)
         end
     end
-    local z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+    intCameraZoomSpeed = tonumber(optionsFrame.speedZ:GetText())
+    C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+    local z = string.format("1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
     if isDebuging then
         debugFrame.zoomText:SetText(z)
         printDebug(z)
@@ -177,6 +179,14 @@ function createButton (parent, x, y, fonc, nom)
     return b
 end
 
+function createText(x, y, txt)
+    local t = optionsFrame:CreateFontString(nil, "OVERLAY")
+    t:SetPoint("TOPLEFT", x, y)
+    t:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
+    t:SetText(txt)
+    return t
+end
+
 function optionsFrameOnload(self)
     -- fenêtre elle même
     self:SetMovable(true)
@@ -185,28 +195,27 @@ function optionsFrameOnload(self)
     self:SetScript("OnDragStart", self.StartMoving)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
     -- options pitch
-    self.pitchButton = createCheckButton(self, 80, -50, "pitch", optionsPitch, "active le décalage de la caméra sur le bas")
+    self.pitchButton = createCheckButton(self, 80, -50, "caméra pitch 0.2", optionsPitch, "active le décalage de la caméra sur le bas")
     intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         self.pitchButton:SetChecked(true)
     end
     -- options vignettes
-    self.vignetteButton = createCheckButton(self, 80, -70, "vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
+    self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
-    self.fadingButton = createCheckButton(self, 80, -140, "fading", optionsFading, "cache une partie de l'interface hors combat et hors cible")
+    self.fadingButton = createCheckButton(self, 80, -150, "dissimule interface", optionsFading, "cache une partie de l'interface hors combat et hors cible")
     -- options zooms
-    self.zoomButton = createCheckButton(self, 80, -90, "zooms", optionsZoom, "active les zooms automatiques contextuels")
-    self.enterZF = createEnter(self, 85, -120, tostring(intFeetZoom))
-    self.enterZC = createEnter(self, 110, -120, tostring(intCombatZoom))
-    self.enterZM = createEnter(self, 135, -120, tostring(intMountZoom))
-    self.validZoom = createButton(self, 160, -105, computeZoom, "Z")
+    self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques", optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
+    self.zoomText = createText(80, -110, "feet/combat/mount/speed")
+    self.enterZF = createEnter(self, 85, -130, tostring(intFeetZoom))
+    self.enterZC = createEnter(self, 115, -130, tostring(intCombatZoom))
+    self.enterZM = createEnter(self, 145, -130, tostring(intMountZoom))
+    self.speedZ = createEnter(self, 175, -130, tostring(intCameraZoomSpeed))
+    self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
     -- options scale
-    self.scaleText = optionsFrame:CreateFontString(nil, "OVERLAY")
-    self.scaleText:SetPoint("TOPLEFT", 80, -165)
-    self.scaleText:SetFont("Fonts\\FRIZQT__.TTF", 12, "OUTLINE")
-    self.scaleText:SetText("scale")
-    self.enterSC = createEnter(self, 120, -165, tostring(intScale * 100))
-    self.validScale = createButton(self, 150, -155, computeScale, "S")
+    self.scaleText = createText(80, -175, "échelle barre")
+    self.enterSC = createEnter(self, 175, -175, tostring(intScale * 100))
+    self.validScale = createButton(self, 205, -165, computeScale, "S")
 end
 
 function optionsFrameOnclose(self)

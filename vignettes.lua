@@ -25,7 +25,7 @@ function sendInfoVignette(vInfo)
     if type == "Creature" then
         DoEmote("ATTACKMYTARGET")
     elseif type == "GameObject" then
-        DoEmote("CHARGE")
+        DoEmote("KISS")
     end
     if isDebuging then
         local log = string.format("Vignette %d = %s", intVignetteSave - 1, vInfo.name)

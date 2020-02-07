@@ -18,8 +18,6 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-    intCameraZoomSpeed = 50
-    C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
 
     secTimerFade = 10
 
