@@ -10,8 +10,9 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
-    isZoomOn = true
+    isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
+    computeScale()
 end
 
 function myHandlers:PLAYER_REGEN_DISABLED()

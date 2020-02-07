@@ -40,7 +40,7 @@ function GlomodOnload(self)
     end
 
     local tableFrameMove = {
-        ExtraActionBarFrame, PlayerPowerBarAlt,
+        ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
@@ -83,10 +83,12 @@ function GlomodOnload(self)
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
     end
+
     tableVignetteSave = {}
     for ind=1, intVignetteMax, 1 do
         tableVignetteSave[ind] = ""
     end
+
     tableDebugLine = {}
     for ind=1, intMaxDebug, 1 do
         tableDebugLine[ind] = ""
