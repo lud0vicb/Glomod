@@ -9,7 +9,6 @@ function GlomodOnload(self)
     isDebuging = false
     isCamLock = false
 
-    intScale = 1
     intRotationSpeed = 0.05
     intFade = 0
     intFishZoom = 1.5
@@ -18,8 +17,6 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-    intCameraZoomSpeed = 50
-    C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
 
     secTimerFade = 10
 
@@ -43,7 +40,7 @@ function GlomodOnload(self)
     end
 
     local tableFrameMove = {
-        ExtraActionBarFrame,
+        ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
@@ -52,7 +49,7 @@ function GlomodOnload(self)
         v:SetScript("OnDragStart", v.StartMoving)
         v:SetScript("OnDragStop", v.StopMovingOrSizing)
         ancre, relativeTo, relativePoint, x, y = v:GetPoint(1)
-        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, 0) -- decalage à droite de 200px
+        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, y) -- decalage à droite de 200px
         v:SetUserPlaced(true)
     end
 
@@ -86,10 +83,12 @@ function GlomodOnload(self)
     for i,v in ipairs(tableShowOnMouse) do
         ShowOnMouse(v)
     end
+
     tableVignetteSave = {}
     for ind=1, intVignetteMax, 1 do
         tableVignetteSave[ind] = ""
     end
+
     tableDebugLine = {}
     for ind=1, intMaxDebug, 1 do
         tableDebugLine[ind] = ""

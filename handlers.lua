@@ -10,8 +10,9 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
-    isZoomOn = true
+    isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
+    computeScale()
 end
 
 function myHandlers:PLAYER_REGEN_DISABLED()
@@ -23,6 +24,7 @@ end
 
 function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
+    isFading = false
     checkHide()
     combatHide()
     combatCamOut()
@@ -64,13 +66,19 @@ end
 function myHandlers:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(intRotationSpeed)
+    local c = isZoomOn
+    isZoomOn = true
     moveCam(intMountZoom)
+    isZoomOn = c
 end
 
 function myHandlers:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
+    local c = isZoomOn
+    isZoomOn = true
     moveCam(intFeetZoom)
+    isZoomOn = c
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
@@ -151,8 +159,10 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isZoomOn = true
         isVignetteOn = true
         intScale = 1
+        intCameraZoomSpeed = 20
+        C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
         gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, intScale}
-        z = string.format("z:0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+        z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
     else
         intFeetZoom = gloptions[4]
         intMountZoom = gloptions[5]
@@ -163,18 +173,21 @@ function myHandlers:ADDON_LOADED(arg1, addon)
             intScale = 1
         end
         optionsFrame.enterSC:SetText(tostring(intScale * 100))
+        intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
+        optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
+        C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
         if isZoomOn then
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
             optionsFrame.enterZM:SetText(tonumber(intMountZoom))
             optionsFrame.zoomButton:SetChecked(true)
-            z = string.format("z:1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+            z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
         else
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
             optionsFrame.enterZM:SetText(tonumber(intMountZoom))
             optionsFrame.zoomButton:SetChecked(false)
-            z = string.format("z:0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
+            z = string.format("z:0 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
         end
         isFadeOn = not gloptions[1]
         isZoomOn = not gloptions[2]
