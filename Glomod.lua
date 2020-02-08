@@ -1,13 +1,9 @@
 myHandlers = {}
 function GlomodOnload(self)
-    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
     isInCombat = false
     isTargeting = false
     isFishing = false
-    isFirstFeetMove = true
-    isFirstMountMove = true
     isDebuging = false
-    isCamLock = false
 
     intRotationSpeed = 0.05
     intFade = 0
@@ -17,18 +13,10 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-
     secTimerFade = 10
+    saveCam = GetCameraZoom()
 
     FRClass, ENClass, iclass = UnitClass("player")
-    if iclass == 11 or iclass == 7 then
-        iforme = GetShapeshiftForm(flag)
-        tableForm = {[11]=3, [7]=1}
-    end
-
-    tableScale = {
-        MainMenuBar,
-    }
 
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
@@ -57,8 +45,9 @@ function GlomodOnload(self)
       "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
       "UNIT_SPELLCAST_SUCCEEDED", "PLAYER_ENTERING_WORLD", "VIGNETTE_MINIMAP_UPDATED",
       "PLAYER_CONTROL_GAINED", "PLAYER_CONTROL_LOST",
-      "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING",
-      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
+--      "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING",
+      "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT",
+--      "UPDATE_SHAPESHIFT_FORM",
       "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
       "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
       "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
@@ -114,31 +103,6 @@ function moveFrame(fr)
     fr:SetPoint("RIGHT", "UIParent", "CENTER", -100, 0)
     if isDebuging then
         local log = string.format("Move %s", fr:GetName())
-        printDebug(log)
-    end
-end
-
-function stopPitch()
-    intPitchZoom = GetCVarDefault("test_cameraDynamicPitchBaseFovPad")
-    C_CVar.SetCVar("test_cameraDynamicPitch", 0)
-    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", intPitchZoom)
-    C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", GetCVarDefault("test_cameraDynamicPitchBaseFovPadFlying"))
-    if isDebuging then
-        printDebug("PITCH OFF")
-        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(intPitchZoom))
-    end
-end
-
-function setPitch(i)
-    local j = i / 10
-    local actual = GetCVar("test_cameraDynamicPitchBaseFovPad")
-    local isActivated = C_CVar.SetCVar("test_cameraDynamicPitch", 1)
-    local isPitched = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPad", j) --, "scriptCVar"
-    local isPitched2 = C_CVar.SetCVar("test_cameraDynamicPitchBaseFovPadFlying", j) --, "scriptCVar"
-    intPitchZoom = j
-    if isDebuging then
-        log = string.format("PITCH from %.2f to %.2f = %.2f", actual, j, GetCVar("test_cameraDynamicPitchBaseFovPad"))
-        debugFrame.dynamicPitchActual:SetText("p: " .. tostring(j))
         printDebug(log)
     end
 end

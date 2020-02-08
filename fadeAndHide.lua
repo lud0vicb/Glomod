@@ -10,17 +10,6 @@ function hideAll()
     end
     intFade = 0
     fadeAll()
-    --[[if intFade == 1 then
-        -- first run
-        if isDebuging then
-            printDebug("Start fading")
-        end
-    end
-    if intFade > 0 then
-        intFade = intFade - 0.1
-        fadeAll()
-        C_Timer.After(.1, function() hideAll() end)
-    end]]--
 end
 
 function fadeAll()
@@ -32,7 +21,6 @@ end
 function showAll()
     if isFadeOn then
         intFade = 1
-        isFading = false
         fadeAll()
     end
 end
