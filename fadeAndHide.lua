@@ -8,7 +8,9 @@ function hideAll()
         intFade = 1
         return
     end
-    if intFade == 1 then
+    intFade = 0
+    fadeAll()
+    --[[if intFade == 1 then
         -- first run
         if isDebuging then
             printDebug("Start fading")
@@ -18,7 +20,7 @@ function hideAll()
         intFade = intFade - 0.1
         fadeAll()
         C_Timer.After(.1, function() hideAll() end)
-    end
+    end]]--
 end
 
 function fadeAll()

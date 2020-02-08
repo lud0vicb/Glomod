@@ -16,6 +16,7 @@ function sendInfoVignette(vInfo)
     intVignetteSave = (intVignetteSave + 1) % intVignetteMax
     local type, _, iServer, iInstance, iZone, iNpc, iSpawn = strsplit("-", vInfo.objectGUID)
     ChatFrame1:SetAlpha(1)
+    C_Timer.After(6, function() checkHide() end)
     local msg = string.format("ALERTE %s : %s à proximité", type, vInfo.name)
     if UnitInParty("player") then
         SendChatMessage(msg, "PARTY")
