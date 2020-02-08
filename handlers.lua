@@ -160,7 +160,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isVignetteOn = true
         intScale = 1
         intCameraZoomSpeed = 20
-        C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
         gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, intScale}
         z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
     else
@@ -175,7 +175,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         optionsFrame.enterSC:SetText(tostring(intScale * 100))
         intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
         optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
-        C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
         if isZoomOn then
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
