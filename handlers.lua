@@ -21,6 +21,7 @@ end
 
 function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
+    combatHide()
     checkHide()
 end
 
@@ -116,7 +117,6 @@ function myHandlers:ADDON_LOADED(arg1, addon)
     end
     optionsFrame.fadingButton:SetChecked(isFadeOn)
     optionsFrame.vignetteButton:SetChecked(isVignetteOn)
-    debugFrame.zoomActual:SetText(string.format("a: %d", GetCameraZoom()))
 end
 
 function myHandlers:PLAYER_LOGOUT()
