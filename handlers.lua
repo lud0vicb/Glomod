@@ -2,32 +2,26 @@ function myHandlers:UNIT_ENTERING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
+    saveCam = GetCameraZoom()
     moveCam(intVehicleZoom)
-    isZoomOn = false
 end
 
 function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
-    isZoomOn = gloptions[6]
-    moveCam(intFeetZoom)
-    computeScale()
+    moveCam(saveCam)
 end
 
 function myHandlers:PLAYER_REGEN_DISABLED()
     isInCombat = true
     combatHide()
     showAll()
-    combatCamIn()
 end
 
 function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
-    isFading = false
     checkHide()
-    combatHide()
-    combatCamOut()
 end
 
 function myHandlers:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
@@ -66,19 +60,12 @@ end
 function myHandlers:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(intRotationSpeed)
-    local c = isZoomOn
-    isZoomOn = true
-    moveCam(intMountZoom)
-    isZoomOn = c
+    -- find if we are on a taxi to moveCam
 end
 
 function myHandlers:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
-    local c = isZoomOn
-    isZoomOn = true
-    moveCam(intFeetZoom)
-    isZoomOn = c
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
@@ -94,12 +81,8 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
             MoveViewRightStart(0.05)
             C_Timer.After(2, function() MoveViewRightStop() end)
             isFishing = true
-            moveCam (intFishZoom)
-            isFirstFeetMove = true
-            isFirstMountMove = true
         end
     elseif iSpell == 125883 then -- nuage volant du moine
-        --moveCam (intMountZoom)
     end
 end
 
@@ -115,104 +98,36 @@ function myHandlers:GROUP_FORMED()
 end
 
 function myHandlers:UPDATE_SHAPESHIFT_FORM()
-    if iclass == 11 or iclass == 7 then -- druid shaman
-        local fff = GetShapeshiftForm(flag)
-        if isDebuging then
-           local m = string.format("SHAPESHIFT %d %d", fff, iforme)
-           printDebug(m)
-         end
-        if iforme == fff or fff == 4 or fff == 6 then
-            return
-        end
-        iforme = fff
-        if iforme ~= tableForm[iclass] then
-            if isInCombat then
-                moveCam(intCombatZoom)
-                m = string.format("SH combat %d",  intCombatZoom)
-            else
-                moveCam(intFeetZoom)
-                m = string.format("SH feet %d",  intFeetZoom)
-            end
-        else
-            moveCam(intMountZoom)
-            m = string.format("SH mount %d",  intMountZoom)
-        end
-        if isDebuging then
-          printDebug(m)
-        end
-    end
 end
 
 function myHandlers:ADDON_LOADED(arg1, addon)
     if addon ~= "Glomod" then
         return
     end
-    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
-    local z = ""
     if gloptions == nil then
-        intFeetZoom = 5
-        intMountZoom = 15
-        isZoomOn = true
-        intCombatZoom = 10
-        saveZoom = {}
         isFadeOn = true
-        isZoomOn = true
         isVignetteOn = true
-        intScale = 1
-        intCameraZoomSpeed = 20
-        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, intScale}
-        z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+        gloptions = {isFadeOn, false, isVignetteOn, 0, 0, false, 0, 0}
     else
-        intFeetZoom = gloptions[4]
-        intMountZoom = gloptions[5]
-        isZoomOn = gloptions[6]
-        intCombatZoom = gloptions[7]
-        intScale = gloptions[8]
-        if intScale == nil then
-            intScale = 1
-        end
-        optionsFrame.enterSC:SetText(tostring(intScale * 100))
-        intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
-        optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
-        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-        if isZoomOn then
-            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
-            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
-            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
-            optionsFrame.zoomButton:SetChecked(true)
-            z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
-        else
-            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
-            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
-            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
-            optionsFrame.zoomButton:SetChecked(false)
-            z = string.format("z:0 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
-        end
         isFadeOn = not gloptions[1]
-        isZoomOn = not gloptions[2]
         isVignetteOn = not gloptions[3]
-        optionsZoom()
         optionsFading()
         optionsVignette()
-        C_Timer.After(8, function() computeScale() end)
     end
-    optionsFrame.zoomButton:SetChecked(isZoomOn)
     optionsFrame.fadingButton:SetChecked(isFadeOn)
     optionsFrame.vignetteButton:SetChecked(isVignetteOn)
     debugFrame.zoomActual:SetText(string.format("a: %d", GetCameraZoom()))
-    debugFrame.zoomText:SetText(z)
 end
 
 function myHandlers:PLAYER_LOGOUT()
-    gloptions[4] = intFeetZoom
-    gloptions[5] = intMountZoom
-    gloptions[6] = isZoomOn
-    gloptions[7] = intCombatZoom
+    gloptions[4] = 0
+    gloptions[5] = 0
+    gloptions[6] = false
+    gloptions[7] = 0
     gloptions[1] = isFadeOn
-    gloptions[2] = isZoomOn
+    gloptions[2] = false
     gloptions[3] = isVignetteOn
-    gloptions[8] = intScale
+    gloptions[8] = 0
 end
 
 function myHandlers:GOSSIP_SHOW()
