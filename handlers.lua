@@ -109,6 +109,7 @@ function myHandlers:PLAYER_ENTERING_WORLD()
     if isFadeOn then
         fadeAll()
     end
+    MoveViewLeftStop()
 end
 
 function myHandlers:GROUP_FORMED()
