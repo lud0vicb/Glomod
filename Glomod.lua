@@ -17,7 +17,7 @@ function GlomodOnload(self)
     intVehicleZoom = 30
     intVignetteMax = 30
 
-    secTimerFade = 10
+    secTimerFade = 5
 
     FRClass, ENClass, iclass = UnitClass("player")
     if iclass == 11 or iclass == 7 then
@@ -26,7 +26,7 @@ function GlomodOnload(self)
     end
 
     tableFrameShowHide = {
-        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
+        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MultiBarLeft,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
     }
     for i,v in ipairs(tableFrameShowHide) do

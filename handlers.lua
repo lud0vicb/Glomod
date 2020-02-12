@@ -63,21 +63,25 @@ function myHandlers:PLAYER_TARGET_CHANGED()
 end
 
 function myHandlers:PLAYER_CONTROL_LOST()
-    UIParent:Hide()
-    MoveViewLeftStart(intRotationSpeed)
-    local c = isZoomOn
-    isZoomOn = true
-    moveCam(intMountZoom)
-    isZoomOn = c
+    if UnitOnTaxi("player") then
+        UIParent:Hide()
+        MoveViewLeftStart(intRotationSpeed)
+        local c = isZoomOn
+        isZoomOn = true
+        moveCam(intMountZoom)
+        isZoomOn = c
+    end
 end
 
 function myHandlers:PLAYER_CONTROL_GAINED()
-    UIParent:Show()
-    MoveViewLeftStop()
-    local c = isZoomOn
-    isZoomOn = true
-    moveCam(intFeetZoom)
-    isZoomOn = c
+    if not UIParent:IsVisible() then
+        UIParent:Show()
+        MoveViewLeftStop()
+        local c = isZoomOn
+        isZoomOn = true
+        moveCam(intFeetZoom)
+        isZoomOn = c
+    end
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
