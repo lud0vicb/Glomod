@@ -155,27 +155,6 @@ function computeZoom()
     message("New zooms " .. z)
 end
 
-function computeScale()
-    --if true then return end -- bloque
-    if isFading then
-        message("FADING : plz retry")
-        return
-    end
-    local s = tonumber(optionsFrame.enterSC:GetText())
-    -- need control on the type
-    intScale = s / 100
-    for i,v in ipairs(tableScale) do
-        --v:ClearAllPoints()
-        v:SetMovable(true)
-        v:SetUserPlaced(true)
-        v:SetScale(intScale)
-    end
-    if isDebuging then
-        printDebug(string.format("SCALE %.2f", intScale))
-    end
-    showAll()
-end
-
 function createButton (parent, x, y, fonc, nom)
     local b = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
     b:SetWidth(30)
@@ -219,10 +198,6 @@ function optionsFrameOnload(self)
     self.enterZM = createEnter(self, 145, -130, 0)
     self.speedZ = createEnter(self, 175, -130, 0)
     self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
-    -- options scale
-    self.scaleText = createText(80, -175, "échelle barre")
-    self.enterSC = createEnter(self, 175, -175, 0)
-    self.validScale = createButton(self, 205, -165, computeScale, "S")
 end
 
 function optionsFrameOnclose(self)

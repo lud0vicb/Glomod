@@ -12,7 +12,6 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     end
     isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
-    computeScale()
 end
 
 function myHandlers:PLAYER_REGEN_DISABLED()
@@ -158,21 +157,15 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isFadeOn = true
         isZoomOn = true
         isVignetteOn = true
-        intScale = 1
         intCameraZoomSpeed = 20
         --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, intScale}
+        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, isZoomOn, intCombatZoom, 1}
         z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
     else
         intFeetZoom = gloptions[4]
         intMountZoom = gloptions[5]
         isZoomOn = gloptions[6]
         intCombatZoom = gloptions[7]
-        intScale = gloptions[8]
-        if intScale == nil then
-            intScale = 1
-        end
-        optionsFrame.enterSC:SetText(tostring(intScale * 100))
         intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
         optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
         --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
@@ -195,7 +188,6 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         optionsZoom()
         optionsFading()
         optionsVignette()
-        C_Timer.After(8, function() computeScale() end)
     end
     optionsFrame.zoomButton:SetChecked(isZoomOn)
     optionsFrame.fadingButton:SetChecked(isFadeOn)
@@ -212,7 +204,7 @@ function myHandlers:PLAYER_LOGOUT()
     gloptions[1] = isFadeOn
     gloptions[2] = isZoomOn
     gloptions[3] = isVignetteOn
-    gloptions[8] = intScale
+    gloptions[8] = 1
 end
 
 function myHandlers:GOSSIP_SHOW()

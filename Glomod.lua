@@ -10,7 +10,6 @@ function GlomodOnload(self)
     isCamLock = false
 
     intRotationSpeed = 0.05
-    intFade = 0
     intFishZoom = 1.5
     intVignetteSave = 1
     intDebugLine = 1
@@ -25,9 +24,6 @@ function GlomodOnload(self)
         iforme = GetShapeshiftForm(flag)
         tableForm = {[11]=3, [7]=1}
     end
-
-    tableScale = {
-    }
 
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
