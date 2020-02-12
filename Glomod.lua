@@ -27,7 +27,6 @@ function GlomodOnload(self)
     end
 
     tableScale = {
-        MainMenuBar,
     }
 
     tableFrameShowHide = {
