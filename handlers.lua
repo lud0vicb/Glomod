@@ -61,12 +61,15 @@ end
 function myHandlers:PLAYER_CONTROL_LOST()
     UIParent:Hide()
     MoveViewLeftStart(intRotationSpeed)
+    saveCam = GetCameraZoom()
+    moveCam(intVehicleZoom)
     -- find if we are on a taxi to moveCam
 end
 
 function myHandlers:PLAYER_CONTROL_GAINED()
     UIParent:Show()
     MoveViewLeftStop()
+    moveCam(saveCam)
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)

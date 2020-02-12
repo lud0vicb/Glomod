@@ -19,7 +19,7 @@ function GlomodOnload(self)
     FRClass, ENClass, iclass = UnitClass("player")
 
     tableFrameShowHide = {
-        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame,
+        PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, MultiBarLeft, BuffFrame,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
     }
     for i,v in ipairs(tableFrameShowHide) do
@@ -61,7 +61,8 @@ function GlomodOnload(self)
     self:SetScript('OnEvent', function(self, event, ...) myHandlers[event](self, event, ...) end)
 
     local tableHide={
-        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
+        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap,
+        --MainMenuBarArtFrameBackground, 
     }
     for i,v in ipairs(tableHide) do
         v:Hide()
