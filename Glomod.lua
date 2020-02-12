@@ -16,7 +16,7 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     intVignetteMax = 30
-
+    secCamAfterCombat = 5
     secTimerFade = 5
 
     FRClass, ENClass, iclass = UnitClass("player")

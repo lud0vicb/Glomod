@@ -39,7 +39,7 @@ function combatCamOut()
         return
     end
     isFirstMountMove = false
-    C_Timer.After(3, function() isFirstFeetMove = true end)
+    C_Timer.After(secCamAfterCombat, function() isFirstFeetMove = true end)
 end
 
 function checkMount()
