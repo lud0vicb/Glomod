@@ -74,12 +74,12 @@ end
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
         UIParent:Show()
-        MoveViewLeftStop()
         local c = isZoomOn
         isZoomOn = true
         moveCam(intFeetZoom)
         isZoomOn = c
     end
+    MoveViewLeftStop()
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
