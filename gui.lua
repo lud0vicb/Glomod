@@ -142,7 +142,14 @@ function optionsFrameOnload(self)
     self:RegisterForDrag("LeftButton")
     self:SetScript("OnDragStart", self.StartMoving)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
-    -- options vignettes
+    -- options pitch
+    self.pitchButton = createCheckButton(self, 80, -50, "caméra pitch 0.2",
+        optionsPitch, "active le décalage de la caméra sur le bas")
+    intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
+    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
+        self.pitchButton:SetChecked(true)
+    end
+-- options vignettes
     self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes",
         optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
