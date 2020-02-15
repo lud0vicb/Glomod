@@ -1,5 +1,6 @@
 myHandlers = {}
 function GlomodOnload(self)
+    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
     isInCombat = false
     isTargeting = false
     isFishing = false
