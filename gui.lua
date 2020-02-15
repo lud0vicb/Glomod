@@ -1,4 +1,16 @@
 function debugFrameOnload(self)
+    self.zoomText = self:CreateFontString(nil, "OVERLAY")
+    self.zoomText:SetPoint("BOTTOMLEFT", 22, 83)
+    self.zoomText:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+    self.zoomText:SetText("zooms")
+    self.zoomActual = self:CreateFontString(nil, "OVERLAY")
+    self.zoomActual:SetPoint("BOTTOMLEFT", 92, 83)
+    self.zoomActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+    self.zoomActual:SetText("0")
+    self.dynamicPitchActual = self:CreateFontString(nil, "OVERLAY")
+    self.dynamicPitchActual:SetPoint("BOTTOMLEFT", 272, 83)
+    self.dynamicPitchActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
+    self.dynamicPitchActual:SetText(tostring("p: " .. GetCVar("test_cameraDynamicPitchBaseFovPad")))
     self.debugText = self:CreateFontString(nil, "OVERLAY")
     self.debugText:SetPoint("TOPLEFT", self, "TOPLEFT", 22, -80)
     self.debugText:SetWidth(300)
@@ -38,6 +50,14 @@ function gloButtonClick(self, button)
     end
 end
 
+function optionsPitch()
+    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
+        stopPitch()
+    else
+        setPitch(2)
+    end
+end
+
 function optionsFading()
     if isFadeOn then
         showAll()
@@ -54,12 +74,22 @@ function optionsFading()
     end
 end
 
-function optionsPitch()
-    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
-        stopPitch()
+function optionsZoom()
+    local z = ""
+    if isZoomOn then
+        isZoomOn = false
+        if isDebuging then
+            printDebug('zooms OFF')
+        end
+        z = string.format("0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     else
-        setPitch(2)
+        isZoomOn = true
+        if isDebuging then
+            printDebug('zooms ON')
+        end
+        z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
     end
+    debugFrame.zoomText:SetText(z)
 end
 
 function optionsVignette()
@@ -157,14 +187,15 @@ function optionsFrameOnload(self)
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         self.pitchButton:SetChecked(true)
     end
--- options vignettes
+    -- options vignettes
     self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes",
         optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
     self.fadingButton = createCheckButton(self, 80, -150, "dissimule interface",
         optionsFading, "cache une partie de l'interface hors combat et hors cible")
     -- options zooms
-    self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques", optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
+    self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques",
+        optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
     self.zoomText = createText(80, -110, "feet/combat/mount/speed")
     self.enterZF = createEnter(self, 85, -130, 0)
     self.enterZC = createEnter(self, 115, -130, 0)
