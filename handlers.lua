@@ -10,7 +10,8 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
-    moveCam(saveCam)
+    isZoomOn = gloptions[6]
+    moveCam(intFeetZoom)
 end
 
 function myHandlers:PLAYER_REGEN_DISABLED()
@@ -56,20 +57,47 @@ function myHandlers:PLAYER_TARGET_CHANGED()
             isTargeting = false
         end
     end
+    if UnitExists("target") then
+        if UnitIsPlayer("target") then
+            local nom = UnitName("target")
+            if isDebuging then
+                local log = string.format("Joueur %s rencontré", nom)
+                printDebug(log)
+            end
+            local yeah = false
+            for i=1, intNameMax, 1 do
+                if nom == tableNameSave[i] then
+                    yeah = true
+                    break
+                end
+            end
+            if not yeah then
+                DoEmote("HELLO")
+                tableNameSave[intNameSave] = nom
+                intNameSave = (intNameSave + 1) % intNameMax
+            end
+        end
+    end
 end
 
 function myHandlers:PLAYER_CONTROL_LOST()
-    UIParent:Hide()
-    MoveViewLeftStart(intRotationSpeed)
-    saveCam = GetCameraZoom()
-    moveCam(intVehicleZoom)
-    -- find if we are on a taxi to moveCam
+        UIParent:Hide()
+        MoveViewLeftStart(intRotationSpeed)
+        local c = isZoomOn
+        isZoomOn = true
+        moveCam(intMountZoom)
+        isZoomOn = c
 end
 
 function myHandlers:PLAYER_CONTROL_GAINED()
-    UIParent:Show()
+    if not UIParent:IsVisible() then
+        UIParent:Show()
+        local c = isZoomOn
+        isZoomOn = true
+        moveCam(intFeetZoom)
+        isZoomOn = c
+    end
     MoveViewLeftStop()
-    moveCam(saveCam)
 end
 
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
@@ -95,6 +123,7 @@ function myHandlers:PLAYER_ENTERING_WORLD()
     if isFadeOn then
         fadeAll()
     end
+    MoveViewLeftStop()
 end
 
 function myHandlers:GROUP_FORMED()
@@ -111,26 +140,50 @@ function myHandlers:ADDON_LOADED(arg1, addon)
     if gloptions == nil then
         isFadeOn = true
         isVignetteOn = true
-        gloptions = {isFadeOn, false, isVignetteOn, 0, 0, false, 0, 0}
+        intCameraZoomSpeed = 20
+        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, intCameraZoomSpeed, intCombatZoom, 1}
+        z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
     else
         isFadeOn = not gloptions[1]
         isVignetteOn = not gloptions[3]
+        intFeetZoom = gloptions[4]
+        intMountZoom = gloptions[5]
+        isZoomOn = gloptions[6]
+        intCombatZoom = gloptions[7]
+        intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
+        optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
+        --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+        if isZoomOn then
+            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
+            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
+            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
+            optionsFrame.zoomButton:SetChecked(true)
+            z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+        else
+            optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
+            optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
+            optionsFrame.enterZM:SetText(tonumber(intMountZoom))
+            optionsFrame.zoomButton:SetChecked(false)
+            z = string.format("z:0 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+        end
         optionsFading()
         optionsVignette()
+        optionsZoom()
     end
     optionsFrame.fadingButton:SetChecked(isFadeOn)
     optionsFrame.vignetteButton:SetChecked(isVignetteOn)
 end
 
 function myHandlers:PLAYER_LOGOUT()
-    gloptions[4] = 0
-    gloptions[5] = 0
-    gloptions[6] = false
-    gloptions[7] = 0
+    gloptions[4] = intFeetZoom
+    gloptions[5] = intMountZoom
+    gloptions[6] = intCameraZoomSpeed
+    gloptions[7] = intCombatZoom
     gloptions[1] = isFadeOn
-    gloptions[2] = false
+    gloptions[2] = isZoomOn
     gloptions[3] = isVignetteOn
-    gloptions[8] = 0
+    gloptions[8] = 1
 end
 
 function myHandlers:GOSSIP_SHOW()

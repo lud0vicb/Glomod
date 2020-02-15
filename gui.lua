@@ -90,6 +90,33 @@ function createEnter(parent, x, y, val)
     return e
 end
 
+function computeZoom()
+    intFeetZoom = tonumber(optionsFrame.enterZF:GetText())
+    intCombatZoom = tonumber(optionsFrame.enterZC:GetText())
+    intMountZoom = tonumber(optionsFrame.enterZM:GetText())
+    isZoomOn = true
+    optionsFrame.zoomButton:SetChecked(true)
+    if isInCombat then
+        moveCam(intCombatZoom)
+    elseif IsMounted() then
+        moveCam(intMountZoom)
+    elseif iclass == 11 or iclass == 7 then
+        if iforme ~= tableForm[iclass] then
+            moveCam(intFeetZoom)
+        else
+            moveCam(intMountZoom)
+        end
+    end
+    intCameraZoomSpeed = tonumber(optionsFrame.speedZ:GetText())
+    C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
+    local z = string.format("1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+    if isDebuging then
+        debugFrame.zoomText:SetText(z)
+        printDebug(z)
+    end
+    message("New zooms " .. z)
+end
+
 function createButton (parent, x, y, fonc, nom)
     local b = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
     b:SetWidth(30)
@@ -119,6 +146,14 @@ function optionsFrameOnload(self)
     self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
     self.fadingButton = createCheckButton(self, 80, -150, "dissimule interface", optionsFading, "cache une partie de l'interface hors combat et hors cible")
+    -- options zooms
+    self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques", optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
+    self.zoomText = createText(80, -110, "feet/combat/mount/speed")
+    self.enterZF = createEnter(self, 85, -130, 0)
+    self.enterZC = createEnter(self, 115, -130, 0)
+    self.enterZM = createEnter(self, 145, -130, 0)
+    self.speedZ = createEnter(self, 175, -130, 0)
+    self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
 end
 
 function optionsFrameOnclose(self)

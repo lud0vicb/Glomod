@@ -6,18 +6,25 @@ function GlomodOnload(self)
     isDebuging = false
 
     intRotationSpeed = 0.05
-    intFade = 0
     intFishZoom = 1.5
     intVignetteSave = 1
+    intVignetteMax = 30
+    intNameSave = 1
+    intNameMax = 30
     intDebugLine = 1
     intMaxDebug = 26
     intVehicleZoom = 30
+    secCamAfterCombat = 5
+    secTimerFade = 5
     intVignetteMax = 30
-    secTimerFade = 10
     saveCam = GetCameraZoom()
 
     FRClass, ENClass, iclass = UnitClass("player")
-
+    if iclass == 11 or iclass == 7 then
+        iforme = GetShapeshiftForm(flag)
+        tableForm = {[11]=3, [7]=1}
+    end
+  
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, MultiBarLeft, BuffFrame,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
@@ -82,6 +89,11 @@ function GlomodOnload(self)
     tableDebugLine = {}
     for ind=1, intMaxDebug, 1 do
         tableDebugLine[ind] = ""
+    end
+
+    tableNameSave ={}
+    for ind=1, intNameMax, 1 do
+        tableNameSave[ind] = ""
     end
 end
 
