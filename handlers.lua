@@ -142,14 +142,16 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         isVignetteOn = true
         intCameraZoomSpeed = 20
         --C_CVar.SetCVar("cameraZoomSpeed", intCameraZoomSpeed)
-        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom, intCameraZoomSpeed, intCombatZoom, 1}
-        z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+        gloptions = {isFadeOn, isZoomOn, isVignetteOn, intFeetZoom, intMountZoom,
+                     intCameraZoomSpeed, intCombatZoom, 1}
+        z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom,
+                                             intCameraZoomSpeed)
     else
         isFadeOn = not gloptions[1]
         isVignetteOn = not gloptions[3]
         intFeetZoom = gloptions[4]
         intMountZoom = gloptions[5]
-        isZoomOn = gloptions[6]
+        isZoomOn = not gloptions[6]
         intCombatZoom = gloptions[7]
         intCameraZoomSpeed = C_CVar.GetCVar("cameraZoomSpeed")
         optionsFrame.speedZ:SetText(tostring(intCameraZoomSpeed))
@@ -159,7 +161,8 @@ function myHandlers:ADDON_LOADED(arg1, addon)
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
             optionsFrame.enterZM:SetText(tonumber(intMountZoom))
             optionsFrame.zoomButton:SetChecked(true)
-            z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom, intMountZoom, intCameraZoomSpeed)
+            z = string.format("z:1 %d %d %d %d", intFeetZoom, intCombatZoom,
+                                                 intMountZoom, intCameraZoomSpeed)
         else
             optionsFrame.enterZF:SetText(tonumber(intFeetZoom))
             optionsFrame.enterZC:SetText(tonumber(intCombatZoom))
@@ -169,7 +172,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
         end
         optionsFading()
         optionsVignette()
-        optionsZoom()
+        --optionsZoom()
     end
     optionsFrame.fadingButton:SetChecked(isFadeOn)
     optionsFrame.vignetteButton:SetChecked(isVignetteOn)

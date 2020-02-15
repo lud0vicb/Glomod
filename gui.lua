@@ -143,9 +143,11 @@ function optionsFrameOnload(self)
     self:SetScript("OnDragStart", self.StartMoving)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
     -- options vignettes
-    self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
+    self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes",
+        optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
-    self.fadingButton = createCheckButton(self, 80, -150, "dissimule interface", optionsFading, "cache une partie de l'interface hors combat et hors cible")
+    self.fadingButton = createCheckButton(self, 80, -150, "dissimule interface",
+        optionsFading, "cache une partie de l'interface hors combat et hors cible")
     -- options zooms
     self.zoomButton = createCheckButton(self, 80, -90, "zooms automatiques", optionsZoom, "active les zooms automatiques contextuels : à pieds, en combat, en monture")
     self.zoomText = createText(80, -110, "feet/combat/mount/speed")
