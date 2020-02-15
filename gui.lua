@@ -54,6 +54,14 @@ function optionsFading()
     end
 end
 
+function optionsPitch()
+    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
+        stopPitch()
+    else
+        setPitch(2)
+    end
+end
+
 function optionsVignette()
     if isVignetteOn then
         GlomodFrame:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED")
