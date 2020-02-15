@@ -60,6 +60,27 @@ function myHandlers:PLAYER_TARGET_CHANGED()
             isTargeting = false
         end
     end
+    if UnitExists("target") then
+        if UnitIsPlayer("target") then
+            local nom = UnitName("target")
+            if isDebuging then
+                local log = string.format("Joueur %s rencontré", nom)
+                printDebug(log)
+            end
+            local yeah = false
+            for i=1, intNameMax, 1 do
+                if nom == tableNameSave[i] then
+                    yeah = true
+                    break
+                end
+            end
+            if not yeah then
+                DoEmote("HELLO")
+                tableNameSave[intNameSave] = nom
+                intNameSave = (intNameSave + 1) % intNameMax
+            end
+        end
+    end
 end
 
 function myHandlers:PLAYER_CONTROL_LOST()
