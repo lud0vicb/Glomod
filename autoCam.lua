@@ -59,7 +59,7 @@ function checkMount()
 end
 
 function moveCam(ref)
-    if not isZoomOn or ref == 0 or isCamLock then
+    if ref == 0 or isCamLock then
         return
     end
     isCamLock = true

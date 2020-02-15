@@ -1,16 +1,4 @@
 function debugFrameOnload(self)
-    self.zoomText = self:CreateFontString(nil, "OVERLAY")
-    self.zoomText:SetPoint("BOTTOMLEFT", 22, 83)
-    self.zoomText:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
-    self.zoomText:SetText("zooms")
-    self.zoomActual = self:CreateFontString(nil, "OVERLAY")
-    self.zoomActual:SetPoint("BOTTOMLEFT", 92, 83)
-    self.zoomActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
-    self.zoomActual:SetText("0")
-    self.dynamicPitchActual = self:CreateFontString(nil, "OVERLAY")
-    self.dynamicPitchActual:SetPoint("BOTTOMLEFT", 272, 83)
-    self.dynamicPitchActual:SetFont("Fonts\\FRIZQT__.TTF", 10, "OUTLINE")
-    self.dynamicPitchActual:SetText(tostring("p: " .. GetCVar("test_cameraDynamicPitchBaseFovPad")))
     self.debugText = self:CreateFontString(nil, "OVERLAY")
     self.debugText:SetPoint("TOPLEFT", self, "TOPLEFT", 22, -80)
     self.debugText:SetWidth(300)
@@ -50,14 +38,6 @@ function gloButtonClick(self, button)
     end
 end
 
-function optionsPitch()
-    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
-        stopPitch()
-    else
-        setPitch(2)
-    end
-end
-
 function optionsFading()
     if isFadeOn then
         showAll()
@@ -72,24 +52,6 @@ function optionsFading()
             printDebug('fading ON')
         end
     end
-end
-
-function optionsZoom()
-    local z = ""
-    if isZoomOn then
-        isZoomOn = false
-        if isDebuging then
-            printDebug('zooms OFF')
-        end
-        z = string.format("0 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
-    else
-        isZoomOn = true
-        if isDebuging then
-            printDebug('zooms ON')
-        end
-        z = string.format("1 %d %d %d", intFeetZoom, intCombatZoom, intMountZoom)
-    end
-    debugFrame.zoomText:SetText(z)
 end
 
 function optionsVignette()
@@ -180,12 +142,6 @@ function optionsFrameOnload(self)
     self:RegisterForDrag("LeftButton")
     self:SetScript("OnDragStart", self.StartMoving)
     self:SetScript("OnDragStop", self.StopMovingOrSizing)
-    -- options pitch
-    self.pitchButton = createCheckButton(self, 80, -50, "caméra pitch 0.2", optionsPitch, "active le décalage de la caméra sur le bas")
-    intPitchZoom = GetCVar("test_cameraDynamicPitchBaseFovPad")
-    if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
-        self.pitchButton:SetChecked(true)
-    end
     -- options vignettes
     self.vignetteButton = createCheckButton(self, 80, -70, "alertes vignettes", optionsVignette, "active la détection des vignettes sur la minimap")
     -- options fading
