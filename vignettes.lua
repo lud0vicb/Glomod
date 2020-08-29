@@ -1,3 +1,4 @@
+-- une étoile sur la minimap ; vérification de la présence de cette étoile dans la table de sauvegarde
 function checkVignetteSave(vInfo)
     for ind=1, intVignetteMax, 1 do
         if tableVignetteSave[ind] == vInfo.objectGUID then
@@ -10,7 +11,8 @@ function checkVignetteSave(vInfo)
     end
     return false
 end
-
+-- affichage d'une ligne de chat et jeu d'une emote lorsqu'une nouvelle étoile est repérée
+-- sauvegarde de la vignette reçue dans la liste
 function sendInfoVignette(vInfo)
     tableVignetteSave[intVignetteSave] = vInfo.objectGUID
     intVignetteSave = (intVignetteSave + 1) % intVignetteMax

@@ -17,7 +17,7 @@ function moved()
         end
     end
 end
-
+-- déplacement de la caméra en zoom in selon le contexte et le point de départ
 function combatCamIn()
     if IsMounted() or isZoomOn == false then
         return
@@ -30,7 +30,7 @@ function combatCamIn()
         moveCam(intCombatZoom)
     end
 end
-
+-- déplcament de la caméra en zoom out selon le contexte et le point de départ
 function combatCamOut()
     if IsMounted() or isZoomOn == false then
         return
@@ -41,7 +41,8 @@ function combatCamOut()
     isFirstMountMove = false
     C_Timer.After(secCamAfterCombat, function() isFirstFeetMove = true end)
 end
-
+-- vérification d'une monture
+-- pour éviter les allers retours jeu avec des flags isFirstXXXXMove
 function checkMount()
     if IsMounted() then
         if isFirstMountMove then
@@ -57,7 +58,7 @@ function checkMount()
         end
     end
 end
-
+-- déplacelement de la caméra, prise en compte de la distance actuelle pour trouver la distance arrivée
 function moveCam(ref)
     if not isZoomOn or ref == 0 or isCamLock then
         return

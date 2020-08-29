@@ -1,3 +1,4 @@
+-- évènement entrée dans un véhicule
 function myHandlers:UNIT_ENTERING_VEHICLE(event, target)
     if target ~= "player" then
         return
@@ -5,7 +6,7 @@ function myHandlers:UNIT_ENTERING_VEHICLE(event, target)
     moveCam(intVehicleZoom)
     isZoomOn = false
 end
-
+-- évènement sortie d'un véhicule
 function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     if target ~= "player" then
         return
@@ -13,14 +14,14 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
 end
-
+-- évènement la vie n'est plus régénérée I.E. début combat
 function myHandlers:PLAYER_REGEN_DISABLED()
     isInCombat = true
     combatHide()
     showAll()
     combatCamIn()
 end
-
+-- évènement la vie est régénérée I.E. fin de combat
 function myHandlers:PLAYER_REGEN_ENABLED()
     isInCombat = false
     isFading = false
@@ -28,7 +29,7 @@ function myHandlers:PLAYER_REGEN_ENABLED()
     combatHide()
     combatCamOut()
 end
-
+-- évènement les étoiles sur la minimap ont changé
 function myHandlers:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     if not isVisible then
         return
@@ -39,17 +40,18 @@ function myHandlers:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
     end
     sendInfoVignette(vInfo)
 end
-
+-- évènement début d'un lancement de sort à chargement
 function myHandlers:UNIT_SPELLCAST_START()
 end
-
+-- évènement personnage s'arrête de bouger
 function myHandlers:PLAYER_STOPPED_MOVING()
     moved()
 end
+-- évènement personnage commence à bouger
 function myHandlers:PLAYER_STARTED_MOVING()
     moved()
 end
-
+-- évènement la sélection à la souris ou TAB a changé
 function myHandlers:PLAYER_TARGET_CHANGED()
     if isFadeOn then
         if UnitExists("target") then
@@ -61,6 +63,8 @@ function myHandlers:PLAYER_TARGET_CHANGED()
         end
     end
     if UnitExists("target") then
+        -- la sélection est un joueur alors sauvegarde de son nom
+        -- si ce nom n'est pas connu dans la table des noms => emote salut
         if UnitIsPlayer("target") then
             local nom = UnitName("target")
             if isDebuging then
@@ -82,7 +86,8 @@ function myHandlers:PLAYER_TARGET_CHANGED()
         end
     end
 end
-
+-- évènement perte de control : assomer, ebeter, etc
+-- la caméra commence à tourner autours du perso et l'interface est caché
 function myHandlers:PLAYER_CONTROL_LOST()
         UIParent:Hide()
         MoveViewLeftStart(intRotationSpeed)
@@ -91,7 +96,7 @@ function myHandlers:PLAYER_CONTROL_LOST()
         moveCam(intMountZoom)
         isZoomOn = c
 end
-
+-- évènement regain du control ; retour de la caméra et affichage de l'interface
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
         UIParent:Show()
@@ -102,8 +107,9 @@ function myHandlers:PLAYER_CONTROL_GAINED()
     end
     MoveViewLeftStop()
 end
-
+-- évènement lancement d'un sort réussi
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
+    -- le lanceur est le joueur
     if caster ~= "player" then
         return
     end
@@ -124,7 +130,7 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
         --moveCam (intMountZoom)
     end
 end
-
+-- évènement le joueur entre en jeu en fin de chargement
 function myHandlers:PLAYER_ENTERING_WORLD()
     intFade = 0;
     if isFadeOn then
@@ -132,11 +138,12 @@ function myHandlers:PLAYER_ENTERING_WORLD()
     end
     MoveViewLeftStop()
 end
-
+-- évènement un groupe est formé
 function myHandlers:GROUP_FORMED()
     PlaySound(17316)
 end
-
+-- évènement changement de formes
+-- on suit ceci pour les shamans druide pour le zoom du mode déplacement comme les montures
 function myHandlers:UPDATE_SHAPESHIFT_FORM()
     if iclass == 11 or iclass == 7 then -- druid shaman
         local fff = GetShapeshiftForm(flag)
@@ -165,13 +172,14 @@ function myHandlers:UPDATE_SHAPESHIFT_FORM()
         end
     end
 end
-
+-- évènement le plugin est chargé ; c'est ici qu'on récupère les paramètres sauvés dans un fichier
 function myHandlers:ADDON_LOADED(arg1, addon)
     if addon ~= "Glomod" then
         return
     end
-    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED")
+    UIParent:UnregisterEvent("EXPERIMENTAL_CVAR_CONFIRMATION_NEEDED") --certains variables experimentales posent un warning en jeu quand on les change, on retire le test
     local z = ""
+    -- si les paramètres ne sont pas dispo dans la sauvegarde alors on prend des valeurs par défaut
     if gloptions == nil then
         intFeetZoom = 5
         intMountZoom = 15
@@ -219,7 +227,7 @@ function myHandlers:ADDON_LOADED(arg1, addon)
     debugFrame.zoomActual:SetText(string.format("a: %d", GetCameraZoom()))
     debugFrame.zoomText:SetText(z)
 end
-
+-- évènement le joueur se déconnecte, on sauvegarde les paramètres du plugin dans le fichier dédié
 function myHandlers:PLAYER_LOGOUT()
     gloptions[4] = intFeetZoom
     gloptions[5] = intMountZoom
@@ -230,7 +238,7 @@ function myHandlers:PLAYER_LOGOUT()
     gloptions[3] = isVignetteOn
     gloptions[8] = 1
 end
-
+-- évènement des fenetres sont affichées, on déplace ces fenetres
 function myHandlers:GOSSIP_SHOW()
     moveFrame(GossipFrame)
 end

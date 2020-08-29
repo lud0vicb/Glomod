@@ -21,17 +21,17 @@ function debugFrameOnload(self)
     self.debugText:SetText("this is it\noh yeah")
     SetConsoleKey("!")
 end
-
+-- fermeture de la fenetre de debug
 function debugFrameOnclose(self)
     isDebuging = false
     debugFrame:Hide()
 end
-
+-- le bouton pour afficher les options du plugin
 function gloButtonOnload(self)
     self:SetText("Glo")
     self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
 end
-
+-- gestion des clics sur le bouton
 function gloButtonClick(self, button)
     if button == "LeftButton" then
         if optionsFrame:IsShown() then
@@ -49,7 +49,7 @@ function gloButtonClick(self, button)
         end
     end
 end
-
+-- gestion du pitch (centrage de la caméra sur les yeux du perso par défaut au centre de l'écran)
 function optionsPitch()
     if intPitchZoom ~= GetCVarDefault("test_cameraDynamicPitchBaseFovPad") then
         stopPitch()
@@ -57,7 +57,7 @@ function optionsPitch()
         setPitch(2)
     end
 end
-
+-- gestion du masquage de l'interface
 function optionsFading()
     if isFadeOn then
         showAll()
@@ -73,7 +73,7 @@ function optionsFading()
         end
     end
 end
-
+-- permutation du zoom lors de clic dans les options
 function optionsZoom()
     local z = ""
     if isZoomOn then
@@ -91,7 +91,7 @@ function optionsZoom()
     end
     debugFrame.zoomText:SetText(z)
 end
-
+-- gestion de la fonction des vignettes
 function optionsVignette()
     if isVignetteOn then
         GlomodFrame:UnregisterEvent("VIGNETTE_MINIMAP_UPDATED")
@@ -107,7 +107,7 @@ function optionsVignette()
         end
     end
 end
-
+-- creation d'un bouton à cocher
 function createCheckButton(parent, x, y, nom, fonc, tt)
 	local c = CreateFrame("CheckButton", nom, parent, "ChatConfigCheckButtonTemplate")
 	c:SetPoint("TOPLEFT", x, y)
@@ -116,7 +116,7 @@ function createCheckButton(parent, x, y, nom, fonc, tt)
     c:SetScript("OnClick", function() fonc() end)
     return c
 end
-
+-- creation d'une zone de saisie
 function createEnter(parent, x, y, val)
     local e = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
     e:SetWidth(26)
@@ -127,7 +127,7 @@ function createEnter(parent, x, y, val)
     e:SetAutoFocus(false)
     return e
 end
-
+-- prise en compte des valeurs du zoom ; les diff distance de cam et la vitesse de mouvement de cam
 function computeZoom()
     intFeetZoom = tonumber(optionsFrame.enterZF:GetText())
     intCombatZoom = tonumber(optionsFrame.enterZC:GetText())
@@ -154,7 +154,7 @@ function computeZoom()
     end
     message("New zooms " .. z)
 end
-
+-- creation d'un bouton
 function createButton (parent, x, y, fonc, nom)
     local b = CreateFrame("Button", nil, parent, "UIPanelButtonTemplate")
     b:SetWidth(30)
@@ -164,7 +164,7 @@ function createButton (parent, x, y, fonc, nom)
     b:SetScript("OnClick", function() fonc() end)
     return b
 end
-
+-- creation d'une zone de texte à afficher
 function createText(x, y, txt)
     local t = optionsFrame:CreateFontString(nil, "OVERLAY")
     t:SetPoint("TOPLEFT", x, y)
@@ -172,7 +172,7 @@ function createText(x, y, txt)
     t:SetText(txt)
     return t
 end
-
+-- affichage de la fenetre des options
 function optionsFrameOnload(self)
     -- fenêtre elle même
     self:SetMovable(true)
@@ -199,7 +199,7 @@ function optionsFrameOnload(self)
     self.speedZ = createEnter(self, 175, -130, 0)
     self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
 end
-
+-- fermeture de la fenetre des options
 function optionsFrameOnclose(self)
     optionsFrame:Hide()
 end
