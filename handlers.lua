@@ -89,7 +89,7 @@ end
 -- évènement perte de control : assomer, ebeter, etc
 -- la caméra commence à tourner autours du perso et l'interface est caché
 function myHandlers:PLAYER_CONTROL_LOST()
-        UIParent:Hide()
+        --UIParent:Hide()
         MoveViewLeftStart(intRotationSpeed)
         local c = isZoomOn
         isZoomOn = true
@@ -99,7 +99,7 @@ end
 -- évènement regain du control ; retour de la caméra et affichage de l'interface
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
-        UIParent:Show()
+        --UIParent:Show()
         local c = isZoomOn
         isZoomOn = true
         moveCam(intFeetZoom)
@@ -132,9 +132,10 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
 end
 -- évènement le joueur entre en jeu en fin de chargement
 function myHandlers:PLAYER_ENTERING_WORLD()
-    intFade = 0;
+    intFade = 1;
     if isFadeOn then
         fadeAll()
+        checkHide()
     end
     MoveViewLeftStop()
 end
