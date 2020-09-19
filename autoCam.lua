@@ -7,7 +7,7 @@ function moved()
         MoveViewLeftStart(0.05)
         C_Timer.After(2, function() MoveViewLeftStop() end)
     end
-    if isFadeOn then
+    if isZoomOn then
         if iclass == 11 or iclass == 7 then -- druide et shaman
             if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
                 checkMount()

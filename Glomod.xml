@@ -18,7 +18,7 @@
             <OnClick function="gloButtonClick" />
         </Scripts>
         <Anchors>
-            <Anchor point="BOTTOMRIGHT" relativePoint="TOPRIGHT" relativeTo="MicroButtonAndBagsBar"/>
+            <Anchor point="RIGHT" relativePoint="RIGHT" relativeTo="UIParent"/>
         </Anchors>
     </Button>
 

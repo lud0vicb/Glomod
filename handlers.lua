@@ -89,7 +89,8 @@ end
 -- évènement perte de control : assomer, ebeter, etc
 -- la caméra commence à tourner autours du perso et l'interface est caché
 function myHandlers:PLAYER_CONTROL_LOST()
-        --UIParent:Hide()
+        UIParent:Hide()
+        hideAll()
         MoveViewLeftStart(intRotationSpeed)
         local c = isZoomOn
         isZoomOn = true
@@ -99,7 +100,7 @@ end
 -- évènement regain du control ; retour de la caméra et affichage de l'interface
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
-        --UIParent:Show()
+        UIParent:Show()
         local c = isZoomOn
         isZoomOn = true
         moveCam(intFeetZoom)
@@ -264,8 +265,14 @@ end
 function myHandlers:MERCHANT_UPDATE()
     moveFrame(MerchantFrame)
 end
+-- FIN DE COMBAT DE MASQUOTTE
 function myHandlers:PET_BATTLE_CLOSE()
+  isFadeOn = isFadeOnbackup
+  showAll()
 end
+-- DEBUT DE COMBAT DE MASQUOTTE
 function myHandlers:PET_BATTLE_OPENING_DONE()
     ChatFrame1:SetAlpha(1)
+    isFadeOnbackup = isFadeOn
+    isFadeOn = 0
 end
