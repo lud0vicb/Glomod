@@ -11,7 +11,7 @@
         </Scripts>
     </Frame>
 
-    <Button name="gloButton" inherits="UIPanelButtonTemplate" parent="MicroButtonAndBagsBar">
+    <Button name="gloButton" inherits="UIPanelButtonTemplate" parent="UIParent">
         <Size x="30" y="30"/>
         <Scripts>
             <OnLoad function="gloButtonOnload"/>
