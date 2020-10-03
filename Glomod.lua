@@ -98,6 +98,24 @@ function GlomodOnload(self)
     for ind=1, intNameMax, 1 do
         tableNameSave[ind] = ""
     end
+    -- déplacement de la minimap en bas à droite
+    MinimapCluster:ClearAllPoints();
+    MinimapCluster:SetScale(1.4);
+    MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 60);
+    -- ex : MinimapCluster:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",tile = true, tileSize = 16, edgeSize = 16,insets = { left = 4, right = 4, top = 4, bottom = 4 }});
+    MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
+    MinimapZoneTextButton:SetBackdropBorderColor(0,0,0,0);
+    -- BuffFrame
+    f=BuffFrame
+    f:SetMovable(1)
+    f:SetUserPlaced(true)
+    f:SetScale(0.7)
+    hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", function()
+      BuffButton1:ClearAllPoints()
+      BuffButton1:SetPoint("BOTTOMRIGHT", PlayerFrame, "TOPRIGHT", 0, -20)
+      --DebuffButton1:ClearAllPoints()
+      --DebuffButton1:SetPoint("BOTTOM", BuffFrame, "TOPRIGHT", 10, 24)
+    end)
 end
 -- fonction de comportement de passage à la souris
 function showOnMouse(frame)
