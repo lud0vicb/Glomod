@@ -79,7 +79,12 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                 end
             end
             if not yeah then
-                DoEmote("HELLO")
+                eFaction, fFaction = UnitFactionGroup("target")
+                if eFaction == 'Alliance' then
+                  DoEmote("HELLO")
+                else
+                  DoEmote("LAUGH")
+                end
                 tableNameSave[intNameSave] = nom
                 intNameSave = (intNameSave + 1) % intNameMax
             end
