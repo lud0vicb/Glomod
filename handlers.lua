@@ -13,6 +13,8 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     end
     isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
+    MicroButtonAndBagsBar:Hide()
+    MicroButtonAndBagsBar:Show()  
 end
 -- évènement la vie n'est plus régénérée I.E. début combat
 function myHandlers:PLAYER_REGEN_DISABLED()
@@ -276,10 +278,15 @@ end
 function myHandlers:PET_BATTLE_CLOSE()
   isFadeOn = isFadeOnbackup
   showAll()
+  MicroButtonAndBagsBar:Hide()
+  MicroButtonAndBagsBar:Show()
 end
 -- DEBUT DE COMBAT DE MASQUOTTE
 function myHandlers:PET_BATTLE_OPENING_DONE()
     ChatFrame1:SetAlpha(1)
     isFadeOnbackup = isFadeOn
     isFadeOn = 0
+end
+-- FIN DE CINEMATIQUE
+function myHandlers:CINEMATIC_STOP()
 end
