@@ -172,6 +172,15 @@ function createText(x, y, txt)
     t:SetText(txt)
     return t
 end
+-- parfois la barre minibutton ne fonctionne plus, ceci permet de la refresh
+function miniButtonReset()
+  MicroButtonAndBagsBar:Hide()
+  MicroButtonAndBagsBar:Show()
+end
+-- rechargement complet de l'interface  /reload
+function uiReload()
+  C_UI.Reload()
+end
 -- affichage de la fenetre des options
 function optionsFrameOnload(self)
     -- fenêtre elle même
@@ -198,6 +207,9 @@ function optionsFrameOnload(self)
     self.enterZM = createEnter(self, 145, -130, 0)
     self.speedZ = createEnter(self, 175, -130, 0)
     self.validZoom = createButton(self, 205, -120, computeZoom, "Z")
+    -- options reset
+    self.miniButtonReset = createButton(self, 80, -170, miniButtonReset, "M")
+    self.uiReload = createButton(self, 110, -170, uiReload, "R")
 end
 -- fermeture de la fenetre des options
 function optionsFrameOnclose(self)
