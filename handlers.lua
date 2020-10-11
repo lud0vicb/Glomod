@@ -112,6 +112,8 @@ function myHandlers:PLAYER_CONTROL_GAINED()
         isZoomOn = c
     end
     MoveViewLeftStop()
+    MicroButtonAndBagsBar:Hide()
+    MicroButtonAndBagsBar:Show()
 end
 -- évènement lancement d'un sort réussi
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
