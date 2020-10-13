@@ -10,10 +10,12 @@ function moved()
     if isZoomOn then
         if iclass == 11 or iclass == 7 then -- druide et shaman
             if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
-                checkMount()
+                C_Timer.After(2, function() checkMount() end)
+                -- checkMount()
             end
         else
-            checkMount()
+            C_Timer.After(2, function() checkMount() end)
+            -- checkMount()
         end
     end
 end
