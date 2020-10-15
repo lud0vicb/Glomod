@@ -1,7 +1,7 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: Glomod
 ## Author: Lud0vicB
-## Version: 1.7
+## Version: 1.x.y
 ##SavedVariablesPerCharacter: gloptions
 fadeAndHide.lua
 Glomod.lua

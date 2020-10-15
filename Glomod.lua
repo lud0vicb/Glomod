@@ -41,7 +41,7 @@ function GlomodOnload(self)
     -- liste des fenetres qui seront déplaçables à la souris
     -- et déplacées sur la droite
     local tableFrameMove = {
-        ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
+        --ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
@@ -103,19 +103,25 @@ function GlomodOnload(self)
     MinimapCluster:SetScale(1.4);
     MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 60);
     -- ex : MinimapCluster:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",tile = true, tileSize = 16, edgeSize = 16,insets = { left = 4, right = 4, top = 4, bottom = 4 }});
-    MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
-    MinimapZoneTextButton:SetBackdropBorderColor(0,0,0,0);
+    --MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
+    --MinimapZoneTextButton:SetBackdropBorderColor(0,0,0,0);
     -- BuffFrame
-    f=BuffFrame
-    f:SetMovable(1)
-    f:SetUserPlaced(true)
-    f:SetScale(0.7)
-    hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", function()
-      BuffButton1:ClearAllPoints()
-      BuffButton1:SetPoint("BOTTOMRIGHT", PlayerFrame, "TOPRIGHT", 0, -20)
-      --DebuffButton1:ClearAllPoints()
-      --DebuffButton1:SetPoint("BOTTOM", BuffFrame, "TOPRIGHT", 10, 24)
-    end)
+    -- f=BuffFrame
+    -- f:SetMovable(1)
+    -- f:SetUserPlaced(true)
+    -- f:SetScale(0.7)
+    -- hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", function()
+    --   BuffButton1:ClearAllPoints()
+    --   BuffButton1:SetPoint("BOTTOMRIGHT", PlayerFrame, "TOPRIGHT", 0, -20)
+    --   DebuffButton1:ClearAllPoints()
+    --   DebuffButton1:SetPoint("BOTTOM", BuffFrame, "TOPRIGHT", 10, 24)
+    -- Tracker
+--    end)
+    -- g=ObjectiveTrackerFrame
+    -- g:SetMovable(1)
+    -- g:SetUserPlaced(true)
+    -- g:ClearAllPoints()
+    -- g:SetPoint("TOPRIGHT", "UIParent", "TOPRIGHT", 0, 0);
 end
 -- fonction de comportement de passage à la souris
 function showOnMouse(frame)
