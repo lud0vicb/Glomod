@@ -10,12 +10,10 @@ function moved()
     if isZoomOn then
         if iclass == 11 or iclass == 7 then -- druide et shaman
             if not iforme ~= tableForm[iclass] then -- le druide/shaman est humanoide ; il peut en se cas être sur une monture !
-                C_Timer.After(2, function() checkMount() end)
-                -- checkMount()
+                C_Timer.After(1, function() checkMount() end)
             end
         else
-            C_Timer.After(2, function() checkMount() end)
-            -- checkMount()
+            C_Timer.After(1, function() checkMount() end)
         end
     end
 end
@@ -46,6 +44,9 @@ end
 -- vérification d'une monture
 -- pour éviter les allers retours jeu avec des flags isFirstXXXXMove
 function checkMount()
+    if isInCombat == true then
+      return
+    end
     if IsMounted() then
         if isFirstMountMove then
             moveCam(intMountZoom)

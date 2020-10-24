@@ -14,7 +14,7 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     isZoomOn = gloptions[6]
     moveCam(intFeetZoom)
     MicroButtonAndBagsBar:Hide()
-    MicroButtonAndBagsBar:Show()  
+    MicroButtonAndBagsBar:Show()
 end
 -- évènement la vie n'est plus régénérée I.E. début combat
 function myHandlers:PLAYER_REGEN_DISABLED()
@@ -30,6 +30,7 @@ function myHandlers:PLAYER_REGEN_ENABLED()
     checkHide()
     combatHide()
     combatCamOut()
+    --DoEmote("BYE")
 end
 -- évènement les étoiles sur la minimap ont changé
 function myHandlers:VIGNETTE_MINIMAP_UPDATED(event, id, isVisible)
@@ -52,6 +53,13 @@ end
 -- évènement personnage commence à bouger
 function myHandlers:PLAYER_STARTED_MOVING()
     moved()
+end
+-- évènement personnage commence à tourner
+function myHandlers:PLAYER_STARTED_TURNING()
+    moved()
+end
+-- évènement personnage quitte un combat
+function myHandlers:PLAYER_LEAVE_COMBAT()
 end
 -- évènement la sélection à la souris ou TAB a changé
 function myHandlers:PLAYER_TARGET_CHANGED()
@@ -108,14 +116,15 @@ end
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
         UIParent:Show()
-        local c = isZoomOn
-        isZoomOn = true
-        moveCam(intFeetZoom)
-        isZoomOn = c
+
     end
     MoveViewLeftStop()
     MicroButtonAndBagsBar:Hide()
     MicroButtonAndBagsBar:Show()
+    local c = isZoomOn
+    isZoomOn = true
+    moveCam(intFeetZoom)
+    isZoomOn = c
 end
 -- évènement lancement d'un sort réussi
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
