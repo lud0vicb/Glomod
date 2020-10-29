@@ -63,16 +63,11 @@ function myHandlers:PLAYER_LEAVE_COMBAT()
 end
 -- évènement la sélection à la souris ou TAB a changé
 function myHandlers:PLAYER_TARGET_CHANGED()
-    if isFadeOn then
-        if UnitExists("target") then
-            showAll();
-            isTargeting = true
-        else
-            checkHide();
-            isTargeting = false
-        end
-    end
     if UnitExists("target") then
+        if isFadeOn then
+          showAll();
+          isTargeting = true
+        end
         -- la sélection est un joueur alors sauvegarde de son nom
         -- si ce nom n'est pas connu dans la table des noms => emote salut
         if UnitIsPlayer("target") then
@@ -95,10 +90,17 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                 else
                   DoEmote("LAUGH")
                 end
+                nmiFrameOnopen()
                 tableNameSave[intNameSave] = nom
                 intNameSave = (intNameSave + 1) % intNameMax
             end
         end
+    else
+      if isFadeOn then
+        checkHide();
+        isTargeting = false
+      end
+      nmiFrameOnclose()
     end
 end
 -- évènement perte de control : assomer, ebeter, etc

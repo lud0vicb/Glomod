@@ -4,6 +4,7 @@
 ## Version: 1.x.y
 ##SavedVariablesPerCharacter: gloptions
 fadeAndHide.lua
+nmiFrame.lua
 Glomod.lua
 Glomod.xml
 handlers.lua
