@@ -94,6 +94,8 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                 tableNameSave[intNameSave] = nom
                 intNameSave = (intNameSave + 1) % intNameMax
             end
+        else
+          miniFrameOnclone()
         end
     else
       if isFadeOn then
