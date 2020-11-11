@@ -22,7 +22,7 @@ function GlomodOnload(self)
     intMaxDebug = 26
     intVehicleZoom = 30
     secCamAfterCombat = 5
-    secTimerFade = 3
+    secTimerFade = 6
     -- repérage de la classe pour id shaman et druide, rapport au changement de formes
     FRClass, ENClass, iclass = UnitClass("player")
     if iclass == 11 or iclass == 7 then

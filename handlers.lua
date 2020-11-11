@@ -83,19 +83,19 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                     break
                 end
             end
+            nmiFrameOnopen()
             if not yeah then
                 eFaction, fFaction = UnitFactionGroup("target")
-                -- if eFaction == 'Alliance' then
-                --   DoEmote("HELLO")
-                -- else
-                --   DoEmote("LAUGH")
-                -- end
-                nmiFrameOnopen()
+                if eFaction == 'Alliance' then
+                  DoEmote("HELLO")
+                else
+                  DoEmote("LAUGH")
+                end
                 tableNameSave[intNameSave] = nom
                 intNameSave = (intNameSave + 1) % intNameMax
             end
         else
-          miniFrameOnclone()
+          nmiFrameOnclose()
         end
     else
       if isFadeOn then
@@ -120,7 +120,6 @@ end
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
         UIParent:Show()
-
     end
     MoveViewLeftStop()
     MicroButtonAndBagsBar:Hide()
@@ -129,6 +128,8 @@ function myHandlers:PLAYER_CONTROL_GAINED()
     isZoomOn = true
     moveCam(intFeetZoom)
     isZoomOn = c
+    isFirstFeetMove = true
+    isFirstMountMove = true
 end
 -- évènement lancement d'un sort réussi
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
@@ -140,6 +141,8 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
         --local msg = string.format("SPELL %d", iSpell)
         --printDebug(msg)
     --end
+    isFirstFeetMove = true
+    isFirstMountMove = true
     if iSpell == 131476 then -- PECHE A LA LIGNE
         if not isFishing then
             MoveViewRightStart(0.05)
