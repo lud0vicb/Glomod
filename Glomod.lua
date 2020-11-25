@@ -101,7 +101,7 @@ function GlomodOnload(self)
     end
     -- déplacement de la minimap en bas à droite
     MinimapCluster:ClearAllPoints();
-    MinimapCluster:SetScale(1.4);
+    MinimapCluster:SetScale(1.6);
     MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 60);
     -- ex : MinimapCluster:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",tile = true, tileSize = 16, edgeSize = 16,insets = { left = 4, right = 4, top = 4, bottom = 4 }});
     --MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
@@ -141,7 +141,7 @@ function moveFrame(fr)
     fr:ClearAllPoints()
     fr:SetMovable(true)
     fr:SetUserPlaced(true)
-    fr:SetPoint("RIGHT", "UIParent", "CENTER", -100, 0)
+    fr:SetPoint("LEFT", "UIParent", "CENTER", 200, 60)
     if isDebuging then
         local log = string.format("Move %s", fr:GetName())
         printDebug(log)
