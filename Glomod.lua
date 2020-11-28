@@ -33,6 +33,7 @@ function GlomodOnload(self)
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MultiBarLeft,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
+        HealiumPartyFrame, HealiumPetFrame,
     }
     for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)
