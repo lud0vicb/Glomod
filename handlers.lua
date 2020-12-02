@@ -12,6 +12,8 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
         return
     end
     isZoomOn = gloptions[6]
+    isFirstFeetMove = true
+    isFirstMountMove = false
     moveCam(intFeetZoom)
     MicroButtonAndBagsBar:Hide()
     MicroButtonAndBagsBar:Show()
@@ -86,19 +88,19 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                     break
                 end
             end
+            nmiFrameOnopen()
             if not yeah then
                 eFaction, fFaction = UnitFactionGroup("target")
-                -- if eFaction == 'Alliance' then
-                --   DoEmote("HELLO")
-                -- else
-                --   DoEmote("LAUGH")
-                -- end
-                nmiFrameOnopen()
+                if eFaction == 'Alliance' then
+                  DoEmote("HELLO")
+                else
+                  DoEmote("LAUGH")
+                end
                 tableNameSave[intNameSave] = nom
                 intNameSave = (intNameSave + 1) % intNameMax
             end
         else
-          miniFrameOnclone()
+          nmiFrameOnclose()
         end
     else
       if isFadeOn then
@@ -131,6 +133,8 @@ function myHandlers:PLAYER_CONTROL_GAINED()
     isZoomOn = true
     moveCam(intFeetZoom)
     isZoomOn = c
+    --isFirstFeetMove = true
+    --isFirstMountMove = true
 end
 -- évènement lancement d'un sort réussi
 function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
@@ -138,10 +142,10 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
     if caster ~= "player" then
         return
     end
-    --if isDebuging then
-        --local msg = string.format("SPELL %d", iSpell)
-        --printDebug(msg)
-    --end
+    if isDebuging then
+        local msg = string.format("SPELL %d", iSpell)
+        printDebug(msg)
+    end
     if iSpell == 131476 then -- PECHE A LA LIGNE
         if not isFishing then
             MoveViewRightStart(0.05)
@@ -149,7 +153,7 @@ function myHandlers:UNIT_SPELLCAST_SUCCEEDED(event, caster, arg3, iSpell)
             isFishing = true
             moveCam (intFishZoom)
             isFirstFeetMove = true
-            isFirstMountMove = true
+            --isFirstMountMove = true
         end
     elseif iSpell == 125883 then -- nuage volant du moine
         --moveCam (intMountZoom)
@@ -162,7 +166,10 @@ function myHandlers:PLAYER_ENTERING_WORLD()
         fadeAll()
         checkHide()
     end
+    isFirstFeetMove = true
+    isFirstMountMove = false
     MoveViewLeftStop()
+    miniButtonReset()
 end
 -- évènement un groupe est formé
 function myHandlers:GROUP_FORMED()
@@ -304,4 +311,6 @@ function myHandlers:PET_BATTLE_OPENING_DONE()
 end
 -- FIN DE CINEMATIQUE
 function myHandlers:CINEMATIC_STOP()
+  MicroButtonAndBagsBar:Hide()
+  MicroButtonAndBagsBar:Show()
 end
