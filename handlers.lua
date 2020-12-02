@@ -71,6 +71,9 @@ function myHandlers:PLAYER_TARGET_CHANGED()
         -- la sélection est un joueur alors sauvegarde de son nom
         -- si ce nom n'est pas connu dans la table des noms => emote salut
         if UnitIsPlayer("target") then
+            if caster ~= "player" then
+                return
+            end
             local nom = UnitName("target")
             if isDebuging then
                 local log = string.format("Joueur %s rencontré", nom)
@@ -120,7 +123,6 @@ end
 function myHandlers:PLAYER_CONTROL_GAINED()
     if not UIParent:IsVisible() then
         UIParent:Show()
-
     end
     MoveViewLeftStop()
     MicroButtonAndBagsBar:Hide()
