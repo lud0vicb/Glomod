@@ -43,6 +43,7 @@ function GlomodOnload(self)
     -- et déplacées sur la droite
     local tableFrameMove = {
         --ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
+        ExtraAbilityContainer,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
