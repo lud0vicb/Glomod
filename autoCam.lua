@@ -49,13 +49,14 @@ function checkMount()
     end
     if IsMounted() then
         if isFirstMountMove then
+            intCamZoomBackup = GetCameraZoom()
             moveCam(intMountZoom)
             isFirstMountMove = false
             isFirstFeetMove = true
         end
     else
         if isFirstFeetMove then
-            moveCam(intFeetZoom)
+            moveCam(intCamZoomBackup)
             isFirstFeetMove = false
             isFirstMountMove = true
         end

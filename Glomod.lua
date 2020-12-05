@@ -14,6 +14,7 @@ function GlomodOnload(self)
     -- des vars
     intRotationSpeed = 0.05
     intFishZoom = 1.5
+    intCamZoomBackup = 5
     intVignetteSave = 1
     intVignetteMax = 30
     intNameSave = 1
@@ -42,7 +43,8 @@ function GlomodOnload(self)
     -- liste des fenetres qui seront déplaçables à la souris
     -- et déplacées sur la droite
     local tableFrameMove = {
-        --ExtraActionBarFrame, PlayerPowerBarAlt, TalkingHeadFrame,
+        --ExtraActionBarFrame, PlayerPowerBarAlt,
+        TalkingHeadFrame,
         ExtraAbilityContainer,
     }
     for i,v in ipairs(tableFrameMove) do

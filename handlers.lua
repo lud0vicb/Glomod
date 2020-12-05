@@ -3,6 +3,7 @@ function myHandlers:UNIT_ENTERING_VEHICLE(event, target)
     if target ~= "player" then
         return
     end
+    intCamZoomBackup = GetCameraZoom()
     moveCam(intVehicleZoom)
     isZoomOn = false
 end
@@ -14,7 +15,7 @@ function myHandlers:UNIT_EXITING_VEHICLE(event, target)
     isZoomOn = gloptions[6]
     isFirstFeetMove = true
     isFirstMountMove = false
-    moveCam(intFeetZoom)
+    moveCam(intCamZoomBackup)
     MicroButtonAndBagsBar:Hide()
     MicroButtonAndBagsBar:Show()
 end
@@ -23,6 +24,7 @@ function myHandlers:PLAYER_REGEN_DISABLED()
     isInCombat = true
     combatHide()
     showAll()
+    intCamZoomBackup = GetCameraZoom()
     combatCamIn()
 end
 -- évènement la vie est régénérée I.E. fin de combat
@@ -73,9 +75,9 @@ function myHandlers:PLAYER_TARGET_CHANGED()
         -- la sélection est un joueur alors sauvegarde de son nom
         -- si ce nom n'est pas connu dans la table des noms => emote salut
         if UnitIsPlayer("target") then
-            if caster ~= "player" then
-                return
-            end
+            -- if "target" ~= "player" then
+            --     return
+            -- end
             local nom = UnitName("target")
             if isDebuging then
                 local log = string.format("Joueur %s rencontré", nom)
