@@ -22,6 +22,7 @@ function GlomodOnload(self)
     intDebugLine = 1
     intMaxDebug = 26
     intVehicleZoom = 30
+    intScale = 0.75
     secCamAfterCombat = 5
     secTimerFade = 6
     -- repérage de la classe pour id shaman et druide, rapport au changement de formes
@@ -34,18 +35,21 @@ function GlomodOnload(self)
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MultiBarLeft,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
-        HealiumPartyFrame, HealiumPetFrame,
     }
     for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)
         v:SetScript('OnLeave', function() checkHide() end)
     end
+    tableFrame50 = {
+      MainMenuBar, MultiBarRight, MultiBarLeft, BuffFrame,
+    }
+    for i,v in ipairs(tableFrameShowHide) do
+      v:SetScale(intScale)
+    end
     -- liste des fenetres qui seront déplaçables à la souris
     -- et déplacées sur la droite
     local tableFrameMove = {
         --ExtraActionBarFrame, PlayerPowerBarAlt,
-        TalkingHeadFrame,
-        ExtraAbilityContainer,
     }
     for i,v in ipairs(tableFrameMove) do
         v:SetMovable(true)
@@ -53,10 +57,12 @@ function GlomodOnload(self)
         v:RegisterForDrag("LeftButton")
         v:SetScript("OnDragStart", v.StartMoving)
         v:SetScript("OnDragStop", v.StopMovingOrSizing)
-        ancre, relativeTo, relativePoint, x, y = v:GetPoint(1)
-        v:SetPoint(ancre, relativeTo, relativePoint, x + 200, y) -- decalage à droite de 200px
-        v:SetUserPlaced(true)
+        -- ancre, relativeTo, relativePoint, x, y = v:GetPoint(1)
+        -- v:SetPoint(ancre, relativeTo, relativePoint, x + 200, y) -- decalage à droite de 200px
+        v:SetUserPlaced(false)
     end
+    -- ExtraActionBarFrame:SetParent(TargetFrame)
+    -- ExtraActionBarFrame.SetParent = function() end
     -- les évenements à surveiller, construction d'une fonction pour gérer tous les évènements
     local tableEvent = {
       "PLAYER_REGEN_DISABLED", "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED",
@@ -65,8 +71,8 @@ function GlomodOnload(self)
       "PLAYER_STARTED_MOVING", "PLAYER_STOPPED_MOVING", "PLAYER_STARTED_TURNING",
       "GROUP_FORMED", "ADDON_LOADED", "PLAYER_LOGOUT", "UPDATE_SHAPESHIFT_FORM",
       "UNIT_ENTERING_VEHICLE", "UNIT_EXITING_VEHICLE",
-      "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
-      "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
+      -- "GOSSIP_SHOW", "MERCHANT_SHOW", "MERCHANT_UPDATE",
+      -- "QUEST_DETAIL", "QUEST_PROGRESS", "QUEST_GREETING", "QUEST_ITEM_UPDATE", "QUEST_COMPLETE",
       "PET_BATTLE_OPENING_DONE", "PET_BATTLE_CLOSE",
       --"PLAYER_LEAVE_COMBAT",
       --"ACTIONBAR_UPDATE_COOLDOWN", "ACTIONBAR_UPDATE_STATE", "ACTIONBAR_UPDATE_USABLE",
@@ -74,10 +80,12 @@ function GlomodOnload(self)
     for i,v in ipairs(tableEvent) do
         self:RegisterEvent(v);
     end
+    -- MinimapTracking:SetParent(Minimap)
     self:SetScript('OnEvent', function(self, event, ...) myHandlers[event](self, event, ...) end)
     -- fenetres à cacher en permanence
     local tableHide={
-        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground
+        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground,
+        MinimapBorder, MinimapZoomIn, MinimapZoomOut, MinimapBorderTop, MiniMapWorldMapButton,
     }
     for i,v in ipairs(tableHide) do
         v:Hide()
@@ -106,7 +114,7 @@ function GlomodOnload(self)
     -- déplacement de la minimap en bas à droite
     MinimapCluster:ClearAllPoints();
     MinimapCluster:SetScale(1.6);
-    MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 60);
+    MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 40);
     -- ex : MinimapCluster:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",tile = true, tileSize = 16, edgeSize = 16,insets = { left = 4, right = 4, top = 4, bottom = 4 }});
     --MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
     --MinimapZoneTextButton:SetBackdropBorderColor(0,0,0,0);
