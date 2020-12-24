@@ -24,7 +24,7 @@ function GlomodOnload(self)
     intVehicleZoom = 30
     intScale = 0.75
     secCamAfterCombat = 5
-    secTimerFade = 6
+    secTimerFade = 3
     -- repérage de la classe pour id shaman et druide, rapport au changement de formes
     FRClass, ENClass, iclass = UnitClass("player")
     if iclass == 11 or iclass == 7 then
@@ -84,7 +84,8 @@ function GlomodOnload(self)
     self:SetScript('OnEvent', function(self, event, ...) myHandlers[event](self, event, ...) end)
     -- fenetres à cacher en permanence
     local tableHide={
-        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap, MainMenuBarArtFrameBackground,
+        MainMenuBarArtFrame.LeftEndCap, MainMenuBarArtFrame.RightEndCap,
+        --MainMenuBarArtFrameBackground,
         MinimapBorder, MinimapZoomIn, MinimapZoomOut, MinimapBorderTop, MiniMapWorldMapButton,
     }
     for i,v in ipairs(tableHide) do

@@ -90,7 +90,7 @@ function myHandlers:PLAYER_TARGET_CHANGED()
                     break
                 end
             end
-            nmiFrameOnopen()
+            --nmiFrameOnopen()
             if not yeah then
                 eFaction, fFaction = UnitFactionGroup("target")
                 if eFaction == 'Alliance' then
@@ -109,7 +109,7 @@ function myHandlers:PLAYER_TARGET_CHANGED()
         checkHide();
         isTargeting = false
       end
-      nmiFrameOnclose()
+      --nmiFrameOnclose()
     end
 end
 -- évènement perte de control : assomer, ebeter, etc
@@ -120,6 +120,7 @@ function myHandlers:PLAYER_CONTROL_LOST()
         MoveViewLeftStart(intRotationSpeed)
         local c = isZoomOn
         isZoomOn = true
+        intCamZoomBackup = GetCameraZoom()
         moveCam(intMountZoom)
         isZoomOn = c
 end
@@ -133,7 +134,7 @@ function myHandlers:PLAYER_CONTROL_GAINED()
     MicroButtonAndBagsBar:Show()
     local c = isZoomOn
     isZoomOn = true
-    moveCam(intFeetZoom)
+    moveCam(intCamZoomBackup)
     isZoomOn = c
     --isFirstFeetMove = true
     --isFirstMountMove = true

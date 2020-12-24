@@ -22,6 +22,20 @@
         </Anchors>
     </Button>
 
+    <Button name="b_action1" inherits="SecureActionButtonTemplate,ActionButtonTemplate" parent="UIParent">
+      <Size x="32" y="32"/>
+      <!-- <Attributes>
+       <Attribute name="type" value="action" />
+       <Attribute name="action" value="3" />
+      </Attributes> -->
+      <Anchors>
+          <Anchor point="RIGHT" relativePoint="LEFT" relativeTo="gloButton"/>
+      </Anchors>
+      <!-- <Layers><Layer level="OVERLAY">
+        <Texture name="$parentIcon" file="Interface\Icons\Spell_Nature_Thorns" setAllPoints="true" />
+      </Layer></Layers> -->
+    </Button>
+
     <Frame name="optionsFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="256" y="256"/>
         <Anchors>
@@ -87,8 +101,7 @@
     <Frame name="nmiFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="196" y="128"/>
         <Anchors>
-            <Anchor point="RIGHT" relativePoint="CENTER" relativeTo="UIParent">
-            </Anchor>
+            <Anchor point="RIGHT" relativePoint="CENTER" relativeTo="UIParent"></Anchor>
         </Anchors>
         <Scripts>
             <OnLoad function="nmiFrameOnload"/>
@@ -99,9 +112,7 @@
                     <OnClick function="nmiFrameOnclose"/>
                 </Scripts>
                 <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset x="0" y="0"/>
-                    </Anchor>
+                    <Anchor point="TOPRIGHT"><Offset x="0" y="0"/></Anchor>
                 </Anchors>
             </Button>
         </Frames>
@@ -109,37 +120,21 @@
         <Layers>
             <Layer level="BACKGROUND">
                 <Texture file="Interface\ContainerFrame\UI-Bag-2x4">
-                    <Anchors>
-                        <Anchor point="TOPRIGHT"/>
-                    </Anchors>
+                    <Anchors><Anchor point="TOPRIGHT"/></Anchors>
                 </Texture>
             </Layer>
             <Layer level="BORDER">
                 <FontString font="Fonts\FRIZQT__.TTF" text="Glomotes">
                     <FontHeight val="15"/>
-                    <Anchors>
-                        <Anchor point="TOPLEFT" relativeTo="$parent" x="50" y="-10" />
-                    </Anchors>
+                    <Anchors><Anchor point="TOPLEFT" relativeTo="$parent" x="50" y="-10" /></Anchors>
                 </FontString>
             </Layer>
 --nmiFrame
-            <!-- <Layer level="ARTWORK">
-                <Texture file="Interface\BankFrame\Bank-Background">
-                    <Size x="172" y="64"/>
-                    <Anchors>
-                        <Anchor point="TOPRIGHT">
-                            <Offset x="-7" y="-49"/>
-                        </Anchor>
-                    </Anchors>
-                </Texture>
-            </Layer> -->
             <Layer level="ARTWORK">
                 <Texture name="$parent_Portrait" parentKey="portrait" file="Interface\CHARACTERFRAME\TemporaryPortrait-Male-NightElf">
                     <Size x="38" y="38"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset x="8" y="-5"/>
-                        </Anchor>
+                        <Anchor point="TOPLEFT"><Offset x="8" y="-5"/></Anchor>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -152,9 +147,7 @@
     <Frame name="debugFrame" hidden="true" frameStrata="HIGH" frameLevel="5">
         <Size x="384" y="512"/>
         <Anchors>
-            <Anchor point="LEFT" relativePoint="LEFT" relativeTo="UIParent">
-                <Offset y="-20"/>
-            </Anchor>
+            <Anchor point="LEFT" relativePoint="LEFT" relativeTo="UIParent"><Offset y="-20"/></Anchor>
         </Anchors>
         <Scripts>
             <OnLoad function="debugFrameOnload"/>
@@ -165,9 +158,7 @@
                     <OnClick function="debugFrameOnclose"/>
                 </Scripts>
                 <Anchors>
-                    <Anchor point="TOPRIGHT">
-                        <Offset x="-30" y="-8"/>
-                    </Anchor>
+                  <Anchor point="TOPRIGHT"><Offset x="-30" y="-8"/></Anchor>
                 </Anchors>
             </Button>
         </Frames>
@@ -175,14 +166,14 @@
             <Layer level="BORDER">
                 <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-TOPLEFT">
                     <Anchors>
-                        <Anchor point="TOPLEFT"/>
+                      <Anchor point="TOPLEFT"/>
                     </Anchors>
                 </Texture>
             </Layer>
             <Layer level="BORDER">
                 <Texture file="Interface\QUESTFRAME\UI-QUESTLOG-TOPRIGHT">
                     <Anchors>
-                        <Anchor point="TOPRIGHT"/>
+                      <Anchor point="TOPRIGHT"/>
                     </Anchors>
                 </Texture>
             </Layer>
@@ -204,9 +195,7 @@
                 <Texture name="$parent_Portrait" parentKey="portrait" file="Interface\Icons\INV_Misc_EngGizmos_30">
                     <Size x="60" y="60"/>
                     <Anchors>
-                        <Anchor point="TOPLEFT">
-                            <Offset x="7" y="-6"/>
-                        </Anchor>
+                        <Anchor point="TOPLEFT"><Offset x="7" y="-6"/></Anchor>
                     </Anchors>
                 </Texture>
             </Layer>

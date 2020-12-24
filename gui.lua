@@ -210,6 +210,19 @@ function optionsFrameOnload(self)
     -- options reset
     self.miniButtonReset = createButton(self, 80, -170, miniButtonReset, "M")
     self.uiReload = createButton(self, 110, -170, uiReload, "R")
+    -- bouton sur l'écran
+    self.action1 = createEnter(self, 85, -200, 0)
+    optionsFrame.action1:SetText("Attaque auto")
+    n_action1 = optionsFrame.action1:GetText()
+    b_action1:SetAttribute("type", "spell")
+    b_action1:SetAttribute("spell", n_action1)
+    name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(n_action1)
+    local t = b_action1:CreateTexture()
+    t:SetSize(32, 32)
+    t:SetPoint("CENTER")
+    t:SetHorizTile(false)
+    t:SetVertTile(false)
+    t:SetTexture(icon)
 end
 -- fermeture de la fenetre des options
 function optionsFrameOnclose(self)
