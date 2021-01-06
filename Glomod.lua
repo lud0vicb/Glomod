@@ -35,6 +35,7 @@ function GlomodOnload(self)
     tableFrameShowHide = {
         PlayerFrame, TargetFrame, MainMenuBar, MultiBarRight, BuffFrame, MultiBarLeft,
         MicroButtonAndBagsBar, ChatFrame1, ChatFrame2, MainMenuBarArtFrame,
+        ExtraAbilityContainer,
     }
     for i,v in ipairs(tableFrameShowHide) do
         v:SetScript('OnEnter', function() showAll() end)
@@ -113,9 +114,10 @@ function GlomodOnload(self)
         tableNameSave[ind] = ""
     end
     -- déplacement de la minimap en bas à droite
-    MinimapCluster:ClearAllPoints();
+    -- MinimapCluster:ClearAllPoints();
     MinimapCluster:SetScale(1.6);
-    MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 40);
+    ExtraAbilityContainer:SetScale(0.5)
+    -- MinimapCluster:SetPoint("BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -10, 40);
     -- ex : MinimapCluster:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface/Tooltips/UI-Tooltip-Border",tile = true, tileSize = 16, edgeSize = 16,insets = { left = 4, right = 4, top = 4, bottom = 4 }});
     --MinimapZoneTextButton:SetBackdropColor(0,0,0,0);
     --MinimapZoneTextButton:SetBackdropBorderColor(0,0,0,0);

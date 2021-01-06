@@ -116,7 +116,7 @@ end
 -- la caméra commence à tourner autours du perso et l'interface est caché
 function myHandlers:PLAYER_CONTROL_LOST()
         UIParent:Hide()
-        hideAll()
+        --hideAll()
         MoveViewLeftStart(intRotationSpeed)
         local c = isZoomOn
         isZoomOn = true
